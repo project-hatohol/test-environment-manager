@@ -57,6 +57,17 @@ def config_zabbix_server(container)
 end
 
 def config_zabbix_agent(container)
+  open("#{container['container_path']}/rootfs/etc/zabbix/zabbix_agentd.conf","r+") do |f|
+    f.flock(File::LOCK_EX)
+    body = f.read
+    body.sub!(/(?<!#\s)Server=[[:print:]]*/,"Server=#{container['zabbix-agent']['server_ipaddress']}");
+    body.sub!(/#\s*ListenIP=[[:print:]]*/,"ListenIP=#{container['ipaddress']}");
+    body.sub!(/(?<!#\s)Hostname=[[:print:]]*/,"Hostname=#{container['zabbix-agent']['host_name']}");
+    f.rewind
+    f.puts body
+    f.truncate(f.tell)
+    f.close
+  end
 end
 
 def config_nagios(container)
