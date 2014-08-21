@@ -4,6 +4,12 @@ task 'config' => 'load_containers' do
 
     puts "Apply settings to container: #{container_name}"
 
+    if container.has_key?('ipaddress')
+      puts "IP Address Setting"
+      config_ipaddress(container)
+      puts "IP Address:#{container['ip_address']}"
+    end
+
     if container.has_key?('zabbix-server')
       puts "Zabbix Server Setting"
       config_zabbix_server(container)
@@ -28,6 +34,42 @@ task 'config' => 'load_containers' do
       puts "Redmine Setting"
       config_redmine(container)
     end
+  end
+end
+
+def config_ipaddress(container)
+
+  open("#{container['container_path']}/config","r+") do |f|
+    f.flock(File::LOCK_EX)
+    config = f.read
+
+    if config.match(/^(?!.*#)\s*lxc.network.ipv4\s*=.*/)
+      config.sub!(/^(?!.*#)\s*lxc.network.ipv4\s*=.*/, "lxc.network.ipv4=#{container['ipaddress']}")
+    elsif
+      config.concat("#Added by test-environment-manager\n")
+      config.concat("lxc.network.ipv4=#{container['ipaddress']}")
+    end
+
+    f.rewind
+    f.puts config
+    f.truncate(f.tell)
+    f.close
+  end
+
+  open("#{container['container_path']}/rootfs/etc/sysconfig/network-scripts/ifcfg-eth0","r+") do |f|
+    f.flock(File::LOCK_EX)
+    config = f.read
+
+    if config.match(/^(\s*)BOOTPROTO\s*=.*/)
+      config.sub!(/^(\s*)BOOTPROTO\s*=.*/, "BOOTPROTO=static")
+    elsif
+      config.concat("BOOTPROTO=static")
+    end
+
+    f.rewind
+    f.puts config
+    f.truncate(f.tell)
+    f.close
   end
 end
 
