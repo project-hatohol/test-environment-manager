@@ -60,3 +60,5 @@ task 'destroy' => 'load_containers' do
     c.destroy
   end
 end
+
+task 'rebuild' => ['load_containers', 'destroy', 'build']
