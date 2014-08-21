@@ -44,4 +44,19 @@ def config_hatohol(container)
 end
 
 def config_redmine(container)
+
+  database_config_path = File.join(container['container_path'],'rootfs/var/lib/redmine/config/database.yml');
+  database_config_example_path = database_config_path + '.example'
+
+  database_config = YAML::load_file(database_config_path);
+
+  database_config['production']['database'] = container['redmine']['database_name']
+  database_config['production']['username'] = container['redmine']['database_username']
+  database_config['production']['password'] = container['redmine']['database_password']
+
+  open(database_config_path,'w') do |f|
+    YAML::dump(database_config,f);
+  end
+
+  puts "Settings saved as #{database_config_path}"
 end
