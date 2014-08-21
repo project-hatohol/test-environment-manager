@@ -36,8 +36,8 @@ def config_zabbix_server(container)
     f.flock(File::LOCK_EX)
     body = f.read
     body.sub!(/#\s*DBHost/ , "DBHost");
-    body.sub!(/(?<!#\s)DBName=[[:print:]]*/,"DBName=#{container['zabbix-server']['database_name']}");
-    body.sub!(/(?<!#\s)DBUser=[[:print:]]*/,"DBUser=#{container['zabbix-server']['database_username']}");
+    body.sub!(/^(?!.*#\s*)DBName=[[:print:]]*/,"DBName=#{container['zabbix-server']['database_name']}");
+    body.sub!(/^(?!.*#\s*)DBUser=[[:print:]]*/,"DBUser=#{container['zabbix-server']['database_username']}");
     body.sub!(/#\s*DBPassword=[[:print:]]*/,"DBPassword=#{container['zabbix-server']['database_name']}");
     f.rewind
     f.puts body
