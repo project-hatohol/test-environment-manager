@@ -71,6 +71,35 @@ def config_zabbix_agent(container)
 end
 
 def config_nagios(container)
+  open("#{container['container_path']}/rootfs/","r+") do |f|
+    f.flock(File::LOCK_EX)
+    body = f.read
+    p body.class
+    if body.match(/^(?!.*#\s*)broker_module=[[:print]]*/)
+      body.sub!(/^(?!.*#\s*)broker_module=[[:print]]*/,"broker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg");
+    elsif
+      body.concat("#Added a broker_module\n");
+      body.concat("broker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg\n");
+    end
+    #print body
+    f.rewind
+    f.puts body
+    f.truncate(f.tell)
+    f.close
+  end
+
+  open("#{container['container_path']}/rootfs/","r+") do |f|
+    f.flock(File::LOCK_EX)
+    body = f.read
+    body.sub!(/db_name=[[:print:]]*/,"db_name=#{container['nagios']['database_name']}");
+    body.sub!(/(?<!ndo2)db_user=[[:print:]]*/,"db_user=#{container['nagios']['database_username']}");
+    body.sub!(/db_pass=[[:print:]]*/,"db_pass=#{container['nagios']['database_password']}");
+    #print body
+    f.rewind
+    f.puts body
+    f.truncate(f.tell)
+    f.close
+  end
 end
 
 def config_hatohol(container)
