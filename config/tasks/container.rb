@@ -36,3 +36,17 @@ task 'reboot' => 'load_containers' do
     c.reboot
   end
 end
+
+task 'build' => 'load_containers' do
+  @containers.each do |container_name, container|
+    if container.has_key?('base_container')
+      puts "Clone from #{container['base_container']} to #{container_name}"
+
+      base_container = LXC::Container.new(container['base_container'])
+      base_container.clone(container_name)
+
+      puts "Done."
+    end
+  end
+end
+
