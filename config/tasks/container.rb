@@ -50,3 +50,13 @@ task 'build' => 'load_containers' do
   end
 end
 
+task 'destroy' => 'load_containers' do
+  container_names = @containers.keys
+
+  container_names.each do |container_name|
+    c = LXC::Container.new(container_name)
+    puts "Destroy:#{container_name}"
+    c.stop
+    c.destroy
+  end
+end
