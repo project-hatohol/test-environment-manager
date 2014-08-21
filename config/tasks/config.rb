@@ -32,6 +32,28 @@ task 'config' => 'load_containers' do
 end
 
 def config_zabbix_server(container)
+  open("#{container['container_path']}/rootfs/etc/zabbix/zabbix_server.conf","r+") do |f|
+    f.flock(File::LOCK_EX)
+    body = f.read
+    body.sub!(/#\s*DBHost/ , "DBHost");
+    body.sub!(/(?<!#\s)DBName=[[:print:]]*/,"DBName=#{container['zabbix-server']['database_name']}");
+    body.sub!(/(?<!#\s)DBUser=[[:print:]]*/,"DBUser=#{container['zabbix-server']['database_username']}");
+    body.sub!(/#\s*DBPassword=[[:print:]]*/,"DBPassword=#{container['zabbix-server']['database_name']}");
+    f.rewind
+    f.puts body
+    f.truncate(f.tell)
+    f.close
+  end
+
+  open("#{container['container_path']}/rootfs/etc/httpd/conf.d/zabbix.conf","r+") do |f|
+    f.flock(File::LOCK_EX)
+    body = f.read
+    body.sub!(/#\s*php_value\s*date.timezone\s*Europe\/Riga/,"php_value date.timezone Asia/Tokyo");
+    f.rewind
+    f.puts body
+    f.truncate(f.tell)
+    f.close
+  end
 end
 
 def config_zabbix_agent(container)
