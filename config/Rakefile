@@ -1,0 +1,9 @@
+require 'yaml'
+require 'lxc'
+
+# import Tasks
+import 'tasks/container.rb'
+
+task :load_containers do
+  @containers = YAML::load_file('config/containers.yml')
+end

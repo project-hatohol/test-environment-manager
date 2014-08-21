@@ -1,0 +1,39 @@
+sample-container:
+  container_path: /var/lib/lxc/sample-container
+  ipaddress: 192.168.11.11
+
+  zabbix-server:
+    database_name: zabbix
+    database_username: zabbix
+    database_password: admin
+
+  zabbix-agent:
+    server_ipaddress: 192.168.11.11
+    host_name: "zabbix agent sample"
+
+  nagios:
+    database_name: ndoutils
+    database_username: ndoutils
+    database_password: admin
+    username: nagiosadmin
+    password: admin
+
+  redmine:
+    database_name: db_redmine
+    database_username: user_redmine
+    database_password: admin
+
+  hatohol:
+
+    zabbix:
+      server_type: 0
+      server_ipaddress: 192.168.11.11
+      server_username: admin
+      server_password: zabbix
+
+    nagios:
+      server_type: 1
+      server_ipaddress: 192.168.11.11
+      server_database_username: ndoutils
+      server_database_password: admin
+      server_database_name: ndoutils
