@@ -17,3 +17,12 @@ task 'start' => 'load_containers' do
   end
 end
 
+task 'shutdown' => 'load_containers' do
+  container_names = @containers.keys
+
+  container_names.each do |container_name|
+    c = LXC::Container.new(container_name)
+    puts "Shutdown:#{container_name}(#{c.ip_addresses})"
+    c.shutdown
+  end
+end
