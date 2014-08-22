@@ -32,7 +32,7 @@ task 'config' => 'load_containers' do
 
     if container.has_key?('redmine')
       puts "Redmine Setting"
-      config_redmine(container)
+      config_redmine(container_name, container)
     end
   end
 end
@@ -252,8 +252,9 @@ end
 def config_hatohol(container)
 end
 
-def config_redmine(container)
+def config_redmine(container_name, container)
 
+  # Config /var/lib/redmine/config/database.yml
   database_config_path = File.join(container['container_path'],'rootfs/var/lib/redmine/config/database.yml')
   database_config_example_path = database_config_path + '.example'
 
@@ -268,4 +269,24 @@ def config_redmine(container)
   end
 
   puts "Settings saved as #{database_config_path}"
+
+  # Database Setting
+  c = LXC::Container.new(container_name)
+  c.start
+
+  puts "Container Starting"
+  while true
+    break unless c.ip_addresses.empty?
+  end
+
+  tmp_path = File.join(container['container_path'], 'rootfs/tmp')
+  FileUtils.copy('assets/redmine_setup.sh', tmp_path)
+
+  c.attach do
+    LXC.run_command('bash /tmp/redmine_setup.sh')
+  end
+
+  FileUtils.rm(tmp_path + '/redmine_setup.sh')
+
+  c.shutdown
 end
