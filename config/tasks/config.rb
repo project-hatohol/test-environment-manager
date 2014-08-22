@@ -77,10 +77,39 @@ def config_zabbix_server(container)
   open("#{container['container_path']}/rootfs/etc/zabbix/zabbix_server.conf","r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
-    body.sub!(/#\s*DBHost/ , "DBHost");
-    body.sub!(/^(?!.*#)\s*DBName\s*=.*/,"DBName=#{container['zabbix-server']['database_name']}");
-    body.sub!(/^(?!.*#)\s*DBUser\s*=.*/,"DBUser=#{container['zabbix-server']['database_username']}");
-    body.sub!(/#\s*DBPassword\s*=.*/,"DBPassword=#{container['zabbix-server']['database_name']}");
+
+    if
+      body.match(/^(?!.*#)\s*DBHost\s*=.*/)
+      body.sub!(/^(?!.*#)\s*DBHost\s*=.*/,"\nDBHost=localhost")
+    elsif
+      body.concat("\n#Added by test-environment-manager\n")
+      body.concat("DBHost=localhost\n")
+    end
+
+    if
+      body.match(/^(?!.*#)\s*DBName\s*=.*/)
+      body.sub!(/^(?!.*#)\s*DBName\s*=.*/,"\nDBName=#{container['zabbix-server']['database_name']}")
+    elsif
+      body.concat("\n#Added by test-environment-manager\n")
+      body.concat("DBName=#{container['zabbix-server']['database_name']}\n")
+    end
+    
+    if
+      body.match(/^(?!.*#)\s*DBUser\s*=.*/)
+      body.sub!(/^(?!.*#)\s*DBUser\s*=.*/,"\nDBUser=#{container['zabbix-server']['database_username']}")
+    elsif
+      body.concat("\n#Added by test-environment-manager\n")
+      body.concat("DBUser=#{container['zabbix-server']['database_username']}")
+    end
+    
+    if
+      body.match(/^(?!.*#)\s*DBPassword\s*=.*/)
+      body.sub!(/^(?!.*#)\s*DBPassword\s*=.*/,"\nDBPassword=#{container['zabbix-server']['database_password']}")
+    elsif
+      body.concat("\n#Added by test-environment-manager\n")
+      body.concat("DBPassword=#{container['zabbix-server']['database_password']}")
+    end
+    
     f.rewind
     f.puts body
     f.truncate(f.tell)
