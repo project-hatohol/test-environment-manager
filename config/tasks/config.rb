@@ -119,13 +119,15 @@ def config_zabbix_server(container)
   open("#{container['container_path']}/rootfs/etc/httpd/conf.d/zabbix.conf","r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
+    
     if
       body.match(/^(?!.*#)\s*php_value\s*date.timezone.*/)
-      body.sub!(/^(?!.*#)\s*php_value\s*date.timezone.*/,"php_value date.timezone Asia/Tokyo")
+      body.sub!(/^(?!.*#)\s*php_value\s*date.timezone.*/,"\nphp_value date.timezone Asia/Tokyo")
     elsif
       body.concat("\n#Added by test-environment-manager\n")
       body.concat("php_value date.timezone Asia/Tokyo")
     end
+    
     f.rewind
     f.puts body
     f.truncate(f.tell)
@@ -179,7 +181,7 @@ def config_nagios(container)
       body.match(/^(?!.*#)\s*broker_module\s*=.*/)
       body.sub!(/^(?!.*#)\s*broker_module\s*=.*/,"\nbroker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg")
     elsif
-      body.concat("\n#Added by test-environment-manager\n");
+      body.concat("\n#Added by test-environment-manager\n")
       body.concat("broker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg\n")
     end
     
@@ -197,7 +199,7 @@ def config_nagios(container)
       body.match(/^(?!.*#)\s*db_name\s*=.*/)
       body.sub!(/^(?!.*#)\s*db_name\s*=.*/,"\ndb_name=#{container['nagios']['database_name']}")
     elsif
-      body.concat("\n#Added by test-environment-manager\n");
+      body.concat("\n#Added by test-environment-manager\n")
       body.concat("db_name=#{container['nagios']['database_name']}")
     end
     
@@ -205,7 +207,7 @@ def config_nagios(container)
       body.match(/^(?!.*#)\s*db_user\s*=.*/)
       body.sub!(/^(?!.*#)\s*db_user\s*=.*/,"\ndb_user=#{container['nagios']['database_username']}")
     elsif
-      body.concat("\n#Added by test-environment-manager\n");
+      body.concat("\n#Added by test-environment-manager\n")
       body.concat("db_user=#{container['nagios']['database_username']}")
     end
     
@@ -213,7 +215,7 @@ def config_nagios(container)
       body.match(/^(?!.*#)\s*db_pass\s*=.*/)
       body.sub!(/^(?!.*#)\s*db_pass\s*=.*/,"\ndb_pass=#{container['nagios']['database_password']}")
     elsif
-      body.concat("\n#Added by test-environment-manager\n");
+      body.concat("\n#Added by test-environment-manager\n")
       body.concat("db_user=#{container['nagios']['database_username']}")
     end
     
@@ -229,17 +231,17 @@ end
 
 def config_redmine(container)
 
-  database_config_path = File.join(container['container_path'],'rootfs/var/lib/redmine/config/database.yml');
+  database_config_path = File.join(container['container_path'],'rootfs/var/lib/redmine/config/database.yml')
   database_config_example_path = database_config_path + '.example'
 
-  database_config = YAML::load_file(database_config_path);
+  database_config = YAML::load_file(database_config_path)
 
   database_config['production']['database'] = container['redmine']['database_name']
   database_config['production']['username'] = container['redmine']['database_username']
   database_config['production']['password'] = container['redmine']['database_password']
 
   open(database_config_path,'w') do |f|
-    YAML::dump(database_config,f);
+    YAML::dump(database_config,f)
   end
 
   puts "Settings saved as #{database_config_path}"
