@@ -137,9 +137,31 @@ def config_zabbix_agent(container)
   open("#{container['container_path']}/rootfs/etc/zabbix/zabbix_agentd.conf","r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
-    body.sub!(/^(?!.*#)\s*Server\s*=.*/,"Server=#{container['zabbix-agent']['server_ipaddress']}");
-    body.sub!(/#\s*ListenIP\s*=.*/,"ListenIP=#{container['ipaddress']}");
-    body.sub!(/^(?!.*#)\s*Hostname\s*=.*/,"Hostname=#{container['zabbix-agent']['host_name']}");
+    
+    if
+      body.match(/^(?!.*#)\s*Server\s*=.*/)
+      body.sub!(/^(?!.*#)\s*Server\s*=.*/,"\nServer=#{container['zabbix-agent']['server_ipaddress']}")
+    elsif
+      body.concat("\n#Added by test-environment-manager\n")
+      body.concat("Server=#{container['zabbix-agent']['server_ipaddress']}")
+    end
+    
+    if
+      body.match(/^(?!.*#)\s*ListenIP\s*=.*/)
+      body.sub!(/^(?!.*#)\s*ListenIP\s*=.*/,"\nListenIP=#{container['ipaddress']}")
+    elsif
+      body.concat("\n#Added by test-environment-manager\n")
+      body.concat("ListenIP=#{container['ipaddress']}")
+    end
+    
+    if
+      body.match(/^(?!.*#)\s*Hostname\s*=.*/)
+      body.sub!(/^(?!.*#)\s*Hostname\s*=.*/,"\nHostname=#{container['zabbix-agent']['host_name']}")
+    elsif
+      body.concat("\n#Added by test-environment-manager\n")
+      body.concat("Hostname=#{container['zabbix-agent']['host_name']}")
+    end
+    
     f.rewind
     f.puts body
     f.truncate(f.tell)
