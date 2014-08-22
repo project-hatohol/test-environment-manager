@@ -38,8 +38,8 @@ task 'config' => 'load_containers' do
 end
 
 def config_ipaddress(container)
-
-  open("#{container['container_path']}/config","r+") do |f|
+  container_config_path = File.join(container['container_path'],'config')
+  open(container_config_path,"r+") do |f|
     f.flock(File::LOCK_EX)
     config = f.read
 
@@ -56,7 +56,10 @@ def config_ipaddress(container)
     f.close
   end
 
-  open("#{container['container_path']}/rootfs/etc/sysconfig/network-scripts/ifcfg-eth0","r+") do |f|
+  puts "Settings saved as #{container_config_path}"
+
+  ipaddress_config_path = File.join(container['container_path'],'rootfs/etc/sysconfig/network-scripts/ifcfg-eth0')
+  open(ipaddress_config_path,"r+") do |f|
     f.flock(File::LOCK_EX)
     config = f.read
 
@@ -71,10 +74,14 @@ def config_ipaddress(container)
     f.truncate(f.tell)
     f.close
   end
+  
+  puts "Settings saved as #{ipaddress_config_path}"
+  
 end
 
 def config_zabbix_server(container)
-  open("#{container['container_path']}/rootfs/etc/zabbix/zabbix_server.conf","r+") do |f|
+  zabbix_server_config_path = File.join(container['container_path'],'rootfs/etc/zabbix/zabbix_server.conf')
+  open(zabbix_server_config_path,"r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
 
@@ -115,8 +122,11 @@ def config_zabbix_server(container)
     f.truncate(f.tell)
     f.close
   end
-
-  open("#{container['container_path']}/rootfs/etc/httpd/conf.d/zabbix.conf","r+") do |f|
+  
+  puts "Settings saved as #{zabbix_server_config_path}"
+  
+  httpd_zabbix_config_path = File.join(container['container_path'],'rootfs/etc/httpd/conf.d/zabbix.conf')
+  open(httpd_zabbix_config_path,"r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
     
@@ -133,10 +143,14 @@ def config_zabbix_server(container)
     f.truncate(f.tell)
     f.close
   end
+  
+  puts "Settings saved as #{httpd_zabbix_config_path}"
+  
 end
 
 def config_zabbix_agent(container)
-  open("#{container['container_path']}/rootfs/etc/zabbix/zabbix_agentd.conf","r+") do |f|
+  zabbix_agent_config_path = File.join(container['container_path'],'rootfs/etc/zabbix/zabbix_agentd.conf')
+  open(zabbix_agent_config_path,"r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
     
@@ -169,13 +183,16 @@ def config_zabbix_agent(container)
     f.truncate(f.tell)
     f.close
   end
+  
+  puts "Settings saved as #{zabbix_agent_config_path}"
+
 end
 
 def config_nagios(container)
-  open("#{container['container_path']}/rootfs/etc/nagios/nagios.cfg","r+") do |f|
+  nagios_config_path = File.join(container['container_path'],'rootfs/etc/nagios/nagios.cfg')
+  open(nagios_config_path,"r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
-    p body.class
     
     if
       body.match(/^(?!.*#)\s*broker_module\s*=.*/)
@@ -190,8 +207,11 @@ def config_nagios(container)
     f.truncate(f.tell)
     f.close
   end
+  
+  puts "Settings saved as #{nagios_config_path}"
 
-  open("#{container['container_path']}/rootfs/etc/nagios/ndo2db.cfg","r+") do |f|
+  ndo2db_config_path = File.join(container['container_path'],'rootfs/etc/nagios/ndo2db.cfg')
+  open(ndo2db_config_path,"r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
     
@@ -224,6 +244,9 @@ def config_nagios(container)
     f.truncate(f.tell)
     f.close
   end
+  
+  puts "Settings saved as #{ndo2db_config_path}"
+  
 end
 
 def config_hatohol(container)
