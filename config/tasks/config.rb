@@ -43,11 +43,9 @@ def config_ipaddress(container)
     f.flock(File::LOCK_EX)
     config = f.read
 
-    if config.match(/^(?!.*#)\s*lxc.network.ipv4\s*=.*/)
-      config.sub!(/^(?!.*#)\s*lxc.network.ipv4\s*=.*/, "lxc.network.ipv4=#{container['ipaddress']}")
-    elsif
-      config.concat("#Added by test-environment-manager\n")
-      config.concat("lxc.network.ipv4=#{container['ipaddress']}")
+    unless config.sub!(/^(?!.*#)\s*lxc.network.ipv4\s*=.*/, "lxc.network.ipv4=#{container['ipaddress']}")
+      config << "#Added by test-environment-manager\n"
+      config << "lxc.network.ipv4=#{container['ipaddress']}"
     end
 
     f.rewind
@@ -63,10 +61,8 @@ def config_ipaddress(container)
     f.flock(File::LOCK_EX)
     config = f.read
 
-    if config.match(/^(\s*)BOOTPROTO\s*=.*/)
-      config.sub!(/^(\s*)BOOTPROTO\s*=.*/, "BOOTPROTO=static")
-    elsif
-      config.concat("BOOTPROTO=static")
+    unless config.sub!(/^(\s*)BOOTPROTO\s*=.*/, "BOOTPROTO=static")
+      config << "BOOTPROTO=static"
     end
 
     f.rewind
@@ -85,36 +81,24 @@ def config_zabbix_server(container)
     f.flock(File::LOCK_EX)
     body = f.read
 
-    if
-      body.match(/^(?!.*#)\s*DBHost\s*=.*/)
-      body.sub!(/^(?!.*#)\s*DBHost\s*=.*/,"\nDBHost=localhost")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("DBHost=localhost\n")
+    unless body.sub!(/^(?!.*#)\s*DBHost\s*=.*/,"\nDBHost=localhost")
+      body << "\n#Added by test-environment-manager\n"
+      body << "DBHost=localhost\n"
     end
 
-    if
-      body.match(/^(?!.*#)\s*DBName\s*=.*/)
-      body.sub!(/^(?!.*#)\s*DBName\s*=.*/,"\nDBName=#{container['zabbix-server']['database_name']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("DBName=#{container['zabbix-server']['database_name']}\n")
+    unless body.sub!(/^(?!.*#)\s*DBName\s*=.*/,"\nDBName=#{container['zabbix-server']['database_name']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "DBName=#{container['zabbix-server']['database_name']}\n"
     end
     
-    if
-      body.match(/^(?!.*#)\s*DBUser\s*=.*/)
-      body.sub!(/^(?!.*#)\s*DBUser\s*=.*/,"\nDBUser=#{container['zabbix-server']['database_username']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("DBUser=#{container['zabbix-server']['database_username']}")
+    unless body.sub!(/^(?!.*#)\s*DBUser\s*=.*/,"\nDBUser=#{container['zabbix-server']['database_username']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "DBUser=#{container['zabbix-server']['database_username']}"
     end
     
-    if
-      body.match(/^(?!.*#)\s*DBPassword\s*=.*/)
-      body.sub!(/^(?!.*#)\s*DBPassword\s*=.*/,"\nDBPassword=#{container['zabbix-server']['database_password']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("DBPassword=#{container['zabbix-server']['database_password']}")
+    unless body.sub!(/^(?!.*#)\s*DBPassword\s*=.*/,"\nDBPassword=#{container['zabbix-server']['database_password']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "DBPassword=#{container['zabbix-server']['database_password']}"
     end
     
     f.rewind
@@ -130,12 +114,9 @@ def config_zabbix_server(container)
     f.flock(File::LOCK_EX)
     body = f.read
     
-    if
-      body.match(/^(?!.*#)\s*php_value\s*date.timezone.*/)
-      body.sub!(/^(?!.*#)\s*php_value\s*date.timezone.*/,"\nphp_value date.timezone Asia/Tokyo")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("php_value date.timezone Asia/Tokyo")
+    unless body.sub!(/^(?!.*#)\s*php_value\s*date.timezone.*/,"\nphp_value date.timezone Asia/Tokyo")
+      body << "\n#Added by test-environment-manager\n"
+      body << "php_value date.timezone Asia/Tokyo"
     end
     
     f.rewind
@@ -154,28 +135,19 @@ def config_zabbix_agent(container)
     f.flock(File::LOCK_EX)
     body = f.read
     
-    if
-      body.match(/^(?!.*#)\s*Server\s*=.*/)
-      body.sub!(/^(?!.*#)\s*Server\s*=.*/,"\nServer=#{container['zabbix-agent']['server_ipaddress']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("Server=#{container['zabbix-agent']['server_ipaddress']}")
+    unless body.sub!(/^(?!.*#)\s*Server\s*=.*/,"\nServer=#{container['zabbix-agent']['server_ipaddress']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "Server=#{container['zabbix-agent']['server_ipaddress']}"
     end
     
-    if
-      body.match(/^(?!.*#)\s*ListenIP\s*=.*/)
-      body.sub!(/^(?!.*#)\s*ListenIP\s*=.*/,"\nListenIP=#{container['ipaddress']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("ListenIP=#{container['ipaddress']}")
+    unless body.sub!(/^(?!.*#)\s*ListenIP\s*=.*/,"\nListenIP=#{container['ipaddress']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "ListenIP=#{container['ipaddress']}"
     end
     
-    if
-      body.match(/^(?!.*#)\s*Hostname\s*=.*/)
-      body.sub!(/^(?!.*#)\s*Hostname\s*=.*/,"\nHostname=#{container['zabbix-agent']['host_name']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("Hostname=#{container['zabbix-agent']['host_name']}")
+    unless body.sub!(/^(?!.*#)\s*Hostname\s*=.*/,"\nHostname=#{container['zabbix-agent']['host_name']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "Hostname=#{container['zabbix-agent']['host_name']}"
     end
     
     f.rewind
@@ -194,12 +166,9 @@ def config_nagios(container)
     f.flock(File::LOCK_EX)
     body = f.read
     
-    if
-      body.match(/^(?!.*#)\s*broker_module\s*=.*/)
-      body.sub!(/^(?!.*#)\s*broker_module\s*=.*/,"\nbroker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("broker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg\n")
+    unless body.sub!(/^(?!.*#)\s*broker_module\s*=.*/,"\nbroker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg")
+      body << "\n#Added by test-environment-manager\n"
+      body << "broker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg\n"
     end
     
     f.rewind
@@ -215,28 +184,19 @@ def config_nagios(container)
     f.flock(File::LOCK_EX)
     body = f.read
     
-    if
-      body.match(/^(?!.*#)\s*db_name\s*=.*/)
-      body.sub!(/^(?!.*#)\s*db_name\s*=.*/,"\ndb_name=#{container['nagios']['database_name']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("db_name=#{container['nagios']['database_name']}")
+    unless body.sub!(/^(?!.*#)\s*db_name\s*=.*/,"\ndb_name=#{container['nagios']['database_name']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "db_name=#{container['nagios']['database_name']}"
     end
     
-    if
-      body.match(/^(?!.*#)\s*db_user\s*=.*/)
-      body.sub!(/^(?!.*#)\s*db_user\s*=.*/,"\ndb_user=#{container['nagios']['database_username']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("db_user=#{container['nagios']['database_username']}")
+    unless body.sub!(/^(?!.*#)\s*db_user\s*=.*/,"\ndb_user=#{container['nagios']['database_username']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "db_user=#{container['nagios']['database_username']}"
     end
     
-    if
-      body.match(/^(?!.*#)\s*db_pass\s*=.*/)
-      body.sub!(/^(?!.*#)\s*db_pass\s*=.*/,"\ndb_pass=#{container['nagios']['database_password']}")
-    elsif
-      body.concat("\n#Added by test-environment-manager\n")
-      body.concat("db_user=#{container['nagios']['database_username']}")
+    unless body.sub!(/^(?!.*#)\s*db_pass\s*=.*/,"\ndb_pass=#{container['nagios']['database_password']}")
+      body << "\n#Added by test-environment-manager\n"
+      body << "db_user=#{container['nagios']['database_username']}"
     end
     
     f.rewind
