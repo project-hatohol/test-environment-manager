@@ -239,14 +239,11 @@ def config_redmine(container_name, container)
     break unless c.ip_addresses.empty?
   end
 
+  puts "Redmine Internal Setting Start"
   tmp_path = File.join(container['container_path'], 'rootfs/tmp')
   FileUtils.copy('assets/redmine_setup.sh', tmp_path)
 
   c.attach do
     LXC.run_command('bash /tmp/redmine_setup.sh')
   end
-
-  FileUtils.rm(tmp_path + '/redmine_setup.sh')
-
-  c.shutdown
 end
