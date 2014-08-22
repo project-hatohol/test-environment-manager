@@ -119,7 +119,13 @@ def config_zabbix_server(container)
   open("#{container['container_path']}/rootfs/etc/httpd/conf.d/zabbix.conf","r+") do |f|
     f.flock(File::LOCK_EX)
     body = f.read
-    body.sub!(/#\s*php_value\s*date.timezone\s*Europe\/Riga/,"php_value date.timezone Asia/Tokyo");
+    if
+      body.match(/^(?!.*#)\s*php_value\s*date.timezone.*/)
+      body.sub!(/^(?!.*#)\s*php_value\s*date.timezone.*/,"php_value date.timezone Asia/Tokyo")
+    elsif
+      body.concat("\n#Added by test-environment-manager\n")
+      body.concat("php_value date.timezone Asia/Tokyo")
+    end
     f.rewind
     f.puts body
     f.truncate(f.tell)
