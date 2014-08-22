@@ -4,12 +4,6 @@ task 'config' => 'load_containers' do
 
     puts "Apply settings to container: #{container_name}"
 
-    if container.has_key?('ipaddress')
-      puts "IP Address Setting"
-      config_ipaddress(container)
-      puts "IP Address:#{container['ip_address']}"
-    end
-
     if container.has_key?('zabbix-server')
       puts "Zabbix Server Setting"
       config_zabbix_server(container)
@@ -33,6 +27,12 @@ task 'config' => 'load_containers' do
     if container.has_key?('redmine')
       puts "Redmine Setting"
       config_redmine(container_name, container)
+    end
+
+    if container.has_key?('ipaddress')
+      puts "IP Address Setting"
+      config_ipaddress(container)
+      puts "IP Address:#{container['ip_address']}"
     end
   end
 end
