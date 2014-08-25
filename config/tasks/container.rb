@@ -13,7 +13,11 @@ task 'start' => 'load_containers' do
   container_names.each do |container_name|
     c = LXC::Container.new(container_name)
     c.start
-    puts "Start:#{container_name}"
+    while true
+      sleep 1
+      break unless c.ip_addresses.empty?
+    end
+    puts "Start:#{container_name}(#{c.ip_addresses})"
   end
 end
 
