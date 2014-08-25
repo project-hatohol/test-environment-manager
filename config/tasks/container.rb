@@ -27,6 +27,15 @@ task 'shutdown' => 'load_containers' do
   end
 end
 
+task 'showip' => 'load_containers' do
+  container_names = @containers.keys
+
+  container_names.each do |container_name|
+    c = LXC::Container.new(container_name)
+    puts "Show_IP:#{container_name}(#{c.ip_addresses})"
+  end
+end
+
 task 'reboot' => 'load_containers' do
   container_names = @containers.keys
 
