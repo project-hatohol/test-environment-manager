@@ -2,13 +2,13 @@
 
 ##Summary
 
-This tools configure hatohol test environment.
+This tool configure hatohol test environment.
 
 ##Configuration tool execution environment
 
 This tool will work in the following environments.
 
-* HostOS:Ubuntu
+* HostOS:Ubuntu 14.04 LTS x64
 * LXC (Linux Containers)
 * Ruby 2.0
 * Rake
@@ -17,31 +17,31 @@ This tool will work in the following environments.
 
 ##Support Middleware
 
-This tools can setting the following software:
+This tool can setting the following software:
 
 * GuestOS:centos 6.5 x64
-* zabbix server mysql ver 2.2.5,2.0.12
-* zabbix agent ver 2.2.5,2.0.12
-* nagios (includes ndoutils ver 1.5.2)  ver 3.5.1
-* redmine ver 2.4.6
+* Zabbix server mysql ver 2.2.5,2.0.12
+* Zabbix agent ver 2.2.5,2.0.12
+* Nagios (includes NDOUtils ver 1.5.2)  ver 3.5.1
+* Redmine ver 2.4.6
  - Ruby 2.0.0-p481
- - passenger ver 4.0.49
+ - Passenger ver 4.0.49
 
 ##Installation
 
-Install some packages.
+Install required packages.
 
 	$ sudo apt-get install lxc lxctl lxc-dev ruby2.0 ruby2.0-dev
 
 >*Note:*
 >*Run update-alternatives command to update aliases as necessary.*
 
-Clone source from Github
+Clone source code from Github
 
 	$ git clone https://github.com/project-hatohol/test-environment-manager.git
 
 
-Run bundle install
+Run "bundle install"
 
 	$ cd test-environment-manager/config
 	$ sudo bundle install
@@ -61,7 +61,7 @@ Create a virtual machine on the host computer.
 	$ sudo lxc-create -t centos -n ${Container_Name}
 
 
-When initialization is complete, run the following command for setting password:
+When initialization is completed, run the following command for setting password:
 
 	$ sudo chroot /var/lib/lxc/temp/rootfs passwd
 
