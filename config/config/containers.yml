@@ -1,6 +1,7 @@
 sample-container:
   container_path: /var/lib/lxc/sample-container
   ipaddress: 192.168.11.11
+  base_container: centos-zabbix
 
   zabbix-server:
     database_name: zabbix
