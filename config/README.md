@@ -265,24 +265,25 @@ List of Settings position
 
 
 ##Tasks
+${namespace} set to { ‘container name’ | ‘all’}.
+‘container name’ keyword : apply task to container.
+‘all’ keyword : apply task to all containers.
 
-* rake config
- - Configure all containers
-* rake status
- - Show status and ip address of all containers
-* rake start
- - Start all containers
-* rake shutdown
- - Shutdown all containers
-* rake showip
- - Show ip address of all containers
-* rake reboot
- - Reboot all containers
-* rake build
- - Clone all containers as base_container
-* rake destroy
- - Destroy all containers
-* rake rebuild
+* rake ${namespace}:config
+ - Configure containers
+* rake ${namespace}:status
+ - Show status and ip address of containers
+* rake ${namespace}:start
+ - Start containers
+* rake ${namespace}:shutdown
+ - Shutdown containers
+* rake ${namespace}:reboot
+ - Reboot containers
+* rake ${namespace}:build
+ - Clone containers as base_container
+* rake ${namespace}:destroy
+ - Destroy containers
+* rake ${namespace}:rebuild
  - Call destroy task and build task
 
 ##Usage
@@ -294,23 +295,23 @@ Change working directory.
 
 If you want clone containers, you should run this command.
 
-	$ sudo bundle exec rake build
+	$ sudo bundle exec rake ${namespace}:build
 
 Run Configuration
 
-	$ sudo bundle exec rake config
+	$ sudo bundle exec rake ${namespace}:config
 
 When configuration finished, shutdown all containers.
 
-	$ sudo bundle exec rake shutdown
+	$ sudo bundle exec rake ${namespace}:shutdown
 
 Start up again
 
-	$ sudo bundle exec rake start
+	$ sudo bundle exec rake ${namespace}:start
 
 Warning）Don’t run “bundle exec rake reboot”. LXC assign Incorrect IP address to containers.
 Run the following command for check correct IP addresses has been set:
 
-	$ sudo bundle exec rake status
+	$ sudo bundle exec rake ${namespace}:status
 
 Log in to each container, to start the services.
