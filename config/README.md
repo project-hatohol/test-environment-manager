@@ -250,19 +250,19 @@ base_container - clone container source
 List of Settings position
 
 |Setting Key|Position|
-|:-|:-|
+|:---|:---|
 |container_path|\-|
 |ipaddress|\${container_path}/config <br> - lxc.network.ipv4 = \${ipaddress} <br> \${container_path}/rootfs/etc/network-scripts/ifcfg-etho <br> - BOOTPROTO = static|
 |base_container|-|
 |zabbix-server|\${container_path}/rootfs/etc/httpd/conf.d/zabbix.conf <br> - php_value date.timezone Asia/Tokyo|
-| - database_name, <br> database_username, <br> database_password|\${container_path}/rootfs/etc/zabbix/zabbix_server.conf <br> - DBName=\${database_name} <br> - DBUser=\${database_username} <br> - DBPassword=\${database_password}|
+|-database_name<br>-database_username <br> - database_password|\${container_path}/rootfs/etc/zabbix/zabbix_server.conf <br> - DBName=\${database_name} <br> - DBUser=\${database_username} <br> - DBPassword=\${database_password}|
 |zabbix-agent|-|
-| - server_ipaddress, <br> host_name|\${container_path}/rootfs/etc/zabbix/zabbix_agentd.conf <br> - Server=\${server_ipaddress} <br> - Hostname=\${host_name}|
+|-server_ipaddress<br>-host_name|\${container_path}/rootfs/etc/zabbix/zabbix_agentd.conf <br> - Server=\${server_ipaddress} <br> - Hostname=\${host_name}|
 |nagios|\${container_path}/rootfs/etc/nagios/nagios.cfg <br> -broker_module=usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg|
-| - database_name, <br> database_username, <br> database_password|\${container_path}/rootfs/etc/nagios/ndo2db.cfg <br> - db_name=\${database_name} <br> - db_user=\${database_username} <br> - db_password=\${database_password}|
+|-database_name<br>-database_username<br>-database_password|\${container_path}/rootfs/etc/nagios/ndo2db.cfg <br> - db_name=\${database_name} <br> - db_user=\${database_username} <br> - db_password=\${database_password}|
 |redmine|-|
-| - database_name,<br>database_username,<br>database_password|\${container_path}/rootfs/var/lib/redmine/config/database.yml <br> - production <br> - database: \${database_name} <br> - username: \${database_username} <br> - password: \${database_password}|
-|||
+|-database_name<br>-database_username<br>-database_password|\${container_path}/rootfs/var/lib/redmine/config/database.yml <br> - production <br> - database: \${database_name} <br> - username: \${database_username} <br> - password: \${database_password}|
+
 
 ##Tasks
 
