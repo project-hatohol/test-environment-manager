@@ -97,15 +97,3 @@ namespace 'all' do
   end
 end
 
-def run_containers_task(task_name, containers)
-  container_names = containers.keys
-  container_names.each do |container_name|
-    task = container_name + ':' + task_name
-    Rake::Task[task].invoke
-  end
-end
-
-def get_task_name(task)
-  task_string = task.name.split(':')
-  return task_string[1]
-end

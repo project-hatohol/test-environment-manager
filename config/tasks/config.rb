@@ -40,43 +40,8 @@ end
 
 namespace 'all' do
   desc 'Configure All Containers'
-  task 'config' do
-
-    @containers.each do |container_name, container|
-
-      puts "Apply settings to container: #{container_name}"
-
-      if container.has_key?('zabbix-server')
-        puts "Zabbix Server Setting"
-        config_zabbix_server(container)
-      end
-
-      if container.has_key?('zabbix-agent')
-        puts "Zabbix Agent Setting"
-        config_zabbix_agent(container)
-      end
-
-      if container.has_key?('nagios')
-        puts "Nagios Setting"
-        config_nagios(container)
-      end
-
-      if container.has_key?('hatohol')
-        puts "Hatohol Setting"
-        config_hatohol(container)
-      end
-
-      if container.has_key?('redmine')
-        puts "Redmine Setting"
-        config_redmine(container_name, container)
-      end
-
-      if container.has_key?('ipaddress')
-        puts "IP Address Setting"
-        config_ipaddress(container)
-        puts "IP Address:#{container['ip_address']}"
-      end
-    end
+  task 'config' do |task|
+    run_containers_task(get_task_name(task), @containers)
   end
 end
 
