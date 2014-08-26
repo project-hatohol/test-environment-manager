@@ -1,5 +1,5 @@
 desc 'Show Container Status and IPs'
-task 'status' => 'load_containers' do
+task 'status' do
   container_names = @containers.keys
 
   container_names.each do |container_name|
@@ -10,7 +10,7 @@ task 'status' => 'load_containers' do
 end
 
 desc 'Start All Containers'
-task 'start' => 'load_containers' do
+task 'start' do
   container_names = @containers.keys
 
   container_names.each do |container_name|
@@ -25,7 +25,7 @@ task 'start' => 'load_containers' do
 end
 
 desc 'Shutdwon All Containers'
-task 'shutdown' => 'load_containers' do
+task 'shutdown' do
   container_names = @containers.keys
 
   container_names.each do |container_name|
@@ -36,7 +36,7 @@ task 'shutdown' => 'load_containers' do
 end
 
 desc 'Reboot All Containers'
-task 'reboot' => 'load_containers' do
+task 'reboot' do
   container_names = @containers.keys
 
   container_names.each do |container_name|
@@ -47,7 +47,7 @@ task 'reboot' => 'load_containers' do
 end
 
 desc 'Clone Container as base_container'
-task 'build' => 'load_containers' do
+task 'build' do
   @containers.each do |container_name, container|
     if container.has_key?('base_container')
       base_container = LXC::Container.new(container['base_container'])
@@ -62,7 +62,7 @@ task 'build' => 'load_containers' do
 end
 
 desc 'Destroy All Containers'
-task 'destroy' => 'load_containers' do
+task 'destroy' do
   container_names = @containers.keys
 
   container_names.each do |container_name|
@@ -74,4 +74,4 @@ task 'destroy' => 'load_containers' do
 end
 
 desc 'Call Destroy and Build tasks'
-task 'rebuild' => ['load_containers', 'destroy', 'build']
+task 'rebuild' => ['destroy', 'build']

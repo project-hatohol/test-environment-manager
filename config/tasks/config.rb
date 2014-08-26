@@ -1,5 +1,5 @@
 desc 'Configure All Containers'
-task 'config' => 'load_containers' do
+task 'config' do
 
   @containers.each do |container_name, container|
 

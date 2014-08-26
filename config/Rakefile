@@ -5,6 +5,5 @@ require 'lxc'
 import 'tasks/container.rb'
 import 'tasks/config.rb'
 
-task :load_containers do
-  @containers = YAML::load_file('config/containers.yml')
-end
+#Load configurations
+@containers = YAML::load_file('config/containers.yml')
