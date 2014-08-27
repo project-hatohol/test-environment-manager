@@ -251,7 +251,7 @@ def config_redmine(container_name, container_config)
   tmp_path = File.join(container_config['container_path'], 'rootfs/tmp')
   FileUtils.copy('assets/redmine_setup.sh', tmp_path)
 
-  container.attach do
+  container.attach wait: true do
     LXC.run_command('bash /tmp/redmine_setup.sh')
   end
 end
