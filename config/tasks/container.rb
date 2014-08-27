@@ -1,41 +1,41 @@
-@containers.each do |container_name, container|
+@containers.each do |container_name, container_config|
   namespace container_name do
 
     desc "#{container_name}:Show Container Status and IPs"
     task "status" do
-      c = LXC::Container.new(container_name)
-      puts "Status of #{container_name}: #{c.state}"
-      puts "\tIP Address: #{c.ip_addresses}"
+      container = LXC::Container.new(container_name)
+      puts "Status of #{container_name}: #{container.state}"
+      puts "\tIP Address: #{container.ip_addresses}"
     end
 
     desc "Start Container:#{container_name}"
     task "start" do
-      c = LXC::Container.new(container_name)
-      c.start
+      container = LXC::Container.new(container_name)
+      container.start
       while true
         sleep 1
-        break unless c.ip_addresses.empty?
+        break unless container.ip_addresses.empty?
       end
-      puts "Start:#{container_name}(#{c.ip_addresses})"
+      puts "Start:#{container_name}(#{container.ip_addresses})"
     end
 
     desc "Shutdwon Container:#{container_name}"
     task "shutdown" do
-      c = LXC::Container.new(container_name)
-      puts "Shutdown:#{container_name}(#{c.ip_addresses})"
-      c.shutdown
+      container = LXC::Container.new(container_name)
+      puts "Shutdown:#{container_name}(#{container.ip_addresses})"
+      container.shutdown
     end
 
     desc "Reboot Container:#{container_name}"
     task "reboot" do
-      c = LXC::Container.new(container_name)
-      puts "Reboot:#{container_name}(#{c.ip_addresses})"
-      c.reboot
+      container = LXC::Container.new(container_name)
+      puts "Reboot:#{container_name}(#{container.ip_addresses})"
+      container.reboot
     end
 
     desc "Clone Container #{container_name} as base_container"
     task 'build' do
-      if container.has_key?('base_container')
+      if container_config.has_key?('base_container')
         base_container = LXC::Container.new(container['base_container'])
         base_container.shutdown
 
@@ -48,10 +48,10 @@
 
     desc "Destroy Container:#{container_name}"
     task "destroy" do
-      c = LXC::Container.new(container_name)
+      container = LXC::Container.new(container_name)
       puts "Destroy:#{container_name}"
-      c.stop
-      c.destroy
+      container.stop
+      container.destroy
     end
 
     desc "Call Destroy and Build tasks for #{container_name}"
