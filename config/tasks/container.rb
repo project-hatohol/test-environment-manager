@@ -58,7 +58,7 @@
     task "rebuild" => ["destroy", "build"]
     
     desc "Call Clone and Config tasks for #{container_name}"
-    task "build" => ["clone", "config","shutdown","start"]
+    task "build" => ["clone", "config", "shutdown", "start"]
   end
 end
 
