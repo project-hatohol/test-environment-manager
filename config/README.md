@@ -259,7 +259,7 @@ Setting Description
 
 * container_path - Location of the container: There are rootfs directory and config file.
 * ipaddress - Static IP Address for container
-* base_container - Name of original container : Name of original container : When build task execute, clone source container name set to this value.
+* base_container - Name of original container : When build task execute, clone source container name set to this value.
 * zabbix-server - Settings for Zabbix Server
  - database_name - Database name for Zabbix Server
  - database_username - Database user name for Zabbix Server
