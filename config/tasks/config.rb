@@ -47,36 +47,36 @@ end
 
 def config_ipaddress(container)
   container_config_path = File.join(container['container_path'],'config')
-  open(container_config_path,"r+") do |f|
-    f.flock(File::LOCK_EX)
-    config = f.read
+  open(container_config_path,"r+") do |file|
+    file.flock(File::LOCK_EX)
+    config = file.read
 
     unless config.sub!(/^(?!.*#)\s*lxc.network.ipv4\s*=.*/, "lxc.network.ipv4=#{container['ipaddress']}")
       config << "#Added by test-environment-manager\n"
       config << "lxc.network.ipv4=#{container['ipaddress']}"
     end
 
-    f.rewind
-    f.puts config
-    f.truncate(f.tell)
-    f.close
+    file.rewind
+    file.puts config
+    file.truncate(file.tell)
+    file.close
   end
 
   puts "Settings saved as #{container_config_path}"
 
   ipaddress_config_path = File.join(container['container_path'],'rootfs/etc/sysconfig/network-scripts/ifcfg-eth0')
-  open(ipaddress_config_path,"r+") do |f|
-    f.flock(File::LOCK_EX)
-    config = f.read
+  open(ipaddress_config_path,"r+") do |file|
+    file.flock(File::LOCK_EX)
+    config = file.read
 
     unless config.sub!(/^(\s*)BOOTPROTO\s*=.*/, "BOOTPROTO=static")
       config << "BOOTPROTO=static"
     end
 
-    f.rewind
-    f.puts config
-    f.truncate(f.tell)
-    f.close
+    file.rewind
+    file.puts config
+    file.truncate(file.tell)
+    file.close
   end
 
   puts "Settings saved as #{ipaddress_config_path}"
@@ -85,9 +85,9 @@ end
 
 def config_zabbix_server(container)
   zabbix_server_config_path = File.join(container['container_path'],'rootfs/etc/zabbix/zabbix_server.conf')
-  open(zabbix_server_config_path,"r+") do |f|
-    f.flock(File::LOCK_EX)
-    body = f.read
+  open(zabbix_server_config_path,"r+") do |file|
+    file.flock(File::LOCK_EX)
+    body = file.read
 
     unless body.sub!(/^(?!.*#)\s*DBHost\s*=.*/,"\nDBHost=localhost")
       body << "\n#Added by test-environment-manager\n"
@@ -109,28 +109,28 @@ def config_zabbix_server(container)
       body << "DBPassword=#{container['zabbix-server']['database_password']}"
     end
 
-    f.rewind
-    f.puts body
-    f.truncate(f.tell)
-    f.close
+    file.rewind
+    file.puts body
+    file.truncate(file.tell)
+    file.close
   end
 
   puts "Settings saved as #{zabbix_server_config_path}"
 
   httpd_zabbix_config_path = File.join(container['container_path'],'rootfs/etc/httpd/conf.d/zabbix.conf')
-  open(httpd_zabbix_config_path,"r+") do |f|
-    f.flock(File::LOCK_EX)
-    body = f.read
+  open(httpd_zabbix_config_path,"r+") do |file|
+    file.flock(File::LOCK_EX)
+    body = file.read
 
     unless body.sub!(/^(?!.*#)\s*php_value\s*date.timezone.*/,"\nphp_value date.timezone Asia/Tokyo")
       body << "\n#Added by test-environment-manager\n"
       body << "php_value date.timezone Asia/Tokyo"
     end
 
-    f.rewind
-    f.puts body
-    f.truncate(f.tell)
-    f.close
+    file.rewind
+    file.puts body
+    file.truncate(file.tell)
+    file.close
   end
 
   puts "Settings saved as #{httpd_zabbix_config_path}"
@@ -139,9 +139,9 @@ end
 
 def config_zabbix_agent(container)
   zabbix_agent_config_path = File.join(container['container_path'],'rootfs/etc/zabbix/zabbix_agentd.conf')
-  open(zabbix_agent_config_path,"r+") do |f|
-    f.flock(File::LOCK_EX)
-    body = f.read
+  open(zabbix_agent_config_path,"r+") do |file|
+    file.flock(File::LOCK_EX)
+    body = file.read
 
     unless body.sub!(/^(?!.*#)\s*Server\s*=.*/,"\nServer=#{container['zabbix-agent']['server_ipaddress']}")
       body << "\n#Added by test-environment-manager\n"
@@ -158,10 +158,10 @@ def config_zabbix_agent(container)
       body << "Hostname=#{container['zabbix-agent']['host_name']}"
     end
 
-    f.rewind
-    f.puts body
-    f.truncate(f.tell)
-    f.close
+    file.rewind
+    file.puts body
+    file.truncate(file.tell)
+    file.close
   end
 
   puts "Settings saved as #{zabbix_agent_config_path}"
@@ -170,27 +170,27 @@ end
 
 def config_nagios(container)
   nagios_config_path = File.join(container['container_path'],'rootfs/etc/nagios/nagios.cfg')
-  open(nagios_config_path,"r+") do |f|
-    f.flock(File::LOCK_EX)
-    body = f.read
+  open(nagios_config_path,"r+") do |file|
+    file.flock(File::LOCK_EX)
+    body = file.read
 
     unless body.sub!(/^(?!.*#)\s*broker_module\s*=.*/,"\nbroker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg")
       body << "\n#Added by test-environment-manager\n"
       body << "broker_module=/usr/lib64/nagios/brokers/ndomod.so config_file=/etc/nagios/ndomod.cfg\n"
     end
 
-    f.rewind
-    f.puts body
-    f.truncate(f.tell)
-    f.close
+    file.rewind
+    file.puts body
+    file.truncate(file.tell)
+    file.close
   end
 
   puts "Settings saved as #{nagios_config_path}"
 
   ndo2db_config_path = File.join(container['container_path'],'rootfs/etc/nagios/ndo2db.cfg')
-  open(ndo2db_config_path,"r+") do |f|
-    f.flock(File::LOCK_EX)
-    body = f.read
+  open(ndo2db_config_path,"r+") do |file|
+    file.flock(File::LOCK_EX)
+    body = file.read
 
     unless body.sub!(/^(?!.*#)\s*db_name\s*=.*/,"\ndb_name=#{container['nagios']['database_name']}")
       body << "\n#Added by test-environment-manager\n"
@@ -207,10 +207,10 @@ def config_nagios(container)
       body << "db_user=#{container['nagios']['database_username']}"
     end
 
-    f.rewind
-    f.puts body
-    f.truncate(f.tell)
-    f.close
+    file.rewind
+    file.puts body
+    file.truncate(file.tell)
+    file.close
   end
 
   puts "Settings saved as #{ndo2db_config_path}"
@@ -232,8 +232,8 @@ def config_redmine(container_name, container)
   database_config['production']['username'] = container['redmine']['database_username']
   database_config['production']['password'] = container['redmine']['database_password']
 
-  open(database_config_path,'w') do |f|
-    YAML::dump(database_config,f)
+  open(database_config_path,'w') do |file|
+    YAML::dump(database_config,file)
   end
 
   puts "Settings saved as #{database_config_path}"
