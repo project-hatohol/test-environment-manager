@@ -34,12 +34,12 @@
     end
 
     desc "Clone Container #{container_name} as base_container"
-    task 'build' do
+    task 'clone' do
       if container_config.has_key?('base_container')
-        base_container = LXC::Container.new(container['base_container'])
+        base_container = LXC::Container.new(container_config['base_container'])
         base_container.shutdown
 
-        puts "Clone from #{container['base_container']} to #{container_name}"
+        puts "Clone from #{container_config['base_container']} to #{container_name}"
         base_container.clone(container_name)
 
         puts "Done."
@@ -55,7 +55,10 @@
     end
 
     desc "Call Destroy and Build tasks for #{container_name}"
-    task "rebuild" => ["destroy-#{container_name}", "build-#{container_name}"]
+    task "rebuild" => ["destroy", "build"]
+    
+    desc "Call Clone and Config tasks for #{container_name}"
+    task "build" => ["clone", "config","shutdown","start"]
   end
 end
 
@@ -82,7 +85,7 @@ namespace 'all' do
   end
 
   desc 'Clone Container as base_container'
-  task 'build' do |task|
+  task 'clone' do |task|
     run_containers_task(get_task_name(task), @containers)
   end
 
@@ -95,5 +98,11 @@ namespace 'all' do
   task 'rebuild' do |task|
     run_containers_task(get_task_name(task), @containers)
   end
+  
+  desc 'Call Clone and Config tasks'
+  task 'build' do |task|
+    run_containers_task(get_task_name(task), @containers)
+  end
+
 end
 
