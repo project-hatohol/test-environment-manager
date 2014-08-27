@@ -220,17 +220,17 @@ end
 def config_hatohol(container)
 end
 
-def config_redmine(container_name, container)
+def config_redmine(container_name, container_config)
 
   # Config /var/lib/redmine/config/database.yml
-  database_config_path = File.join(container['container_path'],'rootfs/var/lib/redmine/config/database.yml')
+  database_config_path = File.join(container_config['container_path'],'rootfs/var/lib/redmine/config/database.yml')
   database_config_example_path = database_config_path + '.example'
 
   database_config = YAML::load_file(database_config_example_path)
 
-  database_config['production']['database'] = container['redmine']['database_name']
-  database_config['production']['username'] = container['redmine']['database_username']
-  database_config['production']['password'] = container['redmine']['database_password']
+  database_config['production']['database'] = container_config['redmine']['database_name']
+  database_config['production']['username'] = container_config['redmine']['database_username']
+  database_config['production']['password'] = container_config['redmine']['database_password']
 
   open(database_config_path,'w') do |file|
     YAML::dump(database_config,file)
@@ -248,7 +248,7 @@ def config_redmine(container_name, container)
   end
 
   puts "Redmine Internal Setting Start"
-  tmp_path = File.join(container['container_path'], 'rootfs/tmp')
+  tmp_path = File.join(container_config['container_path'], 'rootfs/tmp')
   FileUtils.copy('assets/redmine_setup.sh', tmp_path)
 
   container.attach do
