@@ -259,7 +259,7 @@ Setting Description
 
 * container_path - Location of the container: There are rootfs directory and config file.
 * ipaddress - Static IP Address for container
-* base_container - Name of original container : When build task execute, clone source container name set to this value.(Not Compulsory)
+* base_container - Name of original container : When build task execute, clone source container name set to this value.(not required)
 * zabbix-server - Settings for Zabbix Server
  - database_name - Database name for Zabbix Server
  - database_username - Database user name for Zabbix Server
@@ -277,7 +277,7 @@ Setting Description
  - database_password - Database Password for Redmine
 
 >*Note:*
->*If you not set base_container, this tool sets default value to base_container.*
+>*If you didn't set "base_container", this tool sets default value to "base_container".*
 
 Correspondence table of the rewrite location and setting
 
