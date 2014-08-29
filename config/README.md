@@ -308,10 +308,10 @@ container name : apply task to container.
 * rake ${namespace}:reboot
  - Reboot containers
 * rake ${namespace}:clone
- - Clone containers as base_container
+ - Clone from base_container as destination container
 * rake ${namespace}:destroy
  - Destroy containers
 * rake ${namespace}:build
- - Call clone task , config task , shutdown task and start task.
+ - Call clone task, config task, shutdown task and start task.
 * rake ${namespace}:rebuild
  - Call destroy task and build task
