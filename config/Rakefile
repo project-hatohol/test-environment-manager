@@ -1,10 +1,51 @@
 require 'yaml'
 require 'lxc'
 
+MIDDLEWARES = ['zabbix-server',
+               'zabbix-agent',
+               'nagios',
+               'redmine']
+DEFAULT_CONTAINER_HEAD = 'test-'
+DEFAULT_CONTAINER_NAME = 'base'
+
 # import Tasks
 import 'tasks/container.rb'
 import 'tasks/config.rb'
 
-task :load_containers do
-  @containers = YAML::load_file('config/containers.yml')
+#Load configurations
+@containers = YAML::load_file('config/containers.yml')
+
+#Make default setting for undefined keys
+@containers.each do |container_name, container_config|
+
+  unless(container_config.has_key?('base_container'))
+
+    keys = container_config.keys
+    include_keys = keys & MIDDLEWARES
+
+    if(include_keys.empty?)
+      container_config['base_container'] = DEFAULT_CONTAINER_HEAD +
+                                           DEFAULT_CONTAINER_NAME
+    else
+      container_config['base_container'] = DEFAULT_CONTAINER_HEAD +
+                                           include_keys.first
+    end
+
+    puts "Container: #{container_name}"
+    puts "\tbase_container is undefined."
+    puts "\tauto set:#{container_name}['base_container'] = #{container_config['base_container']}"
+  end
+end
+
+def run_containers_task(task_name, containers)
+  container_names = containers.keys
+  container_names.each do |container_name|
+    task = container_name + ':' + task_name
+    Rake::Task[task].invoke
+  end
+end
+
+def get_task_name(task)
+  task_string = task.name.split(':')
+  return task_string[1]
 end
