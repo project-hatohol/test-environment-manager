@@ -226,3 +226,52 @@ if not nagios_server3.defined:
 
     if not nagios_server3.shutdown(30):
         nagios_server3.stop()
+
+
+nagios_server4_name = "env_nagios_server4"
+nagios_server4 = lxc.Container(nagios_server4_name)
+if not nagios_server4.defined:
+    nagios_server4 = base.clone(nagios_server4_name, bdevtype="aufs",
+                                 flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(nagios_server4_name)
+
+    nagios_url = "http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.0.8.tar.gz"
+    nagios_name = "nagios-4.0.8.tar.gz"
+    plugin_url = "http://nagios-plugins.org/download/nagios-plugins-2.0.tar.gz"
+    plugin_name = "nagios-plugins-2.0.tar.gz"
+    script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh"
+    script_name = "make_Nagios4.sh"
+    nagios_server4.start()
+    nagios_server4.get_ips(timeout=30)
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["yum", "install", "-y",
+                                "wget", "httpd", "php", "tar",
+                                "gcc", "glibc", "glibc-common",
+                                "gd", "gd-devel", "make", "net-snmp"])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["wget", nagios_url])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["wget", plugin_url])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["useradd", "nagios"])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["groupadd", "nagcmd"])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["usermod", "-aG", "nagcmd", "nagios"])
+
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["tar", "zxvf", nagios_name])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["tar", "zxvf", plugin_name])
+
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                                ["curl", "-O", script_url])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                                ["chmod", "+x", script_name])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                                ["./" + script_name])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                                ["rm", script_name])
+
+    if not nagios_server4.shutdown(30):
+        nagios_server4.stop()
