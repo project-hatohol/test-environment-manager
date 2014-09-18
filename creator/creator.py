@@ -31,7 +31,7 @@ zabbix_server22_name = "env_zabbix_server22"
 zabbix_server22 = lxc.Container(zabbix_server22_name)
 if not zabbix_server22.defined:
     zabbix_server22 = base.clone(zabbix_server22_name, bdevtype="aufs",
-                                 flags=lxc.LXC_CLONE_SNAP_SHOT)
+                                 flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(zabbix_server22_name)
 
     rpm_url = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
