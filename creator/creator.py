@@ -35,6 +35,8 @@ if not zabbix_server22.defined:
     print_success_message(zabbix_server22_name)
 
     rpm_url = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
+    script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb22.sh"
+    script_name = "import_zabbixdb22.sh"
     zabbix_server22.start()
     zabbix_server22.get_ips(timeout=30)
     zabbix_server22.attach_wait(lxc.attach_run_command,
@@ -58,12 +60,20 @@ if not zabbix_server22.defined:
                                  "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"])
 
     zabbix_server22.attach_wait(lxc.attach_run_command,
+                                ["curl", "-O", script_url])
+    zabbix_server22.attach_wait(lxc.attach_run_command,
+                                ["chmod", "+x", script_name])
+    zabbix_server22.attach_wait(lxc.attach_run_command,
+                                ["./" + script_name])
+    zabbix_server22.attach_wait(lxc.attach_run_command,
+                                ["rm", script_name])
+
+    zabbix_server22.attach_wait(lxc.attach_run_command,
                                 ["service", "httpd", "start"])
     zabbix_server22.attach_wait(lxc.attach_run_command,
                                 ["chkconfig", "httpd", "on"])
     zabbix_server22.attach_wait(lxc.attach_run_command,
                                 ["chkconfig", "zabbix-server", "on"])
-
 
     if not zabbix_server22.shutdown(30):
         zabbix_server22.stop()
