@@ -129,3 +129,49 @@ if not zabbix_server20.defined:
 
     if not zabbix_server20.shutdown(30):
         zabbix_server20.stop()
+
+
+zabbix_agent22_name = "env_zabbix_agent22"
+zabbix_agent22 = lxc.Container(zabbix_agent22_name)
+if not zabbix_agent22.defined:
+    zabbix_agent22 = base.clone(zabbix_agent22_name, bdevtype="aufs",
+                                 flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(zabbix_agent22_name)
+
+    rpm_url = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
+    zabbix_agent22.start()
+    zabbix_agent22.get_ips(timeout=30)
+    zabbix_agent22.attach_wait(lxc.attach_run_command,
+                                ["rpm", "-ivh", rpm_url])
+    zabbix_agent22.attach_wait(lxc.attach_run_command,
+                                ["yum", "install", "-y",
+                                 "zabbix-agent"])
+
+    zabbix_agent22.attach_wait(lxc.attach_run_command,
+                               ["chkconfig", "zabbix-agent", "on"])
+
+    if not zabbix_agent22.shutdown(30):
+        zabbix_agent22.stop()
+
+
+zabbix_agent20_name = "env_zabbix_agent20"
+zabbix_agent20 = lxc.Container(zabbix_agent20_name)
+if not zabbix_agent20.defined:
+    zabbix_agent20 = base.clone(zabbix_agent20_name, bdevtype="aufs",
+                                 flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(zabbix_agent20_name)
+
+    rpm_url = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
+    zabbix_agent20.start()
+    zabbix_agent20.get_ips(timeout=30)
+    zabbix_agent20.attach_wait(lxc.attach_run_command,
+                                ["rpm", "-ivh", rpm_url])
+    zabbix_agent20.attach_wait(lxc.attach_run_command,
+                                ["yum", "install", "-y",
+                                 "zabbix-agent"])
+
+    zabbix_agent20.attach_wait(lxc.attach_run_command,
+                               ["chkconfig", "zabbix-agent", "on"])
+
+    if not zabbix_agent20.shutdown(30):
+        zabbix_agent20.stop()
