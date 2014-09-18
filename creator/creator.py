@@ -175,3 +175,54 @@ if not zabbix_agent20.defined:
 
     if not zabbix_agent20.shutdown(30):
         zabbix_agent20.stop()
+
+
+nagios_server3_name = "env_nagios_server3"
+nagios_server3 = lxc.Container(nagios_server3_name)
+if not nagios_server3.defined:
+    nagios_server3 = base.clone(nagios_server3_name, bdevtype="aufs",
+                                 flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(nagios_server3_name)
+
+    rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+    script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
+    script_name = "import_NDOUtils3.sh"
+    nagios_server3.start()
+    nagios_server3.get_ips(timeout=30)
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                               ["rpm", "-ivh", rpm_url])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                               ["yum", "install", "-y",
+                                "httpd", "mysql-server",
+                                "nagios", "nagios-plugins-all",
+                                "ndoutils-mysql"])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                               ["service", "mysqld", "start"])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                               ["chkconfig", "mysqld", "on"])
+
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                                ["mysql", "-uroot", "-e",
+                                 "CREATE DATABASE ndoutils;"])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                                ["mysql", "-uroot", "-e",
+                                 "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
+
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                                ["curl", "-O", script_url])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                                ["chmod", "+x", script_name])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                                ["./" + script_name])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                                ["rm", script_name])
+
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                               ["chkconfig", "ndo2db", "on"])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                               ["chkconfig", "nagios", "on"])
+    nagios_server3.attach_wait(lxc.attach_run_command,
+                               ["chkconfig", "httpd", "on"])
+
+    if not nagios_server3.shutdown(30):
+        nagios_server3.stop()
