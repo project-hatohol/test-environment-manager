@@ -30,7 +30,7 @@ cd ../$NDOUTILS_NAME
 ./configure
 make
 make install
-cp ndo2db-4x ndomod-4x.o
+cp src/ndo2db-4x src/ndomod-4x.o /usr/local/nagios/bin
 
 chkconfig --add nagios
 chkconfig nagios on
