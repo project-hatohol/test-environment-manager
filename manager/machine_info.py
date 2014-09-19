@@ -6,7 +6,8 @@ import os.path
 
 def frame():
 	print ("-------------------------------------------------------------------------")
-	print ("%-3s"%"No"+"|"+"%5s"%"Group"+"|"+"%15s"%"Name     |"+"%15s"%"HostName   |"+"%15s"%"IP      |"+"%10s"%"State  |")
+	print ("%-3s"%"No"+"|"+"%5s"%"Group"+"|"+"%15s"%"Name     |"
+           +"%15s"%"HostName   |"+"%15s"%"IP      |"+"%10s"%"State  |")
 	print ("-------------------------------------------------------------------------")
 
 con_name = lxc.list_containers()
@@ -14,9 +15,9 @@ con_obj = lxc.list_containers(as_object=True)
 print ("\nMahcine list:\n")
 frame()
 
-num = 0
-while num < len(con_name):
-	ld = open("/var/lib/lxc/"+con_name[num]+"/config")
+machine_id = 0
+while machine_id < len(con_name):
+	ld = open("/var/lib/lxc/"+con_name[machine_id]+"/config")
 	conf_lines = ld.readlines()
 	ld.close()
 
@@ -26,16 +27,18 @@ while num < len(con_name):
 		if line.find("lxc.utsname =") >= 0:
 			host = line[14:-1]
 
-	ld = open("/var/lib/lxc/"+con_name[num]+"/group")
+	ld = open("/var/lib/lxc/"+con_name[machine_id]+"/group")
 	gr_lines = ld.readlines()
 	ld.close()
 
 	group = gr_lines[0].rstrip()
 
-	if num%20 == 0 and num != 0:
+	if machine_id%20 == 0 and machine_id != 0:
 		frame()
 
-	print("%2s"%str(num+1) + " | " + "%-3s"%group +" | "+"%-12s"%con_name[num] + " | " +"%-12s"%host+" | " +"%-12s"%ip + " | " +con_obj[num].state+" | ")
+	print("%2s"%str(machine_id + 1) + " | " + "%-3s"%group +" | "
+          +"%-12s"%con_name[machine_id] + " | " +"%-12s"%host+" | "
+          +"%-12s"%ip + " | " +con_obj[machine_id].state+" | ")
 
-	num += 1
+	machine_id += 1
 
