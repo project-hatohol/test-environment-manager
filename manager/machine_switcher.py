@@ -4,6 +4,17 @@ import lxc
 import sys
 import os.path
 
+def switcher(num) :
+	if con_obj[num] == "STOPPED" :
+			print(con_name[num] + " | " + "Start "
+								+str(con_obj[num].start()))
+		else :
+			stdn = con_obj[num].shutdown()
+ 			print(con_name[lists[num] + " | " + "Shutdown "+str(stdn))
+			if not stdn:
+ 				print(con_name[num] + " | " + "Stop "
+								+str(con_obj[num].stop()))
+
 temp = sys.argv
 del temp[0:2]
 for num in temp :
@@ -24,16 +35,7 @@ temp = sys.argv
 if temp[1] == "m" :
 	num = 0
 	while num < len(lists) :
-		if con_obj[lists[num]-1] == "STOPPED" :
-			print(con_name[lists[num]-1] + " | " + "Start "
-								+str(con_obj[lists[num]-1].start()))
-		else :
-			stdn = con_obj[lists[num-1]].shutdown()
- 			print(con_name[lists[num-1]] + " | " + "Shutdown "+str(stdn))
-			if not stdn:
- 				print(con_name[lists[num-1]] + " | " + "Stop "
-								+str(con_obj[lists[num-1]].stop()))
-
+		switcher(lists[num-1])	
 		num += 1
 
 if temp[1] == "g" :
@@ -52,15 +54,8 @@ if temp[1] == "g" :
 	
 	for num in lists :
 		for num2 in dict[num]
-			if con_obj[lists[num]-1] == "STOPPED" :
-			print(con_name[lists[num]-1] + " | " + "Start "
-								+str(con_obj[lists[num]-1].start()))
-			else :
-				stdn = con_obj[lists[num-1]].shutdown()
- 				print(con_name[lists[num-1]] + " | " + "Shutdown "+str(stdn))
-				if not stdn:
- 					print(con_name[lists[num-1]] + " | " + "Stop "
-								+str(con_obj[lists[num-1]].stop()))
+			switcher(num2)
 
 if not temp[1] is None and not temp[1]=="g" and not temp[1]=="m":
 		print("You must input the first argument as 'm' or 'g'.")
+
