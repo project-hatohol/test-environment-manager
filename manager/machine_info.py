@@ -17,9 +17,6 @@ frame()
 
 num = 0
 while num < len(con_name):
-	conf_path = 
-	group_path = 
-	
 	ld = open("/var/lib/lxc/"+con_name[num]+"/config")
 	conf_lines = ld.readlines()
 	ld.close()
