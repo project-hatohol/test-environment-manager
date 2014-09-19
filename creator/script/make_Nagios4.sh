@@ -31,7 +31,7 @@ cd ../$NDOUTILS_NAME
 make
 make install
 cp src/ndo2db-4x src/ndomod-4x.o /usr/local/nagios/bin
-db/installdb -u ndoutils -p admin -h localhost -d ndoutils
+mysql -uroot < db/mysql.sql
 
 chkconfig --add nagios
 chkconfig nagios on
