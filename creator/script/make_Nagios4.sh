@@ -2,6 +2,7 @@
 
 NAGIOS_NAME=nagios-4.0.8
 PLUGIN_NAME=nagios-plugins-2.0
+NDOUTILS_NAME=ndoutils-2.0.0
 
 cd $NAGIOS_NAME
 ./configure --with-command-group=nagcmd
@@ -25,7 +26,11 @@ cd ../$PLUGIN_NAME
 make
 make install
 
-cd ../
+cd ../$NDOUTILS_NAME
+./configure
+make
+make install
+cp ndo2db-4x ndomod-4x.o
 
 chkconfig --add nagios
 chkconfig nagios on
