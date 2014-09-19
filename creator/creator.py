@@ -356,3 +356,31 @@ if not hatohol_build.defined:
 
     if not hatohol_build.shutdown(30):
         hatohol_build.stop()
+
+
+hatohol_rpm_name = "env_hatohol_rpm"
+hatohol_rpm = lxc.Container(hatohol_rpm_name)
+if not hatohol_rpm.defined:
+    hatohol_rpm = base.clone(hatohol_rpm_name, bdevtype="aufs",
+                             flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(hatohol_rpm_name)
+
+    hatohol_rpm.start()
+    hatohol_rpm.get_ips(timeout=30)
+    repo_url = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
+    hatohol_rpm.attach_wait(lxc.attach_run_command,
+                            ["yum", "install", "-y", "wget"])
+    hatohol_rpm.attach_wait(lxc.attach_run_command,
+                            ["wget", "-P", "/etc/yum.repos.d", repo_url])
+    hatohol_rpm.attach_wait(lxc.attach_run_command,
+                            ["yum", "install", "-y",
+                             "hatohol", "hatohol-client"])
+
+    hatohol_rpm.attach_wait(lxc.attach_run_command,
+                            ["chkconfig", "mysqld", "on"])
+    hatohol_rpm.attach_wait(lxc.attach_run_command,
+                            ["service", "mysqld", "start"])
+    # TODO: Add Process after 14.09 is released.
+
+    if not hatohol_rpm.shutdown(30):
+        hatohol_rpm.stop()
