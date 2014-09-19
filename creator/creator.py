@@ -313,3 +313,46 @@ if not nagios_nrpe.defined:
 
     if not nagios_nrpe.shutdown(30):
         nagios_nrpe.stop()
+
+
+hatohol_build_name = "env_hatohol_build"
+hatohol_build = lxc.Container(hatohol_build_name)
+if not hatohol_build.defined:
+    hatohol_build = base.clone(hatohol_build_name, bdevtype="aufs",
+                               flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(hatohol_build_name)
+
+    hatohol_build.start()
+    hatohol_build.get_ips(timeout=30)
+    repo_url = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
+    cutter_rpm = "http://sourceforge.net/projects/cutter/files/centos/cutter-release-1.1.0-0.noarch.rpm"
+    hatohol_build.attach_wait(lxc.attach_run_command,
+                              ["rpm", "-ivh", cutter_rpm])
+    hatohol_build.attach_wait(lxc.attach_run_command,
+                              ["yum", "groupinstall", "-y",
+                               "Development Tools"])
+    hatohol_build.attach_wait(lxc.attach_run_command,
+                            ["wget", "-P", "/etc/yum.repos.d", repo_url])
+    hatohol_build.attach_wait(lxc.attach_run_command,
+                              ["yum", "install", "-y",
+                               "libtool", "gettext-devel", "glib2-devel",
+                               "libsoup-devel", "json-glib-devel",
+                               "sqlite-devel", "libuuid-devel",
+                               "mysql-server", "mysql-devel",
+                               "librabbitmq-devel",
+                               "qpid-cpp-client-devel", "curl",
+                               "python-setuptools", "python-devel",
+                               "Django", "httpd", "mod_wsgi", "cutter"])
+    hatohol_build.attach_wait(lxc.attach_run_command,
+                              ["easy_install", "pip"])
+    hatohol_build.attach_wait(lxc.attach_run_command,
+                              ["pip", "install", "mysql-python"])
+
+    hatohol_build.attach_wait(lxc.attach_run_command,
+                              ["service", "mysqld", "start"])
+    hatohol_build.attach_wait(lxc.attach_run_command,
+                              ["chkconfig", "mysqld", "on"])
+
+
+    if not hatohol_build.shutdown(30):
+        hatohol_build.stop()
