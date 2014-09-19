@@ -1,4 +1,4 @@
-#st_containers! /usr/bin/env python3
+#! /usr/bin/env python3
 
 import lxc
 import sys
@@ -21,7 +21,7 @@ con_name = lxc.list_containers()
 con_obj = lxc.list_containers(as_object=True)
 temp = sys.argv
 
-if argvs[1] == "m" :
+if temp[1] == "m" :
 	num = 0
 	while num < len(lists) :
 		if con_obj[lists[num]-1] == "STOPPED" :

@@ -1,4 +1,4 @@
-#st_containers! /usr/bin/env python3
+#! /usr/bin/env python3
 
 import lxc
 import sys
