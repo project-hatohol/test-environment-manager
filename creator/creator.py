@@ -293,3 +293,23 @@ if not nagios_server4.defined:
 
     if not nagios_server4.shutdown(30):
         nagios_server4.stop()
+
+
+nagios_nrpe_name = "env_nagios_nrpe"
+nagios_nrpe = lxc.Container(nagios_nrpe_name)
+if not nagios_nrpe.defined:
+    nagios_nrpe = base.clone(nagios_nrpe_name, bdevtype="aufs",
+                             flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(nagios_nrpe_name)
+
+    rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+    nagios_nrpe.start()
+    nagios_nrpe.get_ips(timeout=30)
+    nagios_nrpe.attach_wait(lxc.attach_run_command,
+                            ["rpm", "-ivh", rpm_url])
+    nagios_nrpe.attach_wait(lxc.attach_run_command,
+                            ["yum", "install", "-y",
+                             "nagios-plugins-all"])
+
+    if not nagios_nrpe.shutdown(30):
+        nagios_nrpe.stop()
