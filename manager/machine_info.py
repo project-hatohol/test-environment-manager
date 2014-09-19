@@ -4,16 +4,21 @@ import lxc
 import sys
 import os.path
 
-def frame():
+def Frame():
 	print ("-------------------------------------------------------------------------")
 	print ("%-3s"%"No"+"|"+"%5s"%"Group"+"|"+"%15s"%"Name     |"
            +"%15s"%"HostName   |"+"%15s"%"IP      |"+"%10s"%"State  |")
 	print ("-------------------------------------------------------------------------")
 
+def PrintInfo(machine_id) :
+    print("%2s"%str(machine_id + 1) + " | " + "%-3s"%group +" | "
+          +"%-12s"%con_name[machine_id] + " | " +"%-12s"%host+" | "
+          +"%-12s"%ip + " | " +con_obj[machine_id].state+" | ")
+
 con_name = lxc.list_containers()
 con_obj = lxc.list_containers(as_object=True)
 print ("\nMahcine list:\n")
-frame()
+Frame()
 
 machine_id = 0
 while machine_id < len(con_name):
@@ -34,11 +39,9 @@ while machine_id < len(con_name):
 	group = gr_lines[0].rstrip()
 
 	if machine_id%20 == 0 and machine_id != 0:
-		frame()
+		Frame()
 
-	print("%2s"%str(machine_id + 1) + " | " + "%-3s"%group +" | "
-          +"%-12s"%con_name[machine_id] + " | " +"%-12s"%host+" | "
-          +"%-12s"%ip + " | " +con_obj[machine_id].state+" | ")
+	PrintInfo(machine_id)
 
 	machine_id += 1
 
