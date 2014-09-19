@@ -384,3 +384,32 @@ if not hatohol_rpm.defined:
 
     if not hatohol_rpm.shutdown(30):
         hatohol_rpm.stop()
+
+
+fluentd_name = "env_fluentd"
+fluentd = lxc.Container(fluentd_name)
+if not fluentd.defined:
+    fluentd = base.clone(fluentd_name, bdevtype="aufs",
+                         flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(fluentd_name)
+
+    GPG_url = "http://packages.treasuredata.com/GPG-KEY-td-agent"
+    repo_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/fluentd.repo"
+    fluentd.start()
+    fluentd.get_ips(timeout=30)
+    fluentd.attach_wait(lxc.attach_run_command,
+                        ["yum", "install", "-y", "wget"])
+    fluentd.attach_wait(lxc.attach_run_command,
+                        ["rpm", "--import", GPG_url])
+    fluentd.attach_wait(lxc.attach_run_command,
+                        ["wget", "-P", "/etc/yum.repos.d", repo_url])
+    fluentd.attach_wait(lxc.attach_run_command,
+                        ["yum", "install", "-y", "td-agent"])
+
+    fluentd.attach_wait(lxc.attach_run_command,
+                        ["service", "td-agent", "start"])
+    fluentd.attach_wait(lxc.attach_run_command,
+                        ["chkconfig", "td-agent", "on"])
+
+    if not fluentd.shutdown(30):
+        fluentd.stop()
