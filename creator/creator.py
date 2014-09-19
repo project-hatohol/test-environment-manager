@@ -239,30 +239,48 @@ if not nagios_server4.defined:
     nagios_name = "nagios-4.0.8.tar.gz"
     plugin_url = "http://nagios-plugins.org/download/nagios-plugins-2.0.tar.gz"
     plugin_name = "nagios-plugins-2.0.tar.gz"
+    ndoutils_url = "http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz"
+    ndoutils_name = "ndoutils-2.0.0.tar.gz"
     script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh"
     script_name = "make_Nagios4.sh"
     nagios_server4.start()
     nagios_server4.get_ips(timeout=30)
     nagios_server4.attach_wait(lxc.attach_run_command,
                                ["yum", "install", "-y",
+                                "mysql-server", "mysql-devel",
                                 "wget", "httpd", "php", "tar",
                                 "gcc", "glibc", "glibc-common",
                                 "gd", "gd-devel", "make", "net-snmp"])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["yum", "groupinstall", "-y",
+                                "Development Tools"])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["service", "mysqld", "start"])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["chkconfig", "mysqld", "on"])
+
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                                ["mysql", "-uroot", "-e",
+                                 "CREATE DATABASE ndoutils;"])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                                ["mysql", "-uroot", "-e",
+                                 "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
+
     nagios_server4.attach_wait(lxc.attach_run_command,
                                ["wget", nagios_url])
     nagios_server4.attach_wait(lxc.attach_run_command,
                                ["wget", plugin_url])
     nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["wget", ndoutils_url])
+    nagios_server4.attach_wait(lxc.attach_run_command,
                                ["useradd", "nagios"])
-    nagios_server4.attach_wait(lxc.attach_run_command,
-                               ["groupadd", "nagcmd"])
-    nagios_server4.attach_wait(lxc.attach_run_command,
-                               ["usermod", "-aG", "nagcmd", "nagios"])
 
     nagios_server4.attach_wait(lxc.attach_run_command,
                                ["tar", "zxvf", nagios_name])
     nagios_server4.attach_wait(lxc.attach_run_command,
                                ["tar", "zxvf", plugin_name])
+    nagios_server4.attach_wait(lxc.attach_run_command,
+                               ["tar", "zxvf", ndoutils_name])
 
     nagios_server4.attach_wait(lxc.attach_run_command,
                                 ["curl", "-O", script_url])
