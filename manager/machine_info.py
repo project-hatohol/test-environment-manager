@@ -4,7 +4,6 @@ import lxc
 import sys
 import os.path
 
-
 def frame():
 	print ("-------------------------------------------------------------------------")
 	print ("%-3s"%"No"+"|"+"%5s"%"Group"+"|"+"%15s"%"Name     |"+"%15s"%"HostName   |"+"%15s"%"IP      |"+"%10s"%"State  |")
