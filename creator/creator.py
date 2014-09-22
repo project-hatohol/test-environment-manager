@@ -413,3 +413,89 @@ if not fluentd.defined:
 
     if not fluentd.shutdown(30):
         fluentd.stop()
+
+redmine_name = "env_redmine"
+redmine = lxc.Container(redmine_name)
+if not redmine.defined:
+    redmine = base.clone(redmine_name, bdevtype="aufs",
+                         flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(redmine_name)
+
+    rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+    ruby_source_url = "http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p481.tar.gz"
+    ruby_source_name = "ruby-2.0.0-p481.tar.gz"
+    ruby_install_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/install_ruby.sh"
+    ruby_install_name = "install_ruby.sh"
+    redmine_tarball_url = "http://www.redmine.org/releases/redmine-2.5.2.tar.gz"
+    redmine_tartball_name = "redmine-2.5.2.tar.gz"
+    redmine_dir_name = "redmine-2.5.2"
+    passenger_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/passenger.conf"
+    redmine.start()
+    redmine.get_ips(timeout=30)
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["rpm", "-ivh", rpm_url])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["yum", "groupinstall", "-y", "Development Tools"])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["yum", "install", "-y",
+                         "openssl-devel", "readline-devel", "zlib-devel",
+                         "curl-devel", "libyaml-devel", "mysql-server",
+                         "mysql-devel", "httpd", "httpd-devel",
+                         "ImageMagick", "ImageMagick-devel",
+                         "ipa-pgothic-fonts", "wget"])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["curl", "-O", ruby_install_url])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["chmod", "+x", ruby_install_name])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["curl", "-O", ruby_source_url])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["tar", "zxvf", ruby_source_name])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["./" + ruby_install_name])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["gem", "install", "bundler", "--no-rdoc", "--no-ri"])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["service", "mysqld", "start"])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["chkconfig", "mysqld", "on"])
+
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["mysql", "-uroot", "-e",
+                         "CREATE DATABASE db_redmine DEFAULT CHARACTER SET utf8;"])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["mysql", "-uroot", "-e",
+                         "GRANT ALL ON db_redmine.* TO user_redmine@localhost IDENTIFIED BY \'pass_redmine\';"])
+
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["curl", "-O", redmine_tarball_url])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["tar", "xvf", redmine_tartball_name])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["mv", redmine_dir_name, "/var/lib/redmine"])
+
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["gem", "install", "passenger",
+                         "--no-rdoc", "--no-ri"])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["passenger-install-apache2-module", "--auto"])
+
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["wget", "-P", "/etc/httpd/httpd.conf.d/",
+                         passenger_url])
+
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["sed", "-i", "-e", "292d",
+                         "/etc/httpd/conf/httpd.conf"])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["sed", "-i", "-e",
+                         "291 a\\DocumentRoot /var/lib/redmine/public",
+                         "/etc/httpd/conf/httpd.conf"])
+
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["service", "httpd", "start"])
+    redmine.attach_wait(lxc.attach_run_command,
+                        ["chkconfig", "httpd", "on"])
+
+    if not redmine.shutdown(30):
+        redmine.stop()
