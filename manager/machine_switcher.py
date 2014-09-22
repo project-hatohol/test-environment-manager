@@ -4,55 +4,62 @@ import lxc
 import sys
 import os.path
 
-def switcher(num) :
-    if con_obj[num] == "STOPPED" :
-            print(con_name[num] + " | " + "Start "
-                                +str(con_obj[num].start()))
-    else :
-        stdn = con_obj[num].shutdown()
-        print(con_name[lists[num] + " | " + "Shutdown "+str(stdn))
-        if not stdn:
-             print(con_name[num] + " | " + "Stop "
-                                +str(con_obj[num].stop()))
-
-for select in sys.argv[2:] :
-    lists = []
-    if "-" in select :
-        select = int(num.split("-"))
-        num = 0
-        for range(int(select[0]),int(select[1])+1) :
-            lists.append(int(select[0])+num)
-            num+=1
-    else :
-        lists.append(int(select))
-
 con_name = lxc.list_containers()
 con_obj = lxc.list_containers(as_object=True)
 
-if sys.argv[1] == "m" :
-    num = 0
-    while num < len(lists) :
-        switcher(lists[num-1])    
-        num += 1
+def switcher(machine_id) :
+    if con_obj[machine_id].state == "STOPPED" :
+            print(con_name[machine_id] + " | " + "Start "
+                                +str(con_obj[machine_id].start()))
+    if con_obj[machine_id].state == "RUNNING" :
+        stdn = con_obj[machine_id].shutdown()
+        print(con_name[machine_id] + " | " + "Shutdown "+str(stdn))
+        if not stdn:
+             print(con_name[machine_id] + " | " + "Stop "
+                                +str(con_obj[machine_id].stop()))
+def ArgSeparator() :
+    lists = []
+    for select in sys.argv[2:] :
+        if "-" in select :
+            hoge = select.split("-")
+            for num in range(int(hoge[0]),int(hoge[1])+1) :
+                lists.append(num)
+        else :
+            lists.append(int(select))
+    return lists
 
-else if sys.argv[1] == "g" :
-    num = 0
-    while num < len(con_name) :
-        ld = open("/var/lib/lxc/"+con_obj[num]+"group")
-        gr_lines = group.readlines()
+def CreateGroupDict() :
+    dict = {}
+
+    machine_id = 0
+    while machine_id < len(con_name) :
+        ld = open("/var/lib/lxc/"+ con_name[machine_id] +"/group")
+        gr_lines = ld.readlines()
         ld.close()
         group = int(gr_lines[0].rstrip())
+        
+        if group not in dict :
+            dict[group] = [machine_id]
+        else :
+            dict[group].append(machine_id)   
 
-        if group not in dict:
-            dict = {group:None}
-        dict[group].append(num)
+        machine_id += 1
 
-        num += 1
+    return dict
+
+if __name__ == '__main__' :
+    arglist = ArgSeparator()
     
-    for num in lists :
-        for num2 in dict[num]
-            switcher(num2)
+    if sys.argv[1] == "m" :
+        for machine_id in arglist :
+            switcher(machine_id-1)
 
-else
-    print("You must input the first argument as 'm' or 'g'.")
+    elif sys.argv[1] == "g" :
+        groupdict = CreateGroupDict()
+        for group in arglist :
+            for machine_id in groupdict[group] :
+                switcher(machine_id)
+
+    else :
+        print("You must input the first argument as 'm' or 'g'.")
 
