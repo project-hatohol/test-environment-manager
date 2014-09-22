@@ -32,10 +32,8 @@ def print_success_message(name):
     print("Create Container: %s" % name)
 
 
-if not os.geteuid() == 0:
-    print("You need root permission to use this script.")
-    sys.exit(1)
-
+def print_exists_message(name):
+    print("Container already exists: %s" % name)
 
 def create_base():
     if not base.defined:
@@ -515,6 +513,10 @@ def create_redmine():
 
 
 if __name__ == '__main__':
+    if not os.geteuid() == 0:
+        print("You need root permission to use this script.")
+        sys.exit(1)
+
     create_base()
     create_zabbix_server22()
     create_zabbix_server20()
