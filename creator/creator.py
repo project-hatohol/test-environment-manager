@@ -27,6 +27,9 @@ def create_base():
         if not base.shutdown(30):
             base.stop()
 
+    else:
+        print_exists_message(base_name)
+
 
 def create_zabbix_server22():
     container_name = "env_zabbix_server22"
@@ -79,6 +82,9 @@ def create_zabbix_server22():
 
         if not zabbix_server22.shutdown(30):
             zabbix_server22.stop()
+
+    else:
+        print_exists_message(container_name)
 
 
 def create_zabbix_server20():
@@ -133,6 +139,9 @@ def create_zabbix_server20():
         if not zabbix_server20.shutdown(30):
             zabbix_server20.stop()
 
+    else:
+        print_exists_message(container_name)
+
 
 def create_zabbix_agent22():
     container_name = "env_zabbix_agent22"
@@ -157,6 +166,8 @@ def create_zabbix_agent22():
         if not zabbix_agent22.shutdown(30):
             zabbix_agent22.stop()
 
+    else:
+        print_exists_message(container_name)
 
 def create_zabbix_agent20():
     container_name = "env_zabbix_agent20"
@@ -180,6 +191,9 @@ def create_zabbix_agent20():
 
         if not zabbix_agent20.shutdown(30):
             zabbix_agent20.stop()
+
+    else:
+        print_exists_message(container_name)
 
 
 def create_nagios_server3():
@@ -232,6 +246,9 @@ def create_nagios_server3():
 
         if not nagios_server3.shutdown(30):
             nagios_server3.stop()
+
+    else:
+        print_exists_message(container_name)
 
 
 def create_nagios_server4():
@@ -301,6 +318,9 @@ def create_nagios_server4():
         if not nagios_server4.shutdown(30):
             nagios_server4.stop()
 
+    else:
+        print_exists_message(container_name)
+
 
 def create_nagios_nrpe():
     container_name = "env_nagios_nrpe"
@@ -321,6 +341,9 @@ def create_nagios_nrpe():
 
         if not nagios_nrpe.shutdown(30):
             nagios_nrpe.stop()
+
+    else:
+        print_exists_message(container_name)
 
 
 def create_hatohol_build():
@@ -365,6 +388,9 @@ def create_hatohol_build():
         if not hatohol_build.shutdown(30):
             hatohol_build.stop()
 
+    else:
+        print_exists_message(container_name)
+
 
 def create_hatohol_rpm():
     container_name = "env_hatohol_rpm"
@@ -393,6 +419,9 @@ def create_hatohol_rpm():
 
         if not hatohol_rpm.shutdown(30):
             hatohol_rpm.stop()
+
+    else:
+        print_exists_message(container_name)
 
 
 def create_fluentd():
@@ -423,6 +452,9 @@ def create_fluentd():
 
         if not fluentd.shutdown(30):
             fluentd.stop()
+
+    else:
+        print_exists_message(container_name)
 
 
 def create_redmine():
@@ -511,6 +543,9 @@ def create_redmine():
 
     if not redmine.shutdown(30):
         redmine.stop()
+
+    else:
+        print_exists_message(container_name)
 
 
 if __name__ == '__main__':
