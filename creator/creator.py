@@ -13,6 +13,7 @@ def print_success_message(name):
 def print_exists_message(name):
     print("Container already exists: %s" % name)
 
+
 def create_base():
     if not base.defined:
         base.create("centos")
