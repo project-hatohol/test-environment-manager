@@ -27,7 +27,7 @@ nagios_nrpe = lxc.Container(nagios_nrpe_name)
 hatohol_build = lxc.Container(hatohol_build_name)
 hatohol_rpm = lxc.Container(hatohol_rpm_name)
 fluentd = lxc.Container(fluentd_name)
-redmine = lxc.Container(container_name)
+redmine = lxc.Container(redmine_name)
 
 
 def print_true_message(name):
