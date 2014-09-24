@@ -11,13 +11,13 @@ def change_state(machine_id):
     if container_obj[machine_id].state == "STOPPED":
             print(container_name[machine_id] + " | " + "Start "
                   + str(container_obj[machine_id].start()))
-    
-    if container_obj[machine_id].state == "RUNNING":
-        stdn = container_obj[machine_id].shutdown()
-        print(container_name[machine_id] + " | " + "Shutdown " + str(stdn))
-        if not stdn:
+    else:
+        shutdown= container_obj[machine_id].shutdown()
+        print(container_name[machine_id] + " | " + "Shutdown " + str(shutdown))
+        if not shutdown:
              print(container_name[machine_id] + " | " + "Stop "
                    + str(container_obj[machine_id].stop()))
+
 def separate_arg():
     lists = []
     for select in sys.argv[2:]:
