@@ -30,6 +30,14 @@ fluentd = lxc.Container(fluentd_name)
 redmine = lxc.Container(container_name)
 
 
+def print_true_message(name):
+    print("Container \"%s\": True" % name)
+
+
+def print_false_message(name):
+    print("Container \"%s\": false" % name)
+
+
 if __name__ == '__main__':
     if not os.geteuid() == 0:
         print("You need root permission to use this script.")
