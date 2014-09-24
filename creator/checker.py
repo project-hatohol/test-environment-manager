@@ -45,6 +45,21 @@ def is_container_existed(container, container_name):
         print_false_message(container_name)
 
 
+def check_container_exist():
+    is_container_existed(base, base_name)
+    is_container_existed(zabbix_server22, zabbix_server22_name)
+    is_container_existed(zabbix_server20, zabbix_server20_name)
+    is_container_existed(zabbix_agent22, zabbix_agent22_name)
+    is_container_existed(zabbix_agent20, zabbix_agent20_name)
+    is_container_existed(nagios_server3, nagios_server3_name)
+    is_container_existed(nagios_server4, nagios_server4_name)
+    is_container_existed(nagios_nrpe, nagios_nrpe_name)
+    is_container_existed(hatohol_build, hatohol_build_name)
+    is_container_existed(hatohol_rpm, hatohol_rpm_name)
+    is_container_existed(fluentd, fluentd_name)
+    is_container_existed(redmine, redmine_name)
+
+
 if __name__ == '__main__':
     if not os.geteuid() == 0:
         print("You need root permission to use this script.")
