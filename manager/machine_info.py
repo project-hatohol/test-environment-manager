@@ -4,50 +4,51 @@ import lxc
 import sys
 import os.path
 
-con_name = lxc.list_containers()
-con_obj = lxc.list_containers(as_object=True)
+container_name = lxc.list_containers()
+container_obj = lxc.list_containers(as_object=True)
 
-def Frame(machine_id):
+def print_frame():
     print ("-----------------------------------------------------------------")
-    print ("%-3s"%"No"+"|"+"%5s"%"Group"+"|"+"%15s"%"Name     |"
-           +"%15s"%"HostName   |"+"%15s"%"IP      |"+"%10s"%"State  |")
+    print ("%-3s"%"No" + "|" + "%5s"%"Group" + "|" + "%15s"%"Name     |"
+           + "%15s"%"HostName   |" + "%15s"%"IP      |" + "%10s"%"State  |")
     print ("-----------------------------------------------------------------")
 
-def PrintInfo(InfoDict) :
-    print("%2s"%str(InfoDict["id"]+1) + " | " + "%-3s"%InfoDict["group"] +" | "
-          +"%-12s"%con_name[InfoDict["id"]] + " | " +"%-12s"%InfoDict["host"]+" | "
-          +"%-12s"%InfoDict["ip"] + " | " +con_obj[InfoDict["id"]].state+" | ")
+def print_info(info_dict):
+    print("%2s"%str(info_dict["id"] + 1) + " | " + "%-3s"%info_dict["group"] 
+          + " | " + "%-12s"%container_name[info_dict["id"]] + " | " 
+          + "%-12s"%info_dict["host"] + " | " + "%-12s"%info_dict["ip"] 
+          + " | " + container_obj[info_dict["id"]].state + " | ")
 
-def GetInfoDict(machine_id) :
-    InfoDict = {}
-    ld = open("/var/lib/lxc/"+con_name[machine_id]+"/config")
-    conf_lines = ld.readlines()
-    ld.close()
+def get_info_dict(machine_id):
+    info_dict = {}
+    conf_path = open("/var/lib/lxc/" + container_name[machine_id] + "/config")
+    conf_lines = conf_path.readlines()
+    conf_path.close()
     
     for line in conf_lines:
         if line.find("lxc.network.ipv4 =") >= 0:
-            InfoDict["ip"] = line[19:-4]
+            info_dict["ip"] = line[19:-4]
         if line.find("lxc.utsname =") >= 0:
-            InfoDict["host"] = line[14:-1]
+            info_dict["host"] = line[14:-1]
 
-    ld = open("/var/lib/lxc/"+con_name[machine_id]+"/group")
-    gr_lines = ld.readlines()
-    ld.close()
+    group_path = open("/var/lib/lxc/" + container_name[machine_id] + "/group")
+    group_lines = group_path.readlines()
+    group_path.close()
 
-    InfoDict["group"] = gr_lines[0].rstrip()
-    InfoDict["id"] = machine_id
+    info_dict["group"] = group_lines[0].rstrip()
+    info_dict["id"] = machine_id
 
-    return InfoDict
+    return info_dict
 
-if __name__ == '__main__' :
-    Frame()
+if __name__ == '__main__':
+    print_frame()
 
     machine_id = 0
-    while machine_id < len(con_name):
+    while machine_id < len(container_name):
         if machine_id%20 == 0 and machine_id != 0:
-            Frame()
+            print_frame()
 
-        PrintInfo(GetInfoDict(machine_id))
+        print_info(get_info_dict(machine_id))
 
         machine_id += 1
 
