@@ -38,6 +38,13 @@ def print_false_message(name):
     print("Container \"%s\": false" % name)
 
 
+def is_container_existed(container, container_name):
+    if container.defined:
+        print_true_message(container_name)
+    else:
+        print_false_message(container_name)
+
+
 if __name__ == '__main__':
     if not os.geteuid() == 0:
         print("You need root permission to use this script.")
