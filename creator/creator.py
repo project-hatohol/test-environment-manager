@@ -6,6 +6,7 @@ import sys
 base_name = "env_base"
 base = lxc.Container(base_name)
 
+
 def print_success_message(name):
     print("Create Container: %s" % name)
 
@@ -155,7 +156,7 @@ def create_zabbix_agent22():
         zabbix_agent22.start()
         zabbix_agent22.get_ips(timeout=30)
         zabbix_agent22.attach_wait(lxc.attach_run_command,
-                                    ["rpm", "-ivh", rpm_url])
+                                   ["rpm", "-ivh", rpm_url])
         zabbix_agent22.attach_wait(lxc.attach_run_command,
                                    ["yum", "install", "-y",
                                     "zabbix-agent"])
@@ -168,6 +169,7 @@ def create_zabbix_agent22():
 
     else:
         print_exists_message(container_name)
+
 
 def create_zabbix_agent20():
     container_name = "env_zabbix_agent20"
@@ -443,7 +445,7 @@ def create_fluentd():
         fluentd.attach_wait(lxc.attach_run_command,
                             ["wget", "-P", "/etc/yum.repos.d", repo_url])
         fluentd.attach_wait(lxc.attach_run_command,
-                        ["yum", "install", "-y", "td-agent"])
+                            ["yum", "install", "-y", "td-agent"])
 
         fluentd.attach_wait(lxc.attach_run_command,
                             ["service", "td-agent", "start"])
@@ -481,12 +483,12 @@ def create_redmine():
         redmine.attach_wait(lxc.attach_run_command,
                             ["yum", "groupinstall", "-y", "Development Tools"])
         redmine.attach_wait(lxc.attach_run_command,
-                        ["yum", "install", "-y",
-                         "openssl-devel", "readline-devel", "zlib-devel",
-                         "curl-devel", "libyaml-devel", "mysql-server",
-                         "mysql-devel", "httpd", "httpd-devel",
-                         "ImageMagick", "ImageMagick-devel",
-                         "ipa-pgothic-fonts", "wget"])
+                            ["yum", "install", "-y",
+                             "openssl-devel", "readline-devel", "zlib-devel",
+                             "curl-devel", "libyaml-devel", "mysql-server",
+                             "mysql-devel", "httpd", "httpd-devel",
+                             "ImageMagick", "ImageMagick-devel",
+                             "ipa-pgothic-fonts", "wget"])
         redmine.attach_wait(lxc.attach_run_command,
                             ["curl", "-O", ruby_install_url])
         redmine.attach_wait(lxc.attach_run_command,
@@ -530,7 +532,7 @@ def create_redmine():
 
         redmine.attach_wait(lxc.attach_run_command,
                             ["sed", "-i", "-e", "292d",
-                            "/etc/httpd/conf/httpd.conf"])
+                             "/etc/httpd/conf/httpd.conf"])
         redmine.attach_wait(lxc.attach_run_command,
                             ["sed", "-i", "-e",
                              "291 a\\DocumentRoot /var/lib/redmine/public",
