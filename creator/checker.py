@@ -4,30 +4,20 @@ import os
 import sys
 
 
-base_name = "env_base"
-zabbix_server22_name = "env_zabbix_server22"
-zabbix_server20_name = "env_zabbix_server20"
-zabbix_agent22_name = "env_zabbix_agent22"
-zabbix_agent20_name = "env_zabbix_agent20"
-nagios_server3_name = "env_nagios_server3"
-nagios_server4_name = "env_nagios_server4"
-nagios_nrpe_name = "env_nagios_nrpe"
-hatohol_build_name = "env_hatohol_build"
-hatohol_rpm_name = "env_hatohol_rpm"
-fluentd_name = "env_fluentd"
-redmine_name = "env_redmine"
-base = lxc.Container(base_name)
-zabbix_server22 = lxc.Container(zabbix_server22_name)
-zabbix_server20 = lxc.Container(zabbix_server20_name)
-zabbix_agent22 = lxc.Container(zabbix_agent22_name)
-zabbix_agent20 = lxc.Container(zabbix_agent20_name)
-nagios_server3 = lxc.Container(nagios_server3_name)
-nagios_server4 = lxc.Container(nagios_server4_name)
-nagios_nrpe = lxc.Container(nagios_nrpe_name)
-hatohol_build = lxc.Container(hatohol_build_name)
-hatohol_rpm = lxc.Container(hatohol_rpm_name)
-fluentd = lxc.Container(fluentd_name)
-redmine = lxc.Container(redmine_name)
+containers_name = {
+    "base": "env_base",
+    "zabbix_server22": "env_zabbix_server22",
+    "zabbix_server20": "env_zabbix_server20",
+    "zabbix_agent22": "env_zabbix_agent22",
+    "zabbix_agent20": "env_zabbix_agent20",
+    "nagios_server3": "env_nagios_server3",
+    "nagios_server4": "env_nagios_server4",
+    "nagios_nrpe": "env_nagios_nrpe",
+    "hatohol_build": "env_hatohol_build",
+    "hatohol_rpm": "env_hatohol_rpm",
+    "fluentd": "env_fluentd",
+    "redmine": "env_redmine"
+}
 
 
 def print_true_message(name):
@@ -38,26 +28,26 @@ def print_false_message(name):
     print("Container \"%s\": false" % name)
 
 
-def is_container_existed(container, container_name):
-    if container.defined:
-        print_true_message(container_name)
+def is_container_existed(container):
+    if lxc.Container(containers_name[container]).defined:
+        print_true_message(containers_name[container])
     else:
-        print_false_message(container_name)
+        print_false_message(containers_name[container])
 
 
 def check_container_exist():
-    is_container_existed(base, base_name)
-    is_container_existed(zabbix_server22, zabbix_server22_name)
-    is_container_existed(zabbix_server20, zabbix_server20_name)
-    is_container_existed(zabbix_agent22, zabbix_agent22_name)
-    is_container_existed(zabbix_agent20, zabbix_agent20_name)
-    is_container_existed(nagios_server3, nagios_server3_name)
-    is_container_existed(nagios_server4, nagios_server4_name)
-    is_container_existed(nagios_nrpe, nagios_nrpe_name)
-    is_container_existed(hatohol_build, hatohol_build_name)
-    is_container_existed(hatohol_rpm, hatohol_rpm_name)
-    is_container_existed(fluentd, fluentd_name)
-    is_container_existed(redmine, redmine_name)
+    is_container_existed("base")
+    is_container_existed("zabbix_server22")
+    is_container_existed("zabbix_server20")
+    is_container_existed("zabbix_agent22")
+    is_container_existed("zabbix_agent20")
+    is_container_existed("nagios_server3")
+    is_container_existed("nagios_server4")
+    is_container_existed("nagios_nrpe")
+    is_container_existed("hatohol_build")
+    is_container_existed("hatohol_rpm")
+    is_container_existed("fluentd")
+    is_container_existed("redmine")
 
 
 if __name__ == '__main__':
