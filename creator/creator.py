@@ -29,12 +29,12 @@ def create_base():
 
 
 def create_zabbix_server22():
-    zabbix_server22_name = "env_zabbix_server22"
-    zabbix_server22 = lxc.Container(zabbix_server22_name)
+    container_name = "env_zabbix_server22"
+    zabbix_server22 = lxc.Container(container_name)
     if not zabbix_server22.defined:
-        zabbix_server22 = base.clone(zabbix_server22_name, bdevtype="aufs",
+        zabbix_server22 = base.clone(container_name, bdevtype="aufs",
                                      flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(zabbix_server22_name)
+        print_success_message(container_name)
 
         rpm_url = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
         script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb22.sh"
@@ -82,12 +82,12 @@ def create_zabbix_server22():
 
 
 def create_zabbix_server20():
-    zabbix_server20_name = "env_zabbix_server20"
-    zabbix_server20 = lxc.Container(zabbix_server20_name)
+    container_name = "env_zabbix_server20"
+    zabbix_server20 = lxc.Container(container_name)
     if not zabbix_server20.defined:
-        zabbix_server20 = base.clone(zabbix_server20_name, bdevtype="aufs",
+        zabbix_server20 = base.clone(container_name, bdevtype="aufs",
                                      flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(zabbix_server20_name)
+        print_success_message(container_name)
 
         rpm_url = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
         script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb20.sh"
@@ -135,12 +135,12 @@ def create_zabbix_server20():
 
 
 def create_zabbix_agent22():
-    zabbix_agent22_name = "env_zabbix_agent22"
-    zabbix_agent22 = lxc.Container(zabbix_agent22_name)
+    container_name = "env_zabbix_agent22"
+    zabbix_agent22 = lxc.Container(container_name)
     if not zabbix_agent22.defined:
-        zabbix_agent22 = base.clone(zabbix_agent22_name, bdevtype="aufs",
+        zabbix_agent22 = base.clone(container_name, bdevtype="aufs",
                                     flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(zabbix_agent22_name)
+        print_success_message(container_name)
 
         rpm_url = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
         zabbix_agent22.start()
@@ -159,12 +159,12 @@ def create_zabbix_agent22():
 
 
 def create_zabbix_agent20():
-    zabbix_agent20_name = "env_zabbix_agent20"
-    zabbix_agent20 = lxc.Container(zabbix_agent20_name)
+    container_name = "env_zabbix_agent20"
+    zabbix_agent20 = lxc.Container(container_name)
     if not zabbix_agent20.defined:
-        zabbix_agent20 = base.clone(zabbix_agent20_name, bdevtype="aufs",
+        zabbix_agent20 = base.clone(container_name, bdevtype="aufs",
                                     flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(zabbix_agent20_name)
+        print_success_message(container_name)
 
         rpm_url = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
         zabbix_agent20.start()
@@ -183,12 +183,12 @@ def create_zabbix_agent20():
 
 
 def create_nagios_server3():
-    nagios_server3_name = "env_nagios_server3"
-    nagios_server3 = lxc.Container(nagios_server3_name)
+    container_name = "env_nagios_server3"
+    nagios_server3 = lxc.Container(container_name)
     if not nagios_server3.defined:
-        nagios_server3 = base.clone(nagios_server3_name, bdevtype="aufs",
+        nagios_server3 = base.clone(container_name, bdevtype="aufs",
                                     flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(nagios_server3_name)
+        print_success_message(container_name)
 
         rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
         script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
@@ -235,12 +235,12 @@ def create_nagios_server3():
 
 
 def create_nagios_server4():
-    nagios_server4_name = "env_nagios_server4"
-    nagios_server4 = lxc.Container(nagios_server4_name)
+    container_name = "env_nagios_server4"
+    nagios_server4 = lxc.Container(container_name)
     if not nagios_server4.defined:
-        nagios_server4 = base.clone(nagios_server4_name, bdevtype="aufs",
+        nagios_server4 = base.clone(container_name, bdevtype="aufs",
                                     flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(nagios_server4_name)
+        print_success_message(container_name)
 
         nagios_url = "http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.0.8.tar.gz"
         nagios_name = "nagios-4.0.8.tar.gz"
@@ -303,12 +303,12 @@ def create_nagios_server4():
 
 
 def create_nagios_nrpe():
-    nagios_nrpe_name = "env_nagios_nrpe"
-    nagios_nrpe = lxc.Container(nagios_nrpe_name)
+    container_name = "env_nagios_nrpe"
+    nagios_nrpe = lxc.Container(container_name)
     if not nagios_nrpe.defined:
-        nagios_nrpe = base.clone(nagios_nrpe_name, bdevtype="aufs",
+        nagios_nrpe = base.clone(container_name, bdevtype="aufs",
                                  flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(nagios_nrpe_name)
+        print_success_message(container_name)
 
         rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
         nagios_nrpe.start()
@@ -324,12 +324,12 @@ def create_nagios_nrpe():
 
 
 def create_hatohol_build():
-    hatohol_build_name = "env_hatohol_build"
-    hatohol_build = lxc.Container(hatohol_build_name)
+    container_name = "env_hatohol_build"
+    hatohol_build = lxc.Container(container_name)
     if not hatohol_build.defined:
-        hatohol_build = base.clone(hatohol_build_name, bdevtype="aufs",
+        hatohol_build = base.clone(container_name, bdevtype="aufs",
                                    flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(hatohol_build_name)
+        print_success_message(container_name)
 
         hatohol_build.start()
         hatohol_build.get_ips(timeout=30)
@@ -367,12 +367,12 @@ def create_hatohol_build():
 
 
 def create_hatohol_rpm():
-    hatohol_rpm_name = "env_hatohol_rpm"
-    hatohol_rpm = lxc.Container(hatohol_rpm_name)
+    container_name = "env_hatohol_rpm"
+    hatohol_rpm = lxc.Container(container_name)
     if not hatohol_rpm.defined:
-        hatohol_rpm = base.clone(hatohol_rpm_name, bdevtype="aufs",
+        hatohol_rpm = base.clone(container_name, bdevtype="aufs",
                                  flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(hatohol_rpm_name)
+        print_success_message(container_name)
 
         hatohol_rpm.start()
         hatohol_rpm.get_ips(timeout=30)
@@ -396,12 +396,12 @@ def create_hatohol_rpm():
 
 
 def create_fluentd():
-    fluentd_name = "env_fluentd"
-    fluentd = lxc.Container(fluentd_name)
+    container_name = "env_fluentd"
+    fluentd = lxc.Container(container_name)
     if not fluentd.defined:
-        fluentd = base.clone(fluentd_name, bdevtype="aufs",
+        fluentd = base.clone(container_name, bdevtype="aufs",
                              flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(fluentd_name)
+        print_success_message(container_name)
 
         GPG_url = "http://packages.treasuredata.com/GPG-KEY-td-agent"
         repo_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/fluentd.repo"
@@ -426,12 +426,12 @@ def create_fluentd():
 
 
 def create_redmine():
-    redmine_name = "env_redmine"
-    redmine = lxc.Container(redmine_name)
+    container_name = "env_redmine"
+    redmine = lxc.Container(container_name)
     if not redmine.defined:
-        redmine = base.clone(redmine_name, bdevtype="aufs",
+        redmine = base.clone(container_name, bdevtype="aufs",
                              flags=lxc.LXC_CLONE_SNAPSHOT)
-        print_success_message(redmine_name)
+        print_success_message(container_name)
 
         rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
         ruby_source_url = "http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p481.tar.gz"
