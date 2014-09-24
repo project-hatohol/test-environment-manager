@@ -43,12 +43,9 @@ def get_info_dict(machine_id):
 if __name__ == '__main__':
     print_frame()
 
-    machine_id = 0
-    while machine_id < len(container_name):
+    for machine_id in range(0,len(container_name)):
         if machine_id%20 == 0 and machine_id != 0:
             print_frame()
 
         print_info(get_info_dict(machine_id))
-
-        machine_id += 1
 

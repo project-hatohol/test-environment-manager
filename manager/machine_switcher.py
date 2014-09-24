@@ -32,8 +32,7 @@ def separate_arg():
 def create_group_dict():
     dict = {}
 
-    machine_id = 0
-    while machine_id < len(container_name):
+    for machine_id in range(0,len(container_name)):
         group_path = open("/var/lib/lxc/" + container_name[machine_id] + "/group")
         group_lines = group_path.readlines()
         ld.close()
@@ -43,8 +42,6 @@ def create_group_dict():
             dict[group] = [machine_id]
         else:
             dict[group].append(machine_id)   
-
-        machine_id += 1
 
     return dict
 
