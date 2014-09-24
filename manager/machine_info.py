@@ -19,6 +19,10 @@ def print_info(info_dict):
           + "%-12s"%info_dict["host"] + " | " + "%-12s"%info_dict["ip"] 
           + " | " + container_obj[info_dict["id"]].state + " | ")
 
+def plug_frame(machine_id):
+    if machine_id % 20 == 0 and machine_id != 0:
+        print_frame()
+	
 def get_info_dict(machine_id):
     info_dict = {}
     conf_path = open("/var/lib/lxc/" + container_name[machine_id] + "/config")
@@ -44,8 +48,6 @@ if __name__ == '__main__':
     print_frame()
 
     for machine_id in range(0,len(container_name)):
-        if machine_id%20 == 0 and machine_id != 0:
-            print_frame()
-
+        plug_frame(machine_id)
         print_info(get_info_dict(machine_id))
 
