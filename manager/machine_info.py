@@ -56,7 +56,7 @@ def get_info_dict(machine_id):
 if __name__ == '__main__':
     print_frame()
 
-    for machine_id in range(0,len(container_name)):
+    for machine_id in range(len(container_name)):
         plug_frame(machine_id)
         print_info(get_info_dict(machine_id))
 
