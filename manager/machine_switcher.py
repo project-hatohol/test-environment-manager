@@ -28,12 +28,9 @@ def change_machine_state(machine_list):
         change_state(machine_id)
 
 def adjust_machine_id(arg_list):
-    machine_no = 0
-    while machine_no < len(arg_list):
-        arg_list[machine_no] -= 1
-        machine_no += 1    
+    fixed_list = [int(machine_no) - 1 for machine_no in arg_list]    
 
-    return arg_list
+    return fixed_list
 
 def separate_arg():
     lists = []
