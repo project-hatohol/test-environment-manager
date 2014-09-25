@@ -34,16 +34,16 @@ def get_config_info(info_dict, machine_id):
     conf_file = open("/var/lib/lxc/" + container_name[machine_id] + "/config")
     conf_lines = conf_file.readlines()
     conf_file.close()
-    
+
     for line in conf_lines:
         if line.find("lxc.network.ipv4 =") >= 0:
-            line = line.split("=")
-            line = line[1].split("/")
-            info_dict["ip"] = line[0].lstrip()
- 
+            (trash,address_and_mask) = line.split("=")
+            (address,mask) = address_and_mask.split("/")
+            info_dict["ip"] = address
+
         elif line.find("lxc.utsname =") >= 0:
-            line = line.split("=")
-            info_dict["host"] = line[1].rstrip()
+            (trash,host) = line.split("=")
+            info_dict["host"] = host.rstrip()
 
 def get_info_dict(machine_id):
     info_dict = {}
