@@ -40,7 +40,7 @@ def separate_arg():
     for select in sys.argv[2:]:
         if "-" in select:
             select = select.split("-")
-            for num in range(int(select[0]),int(select[1]) + 1):
+            for num in range(int(select[0]), int(select[1]) + 1):
                 lists.append(num)
         else:
             lists.append(int(select))
