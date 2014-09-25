@@ -22,24 +22,33 @@ def print_info(info_dict):
 def plug_frame(machine_id):
     if machine_id % 20 == 0 and machine_id != 0:
         print_frame()
-	
-def get_info_dict(machine_id):
-    info_dict = {}
+
+def get_group_info(info_dict,machine_id):
+    group_path = open("/var/lib/lxc/" + container_name[machine_id] + "/group")
+    group_lines = group_path.readlines()
+    group_path.close()
+
+    info_dict["group"] = group_lines[0].rstrip()
+
+def get_config_info(info_dict,machine_id):
     conf_path = open("/var/lib/lxc/" + container_name[machine_id] + "/config")
     conf_lines = conf_path.readlines()
     conf_path.close()
     
     for line in conf_lines:
         if line.find("lxc.network.ipv4 =") >= 0:
-            info_dict["ip"] = line[19:-4]
-        if line.find("lxc.utsname =") >= 0:
-            info_dict["host"] = line[14:-1]
+            line = line.split("=")
+            line = line[1].split("/")
+            info_dict["ip"] = line[0].lstrip()
 
-    group_path = open("/var/lib/lxc/" + container_name[machine_id] + "/group")
-    group_lines = group_path.readlines()
-    group_path.close()
+        elif line.find("lxc.utsname =") >= 0:
+            line = line.split("=")
+            info_dict["host"] = line[1].rstrip()
 
-    info_dict["group"] = group_lines[0].rstrip()
+def get_info_dict(machine_id):
+    info_dict = {}
+    get_config_info(info_dict,machine_id)
+    get_group_info(info_dict,machine_id)
     info_dict["id"] = machine_id
 
     return info_dict
