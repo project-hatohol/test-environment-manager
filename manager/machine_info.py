@@ -13,34 +13,34 @@ def print_frame():
            + "%15s"%"HostName   |" + "%15s"%"IP      |" + "%10s"%"State  |")
     print ("-----------------------------------------------------------------")
 
-def print_info(info_dict):
-    print("%2s"%str(info_dict["id"] + 1) + " | " + "%-3s"%info_dict["group"] 
-          + " | " + "%-12s"%container_name[info_dict["id"]] + " | " 
-          + "%-12s"%info_dict["host"] + " | " + "%-12s"%info_dict["ip"] 
-          + " | " + container_obj[info_dict["id"]].state + " | ")
+def print_info(dict):
+    print("%2s"%str(dict["id"] + 1) + " | " + "%-3s"%dict["group"] 
+          + " | " + "%-12s"%container_name[dict["id"]] + " | " 
+          + "%-12s"%dict["host"] + " | " + "%-12s"%dict["ip"] 
+          + " | " + container_obj[dict["id"]].state + " | ")
 
-def plug_frame(machine_id):
-    if machine_id % 20 == 0 and machine_id != 0:
+def plug_frame(count):
+    if count % 20 == 0 and count != 0:
         print_frame()
 
-def get_group_info(info_dict,machine_id):
-    group_path = open("/var/lib/lxc/" + container_name[machine_id] + "/group")
-    group_lines = group_path.readlines()
-    group_path.close()
+def get_group_info(info_dict, machine_id):
+    group_file = open("/var/lib/lxc/" + container_name[machine_id] + "/group")
+    group_lines = group_file.readlines()
+    group_file.close()
 
     info_dict["group"] = group_lines[0].rstrip()
 
-def get_config_info(info_dict,machine_id):
-    conf_path = open("/var/lib/lxc/" + container_name[machine_id] + "/config")
-    conf_lines = conf_path.readlines()
-    conf_path.close()
+def get_config_info(info_dict, machine_id):
+    conf_file = open("/var/lib/lxc/" + container_name[machine_id] + "/config")
+    conf_lines = conf_file.readlines()
+    conf_file.close()
     
     for line in conf_lines:
         if line.find("lxc.network.ipv4 =") >= 0:
             line = line.split("=")
             line = line[1].split("/")
             info_dict["ip"] = line[0].lstrip()
-
+ 
         elif line.find("lxc.utsname =") >= 0:
             line = line.split("=")
             info_dict["host"] = line[1].rstrip()
@@ -56,7 +56,8 @@ def get_info_dict(machine_id):
 if __name__ == '__main__':
     print_frame()
 
-    for machine_id in range(len(container_name)):
+    container_list_len = len(container_name)
+    for machine_id in range(container_list_len):
         plug_frame(machine_id)
         print_info(get_info_dict(machine_id))
 
