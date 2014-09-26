@@ -51,8 +51,7 @@ def separate_id_list():
     for select_id in sys.argv[select_arg:]:
         if "-" in select_id:
             (min, max) = select_id.split("-")
-            for id in range(int(min), int(max)+1):
-                lists.append(id)
+            lists.extend(range(int(min), int(max)+1))
         else:
             lists.append(int(select_id))
     return lists
