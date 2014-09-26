@@ -13,6 +13,7 @@ def print_frame():
            + "%15s"%"HostName   |" + "%15s"%"IP      |" + "%10s"%"State  |")
     print ("-----------------------------------------------------------------")
 
+
 def print_info(dict):
     print("%2s"%str(dict["id"] + 1) + " | " + "%-3s"%dict["group"] 
           + " | " + "%-12s"%container_name[dict["id"]] + " | " 
