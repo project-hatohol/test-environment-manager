@@ -42,12 +42,12 @@ def get_group_info(info_dict, machine_id):
 def get_config_info(info_dict, machine_id):
     conf_lines = open_file(machine_id, "config")
     for line in conf_lines:
-        if line.find("lxc.network.ipv4 =") >= 0:
+        if line.find("lxc.network.ipv4") >= 0 and line.find("/") >= 0:
             (key, address_and_mask) = line.split("=")
             (address, mask) = address_and_mask.split("/")
             info_dict["ip"] = address
 
-        elif line.find("lxc.utsname =") >= 0:
+        elif line.find("lxc.utsname") >= 0:
             (key, host) = line.split("=")
             info_dict["host"] = host.rstrip()
 
