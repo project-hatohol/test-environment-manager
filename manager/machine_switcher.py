@@ -16,6 +16,7 @@ def toggle_state(machine_id):
     else:
         stop_state(machine_id, obj, name)
 
+
 def start_state(machine_id, obj, name):
     start_result = str(obj.start())
     print(name + " | " + "Start " + start_result)
