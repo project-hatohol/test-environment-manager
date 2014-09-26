@@ -20,19 +20,23 @@ def change_state(machine_id):
              stop = obj.stop()
              print(name + " | " + "Stop " + str(stop))
 
+
 def change_group_state(group_id_list):
     group_dict = create_group_dict()
     for group_id in group_id_list:
         change_machine_state(group_dict[group_id])
 
+
 def change_machine_state(machine_id_list):
     for machine_id in machine_id_list:
         change_state(machine_id)
+
 
 def convert_machine_num_to_id(machine_num_list):
     machine_id_list = [int(machine_num) - 1 for machine_num in machine_num_list]    
 
     return machine_id__list
+
 
 def separate_id_list():
     lists = []
@@ -46,6 +50,7 @@ def separate_id_list():
         else:
             lists.append(int(select_id))
     return lists
+
 
 def create_group_dict():
     dict = {}
@@ -62,6 +67,7 @@ def create_group_dict():
             dict[group_id].append(machine_id)   
 
     return dict
+
 
 if __name__ == '__main__':
     if sys.argv[1] == "m":   

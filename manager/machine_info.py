@@ -19,9 +19,11 @@ def print_info(dict):
           + "%-12s"%dict["host"] + " | " + "%-12s"%dict["ip"] 
           + " | " + container_obj[dict["id"]].state + " | ")
 
+
 def plug_frame(count):
     if count % 20 == 0 and count != 0:
         print_frame()
+
 
 def get_group_info(info_dict, machine_id):
     group_file = open("/var/lib/lxc/" + container_name[machine_id] + "/group")
@@ -29,6 +31,7 @@ def get_group_info(info_dict, machine_id):
     group_file.close()
 
     info_dict["group"] = group_lines[0].rstrip()
+
 
 def get_config_info(info_dict, machine_id):
     conf_file = open("/var/lib/lxc/" + container_name[machine_id] + "/config")
@@ -45,6 +48,7 @@ def get_config_info(info_dict, machine_id):
             (trash,host) = line.split("=")
             info_dict["host"] = host.rstrip()
 
+
 def get_info_dict(machine_id):
     info_dict = {}
     get_config_info(info_dict,machine_id)
@@ -52,6 +56,7 @@ def get_info_dict(machine_id):
     info_dict["id"] = machine_id
 
     return info_dict
+
 
 if __name__ == '__main__':
     print_frame()
