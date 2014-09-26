@@ -31,7 +31,7 @@ def stop_state(machine_id, obj, name):
 def toggle_state_for_group(group_id_list):
     group_dict = create_group_dict()
     for group_id in group_id_list:
-        toglle_each_machine_state(group_dict[group_id])
+        toggle_each_machine_state(group_dict[group_id])
 
 
 def toggle_each_machine_state(machine_id_list):
@@ -42,7 +42,7 @@ def toggle_each_machine_state(machine_id_list):
 def convert_machine_nums_to_ids(machine_num_list):
     machine_id_list = [int(machine_num) - 1 for machine_num in machine_num_list]    
 
-    return machine_id__list
+    return machine_id_list
 
 
 def separate_id_list():
@@ -51,7 +51,7 @@ def separate_id_list():
     for select_id in sys.argv[select_arg:]:
         if "-" in select_id:
             (min, max) = select_id.split("-")
-            for id in range(min, max+1):
+            for id in range(int(min), int(max)+1):
                 lists.append(id)
         else:
             lists.append(int(select_id))
@@ -78,7 +78,7 @@ def create_group_dict():
 if __name__ == '__main__':
     if sys.argv[1] == "m":   
         machine_num_list = separate_id_list()
-        machine_id_list = convert_machine_num_to_id(machine_num_list)
+        machine_id_list = convert_machine_nums_to_ids(machine_num_list)
         toggle_each_machine_state(machine_id_list)
 
     elif sys.argv[1] == "g":
