@@ -27,19 +27,20 @@ def plug_template(count):
         print_template()
 
 
-def get_group_info(info_dict, machine_id):
-    group_file = open("/var/lib/lxc/" + container_list[machine_id] + "/group")
-    group_lines = group_file.readlines()
-    group_file.close()
+def open_file(machine_id, file_name):
+    file = open("/var/lib/lxc/" + container_list[machine_id] + "/" + file_name)
+    lines = file.readlines()
+    file.close()
 
-    info_dict["group"] = group_lines[0].rstrip()
+    return lines
+
+
+def get_group_info(info_dict, machine_id):
+    info_dict["group"] = open_file(machine_id, "group")[0].rstrip()
 
 
 def get_config_info(info_dict, machine_id):
-    conf_file = open("/var/lib/lxc/" + container_list[machine_id] + "/config")
-    conf_lines = conf_file.readlines()
-    conf_file.close()
-
+    conf_lines = open_file(machine_id, "config")
     for line in conf_lines:
         if line.find("lxc.network.ipv4 =") >= 0:
             (key, address_and_mask) = line.split("=")
