@@ -11,14 +11,21 @@ def toggle_state(machine_id):
     obj = container_obj_list[machine_id]
     name = container_list[machine_id]
     if obj.state == "STOPPED":
-            start_result = str(obj.start())
-            print(name + " | " + "Start " + start_result)
+        start_state(machine_id, obj, name)
     else:
-        succeed_shutdown = obj.shutdown()
-        print(name + " | " + "Shutdown " + str(succed_shutdown))
-        if not succeed_shutdown:
-             stop = obj.stop()
-             print(name + " | " + "Stop " + str(stop))
+        stop_state(machine_id, obj, name)
+
+def start_state(machine_id, obj, name):
+    start_result = str(obj.start())
+    print(name + " | " + "Start " + start_result)
+
+
+def stop_state(machine_id, obj, name):
+    succeed_shutdown = obj.shutdown()
+    print(name + " | " + "Shutdown " + str(succeed_shutdown))
+    if not succeed_shutdown:
+        stop = obj.stop()
+        print(name + " | " + "Stop " + str(stop))
 
 
 def toggle_state_for_group(group_id_list):
