@@ -3,6 +3,7 @@
 import lxc
 import sys
 import os.path
+import machine_info
 
 container_list = lxc.list_containers()
 container_obj_list = lxc.list_containers(as_object=True)
@@ -59,12 +60,8 @@ def separate_id_list():
 
 def create_group_dict():
     dict = {}
-    container_list_len = len(container_list)
-    for machine_id in range(container_list_len):
-        group_file = open("/var/lib/lxc/" + container_list[machine_id] + "/group")
-        group_lines = group_file.readlines()
-        group_file.close()
-        group_id = int(group_lines[0].rstrip())
+    for machine_id in range(len(container_list)):
+        group_id = int(machine_info.open_file(machine_id, "group")[0].rstrip())
         
         if group_id not in dict:
             dict[group_id] = [machine_id]
