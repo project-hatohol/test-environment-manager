@@ -45,11 +45,11 @@ def get_config_info(info_dict, machine_id):
         if line.find("lxc.network.ipv4") >= 0 and line.find("/") >= 0:
             (key, address_and_mask) = line.split("=")
             (address, mask) = address_and_mask.split("/")
-            info_dict["ip"] = address
+            info_dict["ip"] = address.lstrip()
 
         elif line.find("lxc.utsname") >= 0:
             (key, host) = line.split("=")
-            info_dict["host"] = host.rstrip()
+            info_dict["host"] = host.strip()
 
 
 def get_info_dict(machine_id):
