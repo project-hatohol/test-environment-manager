@@ -23,7 +23,7 @@ def print_container_info(dict):
 
 def insert_header(line_number):
     punctuation = 20
-    if line_number % punctuation == 0 and line_number != 0:
+    if line_number % punctuation == 0:
         print_header()
 
 
@@ -62,8 +62,6 @@ def get_info_dict(machine_id):
 
 
 if __name__ == '__main__':
-    print_header()
-
     for machine_id in range(len(container_list)):
         insert_header(machine_id)
         print_container_info(get_info_dict(machine_id))
