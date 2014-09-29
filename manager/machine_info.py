@@ -7,7 +7,7 @@ import os.path
 container_list = lxc.list_containers()
 container_obj_list = lxc.list_containers(as_object=True)
 
-def print_template():
+def print_header():
     print ("-----------------------------------------------------------------")
     print ("%-3s"%"No" + "|" + "%5s"%"Group" + "|" + "%15s"%"Name     |"
            + "%15s"%"HostName   |" + "%15s"%"IP      |" + "%10s"%"State  |")
@@ -21,13 +21,13 @@ def print_container_info(dict):
           + " | " + container_obj_list[dict["id"]].state + " | ")
 
 
-def plug_template(count):
+def insert_header(line_number):
     punctuation = 20
-    if count % punctuation == 0 and count != 0:
-        print_template()
+    if line_number % punctuation == 0 and line_number != 0:
+        print_header()
 
 
-def open_file(machine_id, file_name):
+def read_file(machine_id, file_name):
     file = open("/var/lib/lxc/" + container_list[machine_id] + "/" + file_name)
     lines = file.readlines()
     file.close()
@@ -36,11 +36,11 @@ def open_file(machine_id, file_name):
 
 
 def get_group_info(info_dict, machine_id):
-    info_dict["group"] = open_file(machine_id, "group")[0].rstrip()
+    info_dict["group"] = read_file(machine_id, "group")[0].rstrip()
 
 
 def get_config_info(info_dict, machine_id):
-    conf_lines = open_file(machine_id, "config")
+    conf_lines = read_file(machine_id, "config")
     for line in conf_lines:
         if line.find("lxc.network.ipv4") >= 0 and line.find("/") >= 0:
             (key, address_and_mask) = line.split("=")
@@ -62,9 +62,9 @@ def get_info_dict(machine_id):
 
 
 if __name__ == '__main__':
-    print_template()
+    print_header()
 
     for machine_id in range(len(container_list)):
-        plug_template(machine_id)
+        insert_header(machine_id)
         print_container_info(get_info_dict(machine_id))
 

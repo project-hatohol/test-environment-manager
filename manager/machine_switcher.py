@@ -12,31 +12,31 @@ def toggle_state(machine_id):
     obj = container_obj_list[machine_id]
     name = container_list[machine_id]
     if obj.state == "STOPPED":
-        start_state(machine_id, obj, name)
+        change_state_to_start(machine_id, obj, name)
     else:
-        stop_state(machine_id, obj, name)
+        change_state_to_stop(machine_id, obj, name)
 
 
-def start_state(machine_id, obj, name):
-    start_result = str(obj.start())
-    print(name + " | " + "Start " + start_result)
+def change_state_to_start(machine_id, obj, name):
+    succeed_start = obj.start()
+    print(name + " | " + "Start " + str(succeed_start))
 
 
-def stop_state(machine_id, obj, name):
+def change_state_to_stop(machine_id, obj, name):
     succeed_shutdown = obj.shutdown()
     print(name + " | " + "Shutdown " + str(succeed_shutdown))
     if not succeed_shutdown:
-        stop = obj.stop()
-        print(name + " | " + "Stop " + str(stop))
+        succeed_stop = obj.stop()
+        print(name + " | " + "Stop " + str(succeed_stop))
 
 
 def toggle_state_for_group(group_id_list):
     group_dict = create_group_dict()
     for group_id in group_id_list:
-        toggle_each_machine_state(group_dict[group_id])
+        toggle_state_for_each_machine(group_dict[group_id])
 
 
-def toggle_each_machine_state(machine_id_list):
+def toggle_state_for_each_machine(machine_id_list):
     for machine_id in machine_id_list:
         toggle_state(machine_id)
 
@@ -47,10 +47,10 @@ def convert_machine_nums_to_ids(machine_num_list):
     return machine_id_list
 
 
-def separate_id_list():
+def enum_id_list():
     lists = []
-    select_arg = 2
-    for select_id in sys.argv[select_arg:]:
+    select_id_list = 2
+    for select_id in sys.argv[select_id_list:]:
         if "-" in select_id:
             (min, max) = select_id.split("-")
             lists.extend(range(int(min), int(max)+1))
@@ -62,7 +62,7 @@ def separate_id_list():
 def create_group_dict():
     dict = {}
     for machine_id in range(len(container_list)):
-        group_id = int(machine_info.open_file(machine_id, "group")[0].rstrip())
+        group_id = int(machine_info.read_file(machine_id, "group")[0].rstrip())
         
         if group_id not in dict:
             dict[group_id] = [machine_id]
@@ -74,12 +74,12 @@ def create_group_dict():
 
 if __name__ == '__main__':
     if sys.argv[1] == "m":   
-        machine_num_list = separate_id_list()
+        machine_num_list = enum_id_list()
         machine_id_list = convert_machine_nums_to_ids(machine_num_list)
-        toggle_each_machine_state(machine_id_list)
+        toggle_state_for_each_machine(machine_id_list)
 
     elif sys.argv[1] == "g":
-        group_id_list = separate_id_list()
+        group_id_list = enum_id_list()
         toggle_state_for_group(group_id_list)
 
     else:
