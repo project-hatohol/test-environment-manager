@@ -33,6 +33,12 @@ class TestMachineInfo(unittest.TestCase):
         self.assertTrue("No" in lines[1])
 
 
+    def test_print_container_info(self):
+        get_output("output_container_info", machine_info.print_container_info, dict = test_dict)
+        lines = read_file("output_container_info")
+        self.assertTrue("machine1_1" in lines[0])
+
+
 if __name__ == '__main__':
     unittest.main()
 
