@@ -8,10 +8,10 @@ container_list = lxc.list_containers()
 container_obj_list = lxc.list_containers(as_object=True)
 
 def print_header():
-    print ("-----------------------------------------------------------------")
-    print ("%-3s"%"No" + "|" + "%5s"%"Group" + "|" + "%15s"%"Name     |"
-           + "%15s"%"HostName   |" + "%15s"%"IP      |" + "%10s"%"State  |")
-    print ("-----------------------------------------------------------------")
+    print ("-----------------------------------------------------------------\n"
+           + "%-3s"%"No" + "|" + "%5s"%"Group" + "%-15s"%"| Name"
+           + "%-15s"%"| HostName" + "%-15s"%"| IP" + "%-7s"%"| State   |\n"
+           "-----------------------------------------------------------------")
 
 
 def print_container_info(dict):
