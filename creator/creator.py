@@ -405,19 +405,39 @@ def create_hatohol_rpm():
         hatohol_rpm.start()
         hatohol_rpm.get_ips(timeout=30)
         repo_url = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
+        epel_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
         hatohol_rpm.attach_wait(lxc.attach_run_command,
                                 ["yum", "install", "-y", "wget"])
         hatohol_rpm.attach_wait(lxc.attach_run_command,
                                 ["wget", "-P", "/etc/yum.repos.d", repo_url])
         hatohol_rpm.attach_wait(lxc.attach_run_command,
+                                ["rpm", "-ivh", epel_url])
+        hatohol_rpm.attach_wait(lxc.attach_run_command,
                                 ["yum", "install", "-y",
-                                 "hatohol", "hatohol-client"])
+                                 "hatohol", "hatohol-client",
+                                 "python-argparse"])
 
         hatohol_rpm.attach_wait(lxc.attach_run_command,
                                 ["chkconfig", "mysqld", "on"])
         hatohol_rpm.attach_wait(lxc.attach_run_command,
                                 ["service", "mysqld", "start"])
-        # TODO: Add Process after 14.09 is released.
+        hatohol_rpm.attach_wait(lxc.attach_run_command,
+                                ["hatohol-db-initiator", "hatohol",
+                                 "root", ""])
+        hatohol_rpm.attach_wait(lxc.attach_run_command,
+                                ["mysql", "-uroot", "-e"
+                                 "CREATE DATABASE hatohol_client;"])
+        hatohol_rpm.attach_wait(lxc.attach_run_command,
+                                ["mysql", "-uroot", "-e"
+                                 "GRANT ALL PRIVILEGES ON hatohol_client.* TO hatohol@localhost IDENTIFIED BY 'hatohol';"])
+        hatohol_rpm.attach_wait(lxc.attach_run_command,
+                                ["/usr/libexec/hatohol/client/manage.py",
+                                 "syncdb"])
+
+        hatohol_rpm.attach_wait(lxc.attach_run_command,
+                                ["chkconfig", "hatohol", "on"])
+        hatohol_rpm.attach_wait(lxc.attach_run_command,
+                                ["chkconfig", "httpd", "on"])
 
         if not hatohol_rpm.shutdown(30):
             hatohol_rpm.stop()
