@@ -83,7 +83,7 @@ def check_zabbix_agent_container(container_name):
         container.stop()
 
 def check_nagios_server3_container():
-    container_name = containers_name["nagios_server3"]
+    container_name = "nagios_server3"
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
@@ -94,7 +94,7 @@ def check_nagios_server3_container():
 
 
 def check_nagios_server4_container():
-    container_name = containers_name["nagios_server4"]
+    container_name = "nagios_server4"
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
