@@ -62,6 +62,13 @@ def is_provided_file_existence(file_path):
         print("The file isn't existed: \"%s\"" % file_path)
 
 
+def is_provided_directory_existence(directory_path):
+    if os.path.isdir(directory_path):
+        print("The directory is existed: \"%s\"" % directory_path)
+    else:
+        print("The directory is existed: \"%s\"" % directory_path)
+
+
 def check_zabbix_server_container(container_name):
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
