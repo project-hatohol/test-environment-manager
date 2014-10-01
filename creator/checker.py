@@ -68,6 +68,15 @@ def check_zabbix_server_container(container_name):
         container.stop()
 
 
+def check_zabbix_agent_container(container_name):
+    container = lxc.Container(containers_name[container_name])
+    container.start()
+    container.attach_wait(is_provided_command_existence, "/usr/sbin/zabbix_agentd")
+
+    if not container.shutdown(30):
+        container.stop()
+
+
 def check_hatohol_container():
     container = lxc.Container(containers_name["hatohol_rpm"])
     container.start()
