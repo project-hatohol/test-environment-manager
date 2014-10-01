@@ -63,6 +63,7 @@ def is_provided_command_existence(command_path):
 
 
 def check_zabbix_server_container(container_name):
+    print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_command_existence, "/usr/sbin/zabbix_server")
@@ -73,6 +74,7 @@ def check_zabbix_server_container(container_name):
 
 
 def check_zabbix_agent_container(container_name):
+    print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_command_existence, "/usr/sbin/zabbix_agentd")
@@ -83,6 +85,7 @@ def check_zabbix_agent_container(container_name):
 
 def check_hatohol_container():
     container_name = containers_name["hatohol_rpm"]
+    print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
     container.attach_wait(is_provided_command_existence, "/usr/sbin/hatohol")
