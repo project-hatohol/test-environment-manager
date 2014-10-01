@@ -55,19 +55,19 @@ def check_container_exist():
     is_container_existed("redmine")
 
 
-def is_provided_command_existence(command_path):
-    if os.path.isfile(command_path):
-        print("The command is existed: \"%s\"" % command_path)
+def is_provided_file_existence(file_path):
+    if os.path.isfile(file_path):
+        print("The file is existed: \"%s\"" % file_path)
     else:
-        print("The command isn't existed: \"%s\"" % command_path)
+        print("The file isn't existed: \"%s\"" % file_path)
 
 
 def check_zabbix_server_container(container_name):
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_provided_command_existence, "/usr/sbin/zabbix_server")
-    container.attach_wait(is_provided_command_existence, "/usr/sbin/zabbix_agentd")
+    container.attach_wait(is_provided_file_existence, "/usr/sbin/zabbix_server")
+    container.attach_wait(is_provided_file_existence, "/usr/sbin/zabbix_agentd")
 
     if not container.shutdown(30):
         container.stop()
@@ -77,7 +77,7 @@ def check_zabbix_agent_container(container_name):
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_provided_command_existence, "/usr/sbin/zabbix_agentd")
+    container.attach_wait(is_provided_file_existence, "/usr/sbin/zabbix_agentd")
 
     if not container.shutdown(30):
         container.stop()
@@ -87,7 +87,7 @@ def check_nagios_server3_container():
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_provided_command_existence, "/usr/sbin/nagios")
+    container.attach_wait(is_provided_file_existence, "/usr/sbin/nagios")
 
     if not container.shutdown(30):
         container.stop()
@@ -98,7 +98,7 @@ def check_nagios_server4_container():
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_provided_command_existence, "/usr/local/nagios/bin/nagios")
+    container.attach_wait(is_provided_file_existence, "/usr/local/nagios/bin/nagios")
 
     if not container.shutdown(30):
         container.stop()
@@ -109,7 +109,7 @@ def check_hatohol_container():
     print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
-    container.attach_wait(is_provided_command_existence, "/usr/sbin/hatohol")
+    container.attach_wait(is_provided_file_existence, "/usr/sbin/hatohol")
 
     if not container.shutdown(30):
         container.stop()
