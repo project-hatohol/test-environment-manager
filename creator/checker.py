@@ -2,6 +2,7 @@
 import lxc
 import os
 import sys
+import os.path
 
 
 containers_name = {
@@ -48,6 +49,13 @@ def check_container_exist():
     is_container_existed("hatohol_rpm")
     is_container_existed("fluentd")
     is_container_existed("redmine")
+
+
+def is_hatohol_command_existence():
+    if os.path.isfile("/usr/sbin/hatohol"):
+        print("Hatohol command exists")
+    else:
+        print("Hatohol command doesn't exist.")
 
 
 if __name__ == '__main__':
