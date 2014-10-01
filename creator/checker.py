@@ -93,6 +93,17 @@ def check_nagios_server3_container():
         container.stop()
 
 
+def check_nagios_server4_container():
+    container_name = containers_name["nagios_server4"]
+    print_container_name(container_name)
+    container = lxc.Container(containers_name[container_name])
+    container.start()
+    container.attach_wait(is_provided_command_existence, "/usr/local/nagios/bin/nagios")
+
+    if not container.shutdown(30):
+        container.stop()
+
+
 def check_hatohol_container():
     container_name = containers_name["hatohol_rpm"]
     print_container_name(container_name)
