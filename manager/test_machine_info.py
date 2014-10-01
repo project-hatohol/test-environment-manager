@@ -39,6 +39,20 @@ class TestMachineInfo(unittest.TestCase):
         self.assertTrue("machine1_1" in lines[0])
 
 
+    def test_insert_header(self):
+        for test_line in [0, 10, 20]:
+            get_output("output_insert_header", machine_info.insert_header, line_number=test_line)
+            lines = read_file("output_insert_header")
+            if test_line % 20 == 0:
+                self.assertTrue("-" in lines[0])
+            else:
+                self.assertFalse(lines)
+
+
+    def test_read_file(self):
+        self.assertTrue("1" in machine_info.read_file(0, "group")[0])
+
+
 if __name__ == '__main__':
     unittest.main()
 
