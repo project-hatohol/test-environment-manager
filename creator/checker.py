@@ -111,6 +111,18 @@ def check_nagios_server4_container():
         container.stop()
 
 
+def check_nagios_nrpe_container():
+    container_name = "nagios_nrpe"
+    print_container_name(container_name)
+    container = lxc.Container(containers_name[container_name])
+    container.start()
+    container.attach_wait(is_provided_file_existence, "/etc/nagios/nrpe.cfg")
+    container.attach_wait(is_provided_directory_existence, "/usr/lib64/nagios/plugins/")
+
+    if not container.shutdown(30):
+        container.stop()
+
+
 def check_hatohol_container():
     container_name = containers_name["hatohol_rpm"]
     print_container_name(container_name)
