@@ -82,7 +82,8 @@ def check_zabbix_agent_container(container_name):
 
 
 def check_hatohol_container():
-    container = lxc.Container(containers_name["hatohol_rpm"])
+    container_name = containers_name["hatohol_rpm"]
+    container = lxc.Container(container_name)
     container.start()
     container.attach_wait(is_provided_command_existence, "/usr/sbin/hatohol")
 
