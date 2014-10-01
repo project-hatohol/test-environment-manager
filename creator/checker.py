@@ -29,6 +29,10 @@ def print_container_non_exist_message(name):
     print("Container \"%s\": false" % name)
 
 
+def print_container_name(name):
+    print("Container name: %s" % name)
+
+
 def is_container_existed(container):
     if lxc.Container(containers_name[container]).defined:
         print_container_exist_message(containers_name[container])
