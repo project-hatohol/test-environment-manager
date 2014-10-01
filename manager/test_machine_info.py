@@ -53,6 +53,11 @@ class TestMachineInfo(unittest.TestCase):
         self.assertTrue("1" in machine_info.read_file(0, "group")[0])
 
 
+    def test_get_info_dict(self):
+        get_info_dict = machine_info.get_info_dict(0)
+        self.assertTrue(test_dict == get_info_dict)
+
+
     def test_get_group_info(self):
         test_dict = {}
         machine_info.get_group_info(test_dict, 0)
@@ -64,7 +69,7 @@ class TestMachineInfo(unittest.TestCase):
         self.assertTrue(test_dict["ip"] == "10.0.3.11")
         self.assertTrue(test_dict["host"] == "machine1_1")
 
-
+    
 if __name__ == '__main__':
     unittest.main()
 
