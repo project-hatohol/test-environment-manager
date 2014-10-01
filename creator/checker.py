@@ -75,7 +75,7 @@ def is_provided_command_existence(command_path):
 def check_hatohol_container():
     container = lxc.Container(containers_name["hatohol_rpm"])
     container.start()
-    container.attach_wait(is_hatohol_command_existence)
+    container.attach_wait(is_provided_command_existence, "/usr/sbin/hatohol")
 
     if not container.shutdown(30):
         container.stop()
