@@ -53,6 +53,12 @@ class TestMachineInfo(unittest.TestCase):
         self.assertTrue("1" in machine_info.read_file(0, "group")[0])
 
 
+    def test_get_group_info(self):
+        test_dict = {}
+        machine_info.get_group_info(test_dict, 1)
+        self.assertTrue(test_dict["group"] == "1")
+
+
 if __name__ == '__main__':
     unittest.main()
 
