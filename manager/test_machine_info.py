@@ -55,8 +55,14 @@ class TestMachineInfo(unittest.TestCase):
 
     def test_get_group_info(self):
         test_dict = {}
-        machine_info.get_group_info(test_dict, 1)
+        machine_info.get_group_info(test_dict, 0)
         self.assertTrue(test_dict["group"] == "1")
+
+
+    def test_get_config_info(self):
+        machine_info.get_config_info(test_dict, 0)
+        self.assertTrue(test_dict["ip"] == "10.0.3.11")
+        self.assertTrue(test_dict["host"] == "machine1_1")
 
 
 if __name__ == '__main__':
