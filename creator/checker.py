@@ -134,10 +134,21 @@ def check_hatohol_container():
         container.stop()
 
 
+def check_container_successfully():
+    check_hatohol_container()
+    check_zabbix_server_container("zabbix_server22")
+    check_zabbix_server_container("zabbix_server20")
+    check_zabbix_agent_container("zabbix_agent22")
+    check_zabbix_agent_container("zabbix_agent20")
+    check_nagios_server3_container()
+    check_nagios_server4_container()
+    check_nagios_nrpe_container()
+
+
 if __name__ == '__main__':
     if not os.geteuid() == 0:
         print("You need root permission to use this script.")
         sys.exit(1)
 
     check_container_exist()
-    check_hatohol_container()
+    check_container_successfully()
