@@ -82,6 +82,16 @@ def check_zabbix_agent_container(container_name):
     if not container.shutdown(30):
         container.stop()
 
+def check_nagios_server3_container():
+    container_name = containers_name["nagios_server3"]
+    print_container_name(container_name)
+    container = lxc.Container(containers_name[container_name])
+    container.start()
+    container.attach_wait(is_provided_command_existence, "/usr/sbin/nagios")
+
+    if not container.shutdown(30):
+        container.stop()
+
 
 def check_hatohol_container():
     container_name = containers_name["hatohol_rpm"]
