@@ -65,6 +65,13 @@ def is_zabbix_server_command_existence():
         print("Hatohol command doesn't exitst")
 
 
+def is_provided_command_existence(command_path):
+    if os.path.isfile(command_path):
+        print("The command is existed: \"%s\"" % command_path)
+    else:
+        print("The command isn't existed: \"%s\"" % command_path)
+
+
 def check_hatohol_container():
     container = lxc.Container(containers_name["hatohol_rpm"])
     container.start()
