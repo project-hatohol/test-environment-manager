@@ -58,9 +58,19 @@ def is_hatohol_command_existence():
         print("Hatohol command doesn't exist.")
 
 
+def check_hatohol_container():
+    container = lxc.Container(containers_name["hatohol_rpm"])
+    container.start()
+    container.attach_wait(is_hatohol_command_existence)
+
+    if not container.shutdown(30):
+        container.stop()
+
+
 if __name__ == '__main__':
     if not os.geteuid() == 0:
         print("You need root permission to use this script.")
         sys.exit(1)
 
     check_container_exist()
+    check_hatohol_container()
