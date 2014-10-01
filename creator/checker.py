@@ -51,20 +51,6 @@ def check_container_exist():
     is_container_existed("redmine")
 
 
-def is_hatohol_command_existence():
-    if os.path.isfile("/usr/sbin/hatohol"):
-        print("Hatohol command exists")
-    else:
-        print("Hatohol command doesn't exist.")
-
-
-def is_zabbix_server_command_existence():
-    if os.path.isfile("/usr/sbin/zabbix_server"):
-        print("zabbix_server command exists")
-    else:
-        print("Hatohol command doesn't exitst")
-
-
 def is_provided_command_existence(command_path):
     if os.path.isfile(command_path):
         print("The command is existed: \"%s\"" % command_path)
