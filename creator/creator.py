@@ -572,8 +572,8 @@ def create_redmine():
         redmine.attach_wait(lxc.attach_run_command,
                             ["chkconfig", "httpd", "on"])
 
-    if not redmine.shutdown(30):
-        redmine.stop()
+        if not redmine.shutdown(30):
+            redmine.stop()
 
     else:
         print_exists_message(container_name)
