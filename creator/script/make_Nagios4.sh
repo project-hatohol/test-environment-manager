@@ -7,11 +7,7 @@ NDOUTILS_NAME=ndoutils-2.0.0
 cd $NAGIOS_NAME
 ./configure --with-command-group=nagios
 make all
-make install
-make install-init
-make install-config
-make install-commandmode
-make install-webconf
+make fullinstall
 
 cp -R contrib/eventhandlers/ /usr/local/nagios/libexec/
 chown -R nagios:nagios /usr/local/nagios/libexec/eventhandlers
