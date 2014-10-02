@@ -102,6 +102,7 @@ def check_nagios_server3_container():
     container = lxc.Container(containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_file_existence, "/usr/sbin/nagios")
+    container.attach_wait(is_provided_file_existence, "/usr/sbin/ndo2db")
 
     if not container.shutdown(30):
         container.stop()
@@ -114,6 +115,7 @@ def check_nagios_server4_container():
     container = lxc.Container(containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_file_existence, "/usr/local/nagios/bin/nagios")
+    container.attach_wait(is_provided_file_existence, "/usr/local/nagios/bin/ndo2db")
 
     if not container.shutdown(30):
         container.stop()
