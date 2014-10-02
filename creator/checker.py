@@ -62,16 +62,16 @@ def check_container_exist():
 
 def is_provided_file_existence(file_path):
     if os.path.isfile(file_path):
-        print("\"%s\" file is existed: True" % file_path)
+        print("\"%s\" file exists: True" % file_path)
     else:
-        print("\"%s\" file is existed: False" % file_path)
+        print("\"%s\" file exists: False" % file_path)
 
 
 def is_provided_directory_existence(directory_path):
     if os.path.isdir(directory_path):
-        print("\"%s\" directory is existed: True" % directory_path)
+        print("\"%s\" directory exists: True" % directory_path)
     else:
-        print("\"%s\" directory is existed: False" % directory_path)
+        print("\"%s\" directory exists: False" % directory_path)
 
 
 def check_zabbix_server_container(container_name):
