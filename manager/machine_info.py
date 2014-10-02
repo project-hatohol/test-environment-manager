@@ -27,20 +27,25 @@ def insert_header(line_number):
         print_header()
 
 
-def read_file(machine_id, file_name):
-    file = open("/var/lib/lxc/" + container_list[machine_id] + "/" + file_name)
+def read_file(container_name, file_name):
+    file = open("/var/lib/lxc/" + container_name + "/" + file_name)
     lines = file.readlines()
     file.close()
 
     return lines
 
 
-def get_group_info(info_dict, machine_id):
-    info_dict["group"] = read_file(machine_id, "group")[0].rstrip()
+def get_container_name(machine_id):
+    container_name = container_list[machine_id]
+    return container_name
 
 
-def get_config_info(info_dict, machine_id):
-    conf_lines = read_file(machine_id, "config")
+def get_group_info(info_dict, container_name):
+    info_dict["group"] = read_file(container_name, "group")[0].rstrip()
+
+
+def get_config_info(info_dict, container_name):
+    conf_lines = read_file(container_name, "config")
     for line in conf_lines:
         if line.find("lxc.network.ipv4") >= 0 and line.find("/") >= 0:
             (key, address_and_mask) = line.split("=")
@@ -54,8 +59,9 @@ def get_config_info(info_dict, machine_id):
 
 def get_info_dict(machine_id):
     info_dict = {}
-    get_config_info(info_dict, machine_id)
-    get_group_info(info_dict, machine_id)
+    container_name = get_container_name(machine_id)
+    get_config_info(info_dict, container_name)
+    get_group_info(info_dict, container_name)
     info_dict["id"] = machine_id
 
     return info_dict
