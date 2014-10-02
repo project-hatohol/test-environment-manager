@@ -348,7 +348,8 @@ def create_nagios_nrpe():
                                 ["rpm", "-ivh", rpm_url])
         nagios_nrpe.attach_wait(lxc.attach_run_command,
                                 ["yum", "install", "-y",
-                                 "nagios-plugins-all"])
+                                 "nagios-plugins-all",
+                                 "nrpe"])
 
         if not nagios_nrpe.shutdown(30):
             nagios_nrpe.stop()
