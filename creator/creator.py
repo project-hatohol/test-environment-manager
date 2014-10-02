@@ -51,7 +51,8 @@ def create_zabbix_server22():
                                     ["yum", "install", "-y",
                                      "mysql-server", "httpd",
                                      "zabbix-server-mysql",
-                                     "zabbix-web-mysql"])
+                                     "zabbix-web-mysql",
+                                     "zabbix-agent"])
 
         zabbix_server22.attach_wait(lxc.attach_run_command,
                                     ["service", "mysqld", "start"])
@@ -80,6 +81,8 @@ def create_zabbix_server22():
                                     ["chkconfig", "httpd", "on"])
         zabbix_server22.attach_wait(lxc.attach_run_command,
                                     ["chkconfig", "zabbix-server", "on"])
+        zabbix_server22.attach_wait(lxc.attach_run_command,
+                                    ["chkconfig", "zabbix-agent", "on"])
 
         if not zabbix_server22.shutdown(30):
             zabbix_server22.stop()
@@ -107,7 +110,8 @@ def create_zabbix_server20():
                                     ["yum", "install", "-y",
                                      "mysql-server", "httpd",
                                      "zabbix-server-mysql",
-                                     "zabbix-web-mysql"])
+                                     "zabbix-web-mysql",
+                                     "zabbix-agent"])
 
         zabbix_server20.attach_wait(lxc.attach_run_command,
                                     ["service", "mysqld", "start"])
@@ -136,6 +140,8 @@ def create_zabbix_server20():
                                     ["chkconfig", "httpd", "on"])
         zabbix_server20.attach_wait(lxc.attach_run_command,
                                     ["chkconfig", "zabbix-server", "on"])
+        zabbix_server20.attach_wait(lxc.attach_run_command,
+                                    ["chkconfig", "zabbix-agent", "on"])
 
         if not zabbix_server20.shutdown(30):
             zabbix_server20.stop()
