@@ -134,6 +134,18 @@ def check_hatohol_container():
         container.stop()
 
 
+def check_redmine_container():
+    container_name = containers_name["redmine"]
+    print_container_name(container_name)
+    container = lxc.Container(container_name)
+    container.start()
+    container.attach_wait(is_provided_directory_existence, "/var/lib/redmine")
+    container.attach_wait(is_provided_file_existence, "/usr/local/bin/ruby")
+
+    if not container.shutdown(30):
+        container.stop()
+
+
 def check_container_successfully():
     check_hatohol_container()
     check_zabbix_server_container("zabbix_server22")
@@ -143,6 +155,7 @@ def check_container_successfully():
     check_nagios_server3_container()
     check_nagios_server4_container()
     check_nagios_nrpe_container()
+    check_redmine_container()
 
 
 if __name__ == '__main__':
