@@ -22,6 +22,9 @@ def create_base():
 
         base.start()
         base.get_ips(timeout=30)
+        print("Input password for root account:")
+        base.attach_wait(lxc.attach_run_command,
+                         ["passwd"])
         base.attach_wait(lxc.attach_run_command,
                          ["yum", "upgrade", "-y"])
 
