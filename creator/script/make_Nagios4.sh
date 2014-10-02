@@ -5,7 +5,7 @@ PLUGIN_NAME=nagios-plugins-2.0
 NDOUTILS_NAME=ndoutils-2.0.0
 
 cd $NAGIOS_NAME
-./configure --with-command-group=nagcmd
+./configure --with-command-group=nagios
 make all
 make install
 make install-init
