@@ -34,5 +34,4 @@ mysql -uroot ndoutils < db/mysql.sql
 
 chkconfig --add nagios
 chkconfig nagios on
-chkconfig --add httpd
 chkconfig httpd on
