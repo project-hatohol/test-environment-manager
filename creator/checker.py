@@ -3,23 +3,7 @@ import lxc
 import os
 import sys
 import os.path
-
-
-containers_name = {
-    "base": "env_base",
-    "zabbix_server22": "env_zabbix_server22",
-    "zabbix_server20": "env_zabbix_server20",
-    "zabbix_agent22": "env_zabbix_agent22",
-    "zabbix_agent20": "env_zabbix_agent20",
-    "nagios_server3": "env_nagios_server3",
-    "nagios_server4": "env_nagios_server4",
-    "nagios_nrpe": "env_nagios_nrpe",
-    "hatohol_build": "env_hatohol_build",
-    "hatohol_rpm": "env_hatohol_rpm",
-    "fluentd": "env_fluentd",
-    "redmine": "env_redmine"
-}
-
+import clist
 
 def print_container_exist_message(name):
     print("Container \"%s\": True" % name)
@@ -38,10 +22,10 @@ def print_new_line():
 
 
 def is_container_existed(container):
-    if lxc.Container(containers_name[container]).defined:
-        print_container_exist_message(containers_name[container])
+    if lxc.Container(clist.containers_name[container]).defined:
+        print_container_exist_message(clist.containers_name[container])
     else:
-        print_container_non_exist_message(containers_name[container])
+        print_container_non_exist_message(clist.containers_name[container])
 
 
 def check_container_exist():
@@ -76,7 +60,7 @@ def is_provided_directory_existence(directory_path):
 
 def check_zabbix_server_container(container_name):
     print_container_name(container_name)
-    container = lxc.Container(containers_name[container_name])
+    container = lxc.Container(clist.containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_file_existence, "/usr/sbin/zabbix_server")
     container.attach_wait(is_provided_file_existence, "/usr/sbin/zabbix_agentd")
@@ -88,7 +72,7 @@ def check_zabbix_server_container(container_name):
 
 def check_zabbix_agent_container(container_name):
     print_container_name(container_name)
-    container = lxc.Container(containers_name[container_name])
+    container = lxc.Container(clist.containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_file_existence, "/usr/sbin/zabbix_agentd")
 
@@ -99,7 +83,7 @@ def check_zabbix_agent_container(container_name):
 def check_nagios_server3_container():
     container_name = "nagios_server3"
     print_container_name(container_name)
-    container = lxc.Container(containers_name[container_name])
+    container = lxc.Container(clist.containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_file_existence, "/usr/sbin/nagios")
     container.attach_wait(is_provided_file_existence, "/usr/sbin/ndo2db")
@@ -112,7 +96,7 @@ def check_nagios_server3_container():
 def check_nagios_server4_container():
     container_name = "nagios_server4"
     print_container_name(container_name)
-    container = lxc.Container(containers_name[container_name])
+    container = lxc.Container(clist.containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_file_existence, "/usr/local/nagios/bin/nagios")
     container.attach_wait(is_provided_file_existence, "/usr/local/nagios/bin/ndo2db")
@@ -125,7 +109,7 @@ def check_nagios_server4_container():
 def check_nagios_nrpe_container():
     container_name = "nagios_nrpe"
     print_container_name(container_name)
-    container = lxc.Container(containers_name[container_name])
+    container = lxc.Container(clist.containers_name[container_name])
     container.start()
     container.attach_wait(is_provided_file_existence, "/etc/nagios/nrpe.cfg")
     container.attach_wait(is_provided_directory_existence, "/usr/lib64/nagios/plugins/")
@@ -136,7 +120,7 @@ def check_nagios_nrpe_container():
 
 
 def check_hatohol_container():
-    container_name = containers_name["hatohol_rpm"]
+    container_name = clist.containers_name["hatohol_rpm"]
     print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
@@ -148,7 +132,7 @@ def check_hatohol_container():
 
 
 def check_redmine_container():
-    container_name = containers_name["redmine"]
+    container_name = clist.containers_name["redmine"]
     print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
@@ -161,7 +145,7 @@ def check_redmine_container():
 
 
 def check_fluentd_container():
-    container_name = containers_name["fluentd"]
+    container_name = clist.containers_name["fluentd"]
     print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
