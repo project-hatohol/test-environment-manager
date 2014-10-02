@@ -33,6 +33,10 @@ def print_container_name(name):
     print("Container name: %s" % name)
 
 
+def print_new_line():
+    print("")
+
+
 def is_container_existed(container):
     if lxc.Container(containers_name[container]).defined:
         print_container_exist_message(containers_name[container])
@@ -53,6 +57,7 @@ def check_container_exist():
     is_container_existed("hatohol_rpm")
     is_container_existed("fluentd")
     is_container_existed("redmine")
+    print_new_line()
 
 
 def is_provided_file_existence(file_path):
@@ -78,6 +83,7 @@ def check_zabbix_server_container(container_name):
 
     if not container.shutdown(30):
         container.stop()
+    print_new_line()
 
 
 def check_zabbix_agent_container(container_name):
@@ -88,6 +94,7 @@ def check_zabbix_agent_container(container_name):
 
     if not container.shutdown(30):
         container.stop()
+    print_new_line()
 
 def check_nagios_server3_container():
     container_name = "nagios_server3"
@@ -98,6 +105,7 @@ def check_nagios_server3_container():
 
     if not container.shutdown(30):
         container.stop()
+    print_new_line()
 
 
 def check_nagios_server4_container():
@@ -109,6 +117,7 @@ def check_nagios_server4_container():
 
     if not container.shutdown(30):
         container.stop()
+    print_new_line()
 
 
 def check_nagios_nrpe_container():
@@ -121,6 +130,7 @@ def check_nagios_nrpe_container():
 
     if not container.shutdown(30):
         container.stop()
+    print_new_line()
 
 
 def check_hatohol_container():
@@ -132,6 +142,7 @@ def check_hatohol_container():
 
     if not container.shutdown(30):
         container.stop()
+    print_new_line()
 
 
 def check_redmine_container():
@@ -144,6 +155,7 @@ def check_redmine_container():
 
     if not container.shutdown(30):
         container.stop()
+    print_new_line()
 
 
 def check_fluentd_container():
@@ -155,6 +167,7 @@ def check_fluentd_container():
 
     if not container.shutdown(30):
         container.stop()
+    print_new_line()
 
 
 def check_container_successfully():
