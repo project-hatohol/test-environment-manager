@@ -25,7 +25,7 @@ make install
 cd ../$NDOUTILS_NAME
 ./configure
 make
-make install
+make fullinstall
 cp src/ndo2db-4x src/ndomod-4x.o /usr/local/nagios/bin
 mysql -uroot ndoutils < db/mysql.sql
 
