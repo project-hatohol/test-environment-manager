@@ -3,7 +3,22 @@ import lxc
 import os
 import sys
 
-base_name = "env_base"
+containers_name = {
+    "base": "env_base",
+    "zabbix_server22": "env_zabbix_server22",
+    "zabbix_server20": "env_zabbix_server20",
+    "zabbix_agent22": "env_zabbix_agent22",
+    "zabbix_agent20": "env_zabbix_agent20",
+    "nagios_server3": "env_nagios_server3",
+    "nagios_server4": "env_nagios_server4",
+    "nagios_nrpe": "env_nagios_nrpe",
+    "hatohol_build": "env_hatohol_build",
+    "hatohol_rpm": "env_hatohol_rpm",
+    "fluentd": "env_fluentd",
+    "redmine": "env_redmine"
+}
+
+base_name = containers_name["base"]
 base = lxc.Container(base_name)
 
 
@@ -36,7 +51,7 @@ def create_base():
 
 
 def create_zabbix_server22():
-    container_name = "env_zabbix_server22"
+    container_name = containers_name["zabbix_server22"]
     zabbix_server22 = lxc.Container(container_name)
     if not zabbix_server22.defined:
         zabbix_server22 = base.clone(container_name, bdevtype="aufs",
@@ -95,7 +110,7 @@ def create_zabbix_server22():
 
 
 def create_zabbix_server20():
-    container_name = "env_zabbix_server20"
+    container_name = containers_name["zabbix_server20"]
     zabbix_server20 = lxc.Container(container_name)
     if not zabbix_server20.defined:
         zabbix_server20 = base.clone(container_name, bdevtype="aufs",
@@ -154,7 +169,7 @@ def create_zabbix_server20():
 
 
 def create_zabbix_agent22():
-    container_name = "env_zabbix_agent22"
+    container_name = containers_name["zabbix_agent22"]
     zabbix_agent22 = lxc.Container(container_name)
     if not zabbix_agent22.defined:
         zabbix_agent22 = base.clone(container_name, bdevtype="aufs",
@@ -181,7 +196,7 @@ def create_zabbix_agent22():
 
 
 def create_zabbix_agent20():
-    container_name = "env_zabbix_agent20"
+    container_name = containers_name["zabbix_agent20"]
     zabbix_agent20 = lxc.Container(container_name)
     if not zabbix_agent20.defined:
         zabbix_agent20 = base.clone(container_name, bdevtype="aufs",
@@ -208,7 +223,7 @@ def create_zabbix_agent20():
 
 
 def create_nagios_server3():
-    container_name = "env_nagios_server3"
+    container_name = containers_name["nagios_server3"]
     nagios_server3 = lxc.Container(container_name)
     if not nagios_server3.defined:
         nagios_server3 = base.clone(container_name, bdevtype="aufs",
@@ -263,7 +278,7 @@ def create_nagios_server3():
 
 
 def create_nagios_server4():
-    container_name = "env_nagios_server4"
+    container_name = containers_name["nagios_server4"]
     nagios_server4 = lxc.Container(container_name)
     if not nagios_server4.defined:
         nagios_server4 = base.clone(container_name, bdevtype="aufs",
@@ -334,7 +349,7 @@ def create_nagios_server4():
 
 
 def create_nagios_nrpe():
-    container_name = "env_nagios_nrpe"
+    container_name = containers_name["nagios_nrpe"]
     nagios_nrpe = lxc.Container(container_name)
     if not nagios_nrpe.defined:
         nagios_nrpe = base.clone(container_name, bdevtype="aufs",
@@ -359,7 +374,7 @@ def create_nagios_nrpe():
 
 
 def create_hatohol_build():
-    container_name = "env_hatohol_build"
+    container_name = containers_name["hatohol_build"]
     hatohol_build = lxc.Container(container_name)
     if not hatohol_build.defined:
         hatohol_build = base.clone(container_name, bdevtype="aufs",
@@ -405,7 +420,7 @@ def create_hatohol_build():
 
 
 def create_hatohol_rpm():
-    container_name = "env_hatohol_rpm"
+    container_name = containers_name["hatohol_rpm"]
     hatohol_rpm = lxc.Container(container_name)
     if not hatohol_rpm.defined:
         hatohol_rpm = base.clone(container_name, bdevtype="aufs",
@@ -457,7 +472,7 @@ def create_hatohol_rpm():
 
 
 def create_fluentd():
-    container_name = "env_fluentd"
+    container_name = containers_name["fluentd"]
     fluentd = lxc.Container(container_name)
     if not fluentd.defined:
         fluentd = base.clone(container_name, bdevtype="aufs",
@@ -490,7 +505,7 @@ def create_fluentd():
 
 
 def create_redmine():
-    container_name = "env_redmine"
+    container_name = containers_name["redmine"]
     redmine = lxc.Container(container_name)
     if not redmine.defined:
         redmine = base.clone(container_name, bdevtype="aufs",
