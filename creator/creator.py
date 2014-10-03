@@ -50,43 +50,43 @@ def create_zabbix_server22():
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                    ["rpm", "-ivh", RPM_URL])
+                              ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
-                                    ["yum", "install", "-y",
-                                     "mysql-server", "httpd",
-                                     "zabbix-server-mysql",
-                                     "zabbix-web-mysql",
-                                     "zabbix-agent"])
+                              ["yum", "install", "-y",
+                               "mysql-server", "httpd",
+                               "zabbix-server-mysql",
+                               "zabbix-web-mysql",
+                               "zabbix-agent"])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["service", "mysqld", "start"])
+                              ["service", "mysqld", "start"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chkconfig", "mysqld", "on"])
+                              ["chkconfig", "mysqld", "on"])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["mysql", "-uroot", "-e",
-                                     "create database zabbix character set utf8 collate utf8_bin;"])
+                              ["mysql", "-uroot", "-e",
+                               "create database zabbix character set utf8 collate utf8_bin;"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["mysql", "-uroot", "-e",
-                                     "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"])
+                              ["mysql", "-uroot", "-e",
+                               "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["curl", "-O", SCRIPT_URL])
+                              ["curl", "-O", SCRIPT_URL])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chmod", "+x", SCRIPT_NAME])
+                              ["chmod", "+x", SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                    ["./" + SCRIPT_NAME])
+                              ["./" + SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                    ["rm", SCRIPT_NAME])
+                              ["rm", SCRIPT_NAME])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["service", "httpd", "start"])
+                              ["service", "httpd", "start"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chkconfig", "httpd", "on"])
+                              ["chkconfig", "httpd", "on"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chkconfig", "zabbix-server", "on"])
+                              ["chkconfig", "zabbix-server", "on"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chkconfig", "zabbix-agent", "on"])
+                              ["chkconfig", "zabbix-agent", "on"])
 
         if not container.shutdown(30):
             container.stop()
@@ -109,43 +109,43 @@ def create_zabbix_server20():
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                    ["rpm", "-ivh", RPM_URL])
+                              ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
-                                    ["yum", "install", "-y",
-                                     "mysql-server", "httpd",
-                                     "zabbix-server-mysql",
-                                     "zabbix-web-mysql",
-                                     "zabbix-agent"])
+                              ["yum", "install", "-y",
+                               "mysql-server", "httpd",
+                               "zabbix-server-mysql",
+                               "zabbix-web-mysql",
+                               "zabbix-agent"])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["service", "mysqld", "start"])
+                              ["service", "mysqld", "start"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chkconfig", "mysqld", "on"])
+                              ["chkconfig", "mysqld", "on"])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["mysql", "-uroot", "-e",
-                                     "create database zabbix character set utf8 collate utf8_bin;"])
+                              ["mysql", "-uroot", "-e",
+                               "create database zabbix character set utf8 collate utf8_bin;"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["mysql", "-uroot", "-e",
-                                     "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"])
+                              ["mysql", "-uroot", "-e",
+                               "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["curl", "-O", SCRIPT_URL])
+                              ["curl", "-O", SCRIPT_URL])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chmod", "+x", SCRIPT_NAME])
+                              ["chmod", "+x", SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                    ["./" + SCRIPT_NAME])
+                              ["./" + SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                    ["rm", SCRIPT_NAME])
+                              ["rm", SCRIPT_NAME])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["service", "httpd", "start"])
+                              ["service", "httpd", "start"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chkconfig", "httpd", "on"])
+                              ["chkconfig", "httpd", "on"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chkconfig", "zabbix-server", "on"])
+                              ["chkconfig", "zabbix-server", "on"])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chkconfig", "zabbix-agent", "on"])
+                              ["chkconfig", "zabbix-agent", "on"])
 
         if not container.shutdown(30):
             container.stop()
@@ -166,13 +166,13 @@ def create_zabbix_agent22():
         containers.start()
         containers.get_ips(timeout=30)
         containers.attach_wait(lxc.attach_run_command,
-                                   ["rpm", "-ivh", RPM_URL])
+                               ["rpm", "-ivh", RPM_URL])
         containers.attach_wait(lxc.attach_run_command,
-                                   ["yum", "install", "-y",
-                                    "zabbix-agent"])
+                               ["yum", "install", "-y",
+                                "zabbix-agent"])
 
         containers.attach_wait(lxc.attach_run_command,
-                                   ["chkconfig", "zabbix-agent", "on"])
+                               ["chkconfig", "zabbix-agent", "on"])
 
         if not containers.shutdown(30):
             containers.stop()
@@ -193,13 +193,13 @@ def create_zabbix_agent20():
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                   ["rpm", "-ivh", RPM_URL])
+                              ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["yum", "install", "-y",
-                                    "zabbix-agent"])
+                              ["yum", "install", "-y",
+                               "zabbix-agent"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["chkconfig", "zabbix-agent", "on"])
+                              ["chkconfig", "zabbix-agent", "on"])
 
         if not container.shutdown(30):
             container.stop()
@@ -222,39 +222,39 @@ def create_nagios_server3():
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                   ["rpm", "-ivh", RPM_URL])
+                              ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["yum", "install", "-y",
-                                    "httpd", "mysql-server",
-                                    "nagios", "nagios-plugins-all",
-                                    "ndoutils-mysql"])
+                              ["yum", "install", "-y",
+                               "httpd", "mysql-server",
+                               "nagios", "nagios-plugins-all",
+                               "ndoutils-mysql"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["service", "mysqld", "start"])
+                              ["service", "mysqld", "start"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["chkconfig", "mysqld", "on"])
+                              ["chkconfig", "mysqld", "on"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["mysql", "-uroot", "-e",
-                                    "CREATE DATABASE ndoutils;"])
+                              ["mysql", "-uroot", "-e",
+                               "CREATE DATABASE ndoutils;"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["mysql", "-uroot", "-e",
-                                    "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
+                              ["mysql", "-uroot", "-e",
+                               "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["curl", "-O", SCRIPT_URL])
+                              ["curl", "-O", SCRIPT_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["chmod", "+x", SCRIPT_NAME])
+                              ["chmod", "+x", SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["./" + SCRIPT_NAME])
+                              ["./" + SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["rm", SCRIPT_NAME])
+                              ["rm", SCRIPT_NAME])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["chkconfig", "ndo2db", "on"])
+                              ["chkconfig", "ndo2db", "on"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["chkconfig", "nagios", "on"])
+                              ["chkconfig", "nagios", "on"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["chkconfig", "httpd", "on"])
+                              ["chkconfig", "httpd", "on"])
 
         if not container.shutdown(30):
             container.stop()
@@ -282,50 +282,50 @@ def create_nagios_server4():
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                   ["yum", "install", "-y",
-                                    "mysql-server", "mysql-devel",
-                                    "wget", "httpd", "php", "tar",
-                                    "gcc", "glibc", "glibc-common",
-                                    "gd", "gd-devel", "make", "net-snmp"])
+                              ["yum", "install", "-y",
+                               "mysql-server", "mysql-devel",
+                               "wget", "httpd", "php", "tar",
+                               "gcc", "glibc", "glibc-common",
+                               "gd", "gd-devel", "make", "net-snmp"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["yum", "groupinstall", "-y",
-                                    "Development Tools"])
+                              ["yum", "groupinstall", "-y",
+                               "Development Tools"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["service", "mysqld", "start"])
+                              ["service", "mysqld", "start"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["chkconfig", "mysqld", "on"])
+                              ["chkconfig", "mysqld", "on"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["mysql", "-uroot", "-e",
-                                    "CREATE DATABASE ndoutils;"])
+                              ["mysql", "-uroot", "-e",
+                               "CREATE DATABASE ndoutils;"])
         container.attach_wait(lxc.attach_run_command,
-                                   ["mysql", "-uroot", "-e",
-                                    "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
+                              ["mysql", "-uroot", "-e",
+                               "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["wget", NAGIOS_URL])
+                              ["wget", NAGIOS_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["wget", PLUGIN_URL])
+                              ["wget", PLUGIN_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["wget", NDOUTILS_URL])
+                              ["wget", NDOUTILS_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["useradd", "nagios"])
+                              ["useradd", "nagios"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["tar", "zxvf", NAGIOS_NAME])
+                              ["tar", "zxvf", NAGIOS_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["tar", "zxvf", PLUGIN_NAME])
+                              ["tar", "zxvf", PLUGIN_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["tar", "zxvf", NDOUTILS_NAME])
+                              ["tar", "zxvf", NDOUTILS_NAME])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["curl", "-O", SCRIPT_URL])
+                              ["curl", "-O", SCRIPT_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["chmod", "+x", SCRIPT_NAME])
+                              ["chmod", "+x", SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["./" + SCRIPT_NAME])
+                              ["./" + SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["rm", script_name])
+                              ["rm", script_name])
 
         if not container.shutdown(30):
             container.stop()
@@ -346,11 +346,11 @@ def create_nagios_nrpe():
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                ["rpm", "-ivh", RPM_URL])
+                              ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
-                                ["yum", "install", "-y",
-                                 "nagios-plugins-all",
-                                 "nrpe"])
+                              ["yum", "install", "-y",
+                               "nagios-plugins-all",
+                               "nrpe"])
 
         if not container.shutdown(30):
             container.stop()
@@ -372,31 +372,31 @@ def create_hatohol_build():
         REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
         CUTTER_RPM = "http://sourceforge.net/projects/cutter/files/centos/cutter-release-1.1.0-0.noarch.rpm"
         container.attach_wait(lxc.attach_run_command,
-                                  ["rpm", "-ivh", CUTTER_RPM])
+                              ["rpm", "-ivh", CUTTER_RPM])
         container.attach_wait(lxc.attach_run_command,
-                                  ["yum", "groupinstall", "-y",
-                                   "Development Tools"])
+                              ["yum", "groupinstall", "-y",
+                               "Development Tools"])
         container.attach_wait(lxc.attach_run_command,
-                                  ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
+                              ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
         container.attach_wait(lxc.attach_run_command,
-                                  ["yum", "install", "-y",
-                                   "libtool", "gettext-devel", "glib2-devel",
-                                   "libsoup-devel", "json-glib-devel",
-                                   "sqlite-devel", "libuuid-devel",
-                                   "mysql-server", "mysql-devel",
-                                   "librabbitmq-devel",
-                                   "qpid-cpp-client-devel", "curl",
-                                   "python-setuptools", "python-devel",
-                                   "Django", "httpd", "mod_wsgi", "cutter"])
+                              ["yum", "install", "-y",
+                               "libtool", "gettext-devel", "glib2-devel",
+                               "libsoup-devel", "json-glib-devel",
+                               "sqlite-devel", "libuuid-devel",
+                               "mysql-server", "mysql-devel",
+                               "librabbitmq-devel",
+                               "qpid-cpp-client-devel", "curl",
+                               "python-setuptools", "python-devel",
+                               "Django", "httpd", "mod_wsgi", "cutter"])
         container.attach_wait(lxc.attach_run_command,
-                                  ["easy_install", "pip"])
+                              ["easy_install", "pip"])
         container.attach_wait(lxc.attach_run_command,
-                                  ["pip", "install", "mysql-python"])
+                              ["pip", "install", "mysql-python"])
 
         container.attach_wait(lxc.attach_run_command,
-                                  ["service", "mysqld", "start"])
+                              ["service", "mysqld", "start"])
         container.attach_wait(lxc.attach_run_command,
-                                  ["chkconfig", "mysqld", "on"])
+                              ["chkconfig", "mysqld", "on"])
 
         if not container.shutdown(30):
             container.stop()
@@ -418,37 +418,37 @@ def create_hatohol_rpm():
         REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
         EPEL_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
         container.attach_wait(lxc.attach_run_command,
-                                ["yum", "install", "-y", "wget"])
+                              ["yum", "install", "-y", "wget"])
         container.attach_wait(lxc.attach_run_command,
-                                ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
+                              ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
         container.attach_wait(lxc.attach_run_command,
-                                ["rpm", "-ivh", EPEL_URL])
+                              ["rpm", "-ivh", EPEL_URL])
         container.attach_wait(lxc.attach_run_command,
-                                ["yum", "install", "-y",
-                                 "hatohol", "hatohol-client",
-                                 "python-argparse"])
+                              ["yum", "install", "-y",
+                               "hatohol", "hatohol-client",
+                               "python-argparse"])
 
         container.attach_wait(lxc.attach_run_command,
-                                ["chkconfig", "mysqld", "on"])
+                              ["chkconfig", "mysqld", "on"])
         container.attach_wait(lxc.attach_run_command,
-                                ["service", "mysqld", "start"])
+                              ["service", "mysqld", "start"])
         container.attach_wait(lxc.attach_run_command,
-                                ["hatohol-db-initiator", "hatohol",
-                                 "root", ""])
+                              ["hatohol-db-initiator", "hatohol",
+                               "root", ""])
         container.attach_wait(lxc.attach_run_command,
-                                ["mysql", "-uroot", "-e"
-                                 "CREATE DATABASE hatohol_client;"])
+                              ["mysql", "-uroot", "-e"
+                               "CREATE DATABASE hatohol_client;"])
         container.attach_wait(lxc.attach_run_command,
-                                ["mysql", "-uroot", "-e"
-                                 "GRANT ALL PRIVILEGES ON hatohol_client.* TO hatohol@localhost IDENTIFIED BY 'hatohol';"])
+                              ["mysql", "-uroot", "-e"
+                               "GRANT ALL PRIVILEGES ON hatohol_client.* TO hatohol@localhost IDENTIFIED BY 'hatohol';"])
         container.attach_wait(lxc.attach_run_command,
-                                ["/usr/libexec/hatohol/client/manage.py",
-                                 "syncdb"])
+                              ["/usr/libexec/hatohol/client/manage.py",
+                               "syncdb"])
 
         container.attach_wait(lxc.attach_run_command,
-                                ["chkconfig", "hatohol", "on"])
+                              ["chkconfig", "hatohol", "on"])
         container.attach_wait(lxc.attach_run_command,
-                                ["chkconfig", "httpd", "on"])
+                              ["chkconfig", "httpd", "on"])
 
         if not container.shutdown(30):
             container.stop()
@@ -470,18 +470,18 @@ def create_fluentd():
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                            ["yum", "install", "-y", "wget"])
+                              ["yum", "install", "-y", "wget"])
         container.attach_wait(lxc.attach_run_command,
-                            ["rpm", "--import", GPG_URL])
+                              ["rpm", "--import", GPG_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
+                              ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["yum", "install", "-y", "td-agent"])
+                              ["yum", "install", "-y", "td-agent"])
 
         container.attach_wait(lxc.attach_run_command,
-                            ["service", "td-agent", "start"])
+                              ["service", "td-agent", "start"])
         container.attach_wait(lxc.attach_run_command,
-                            ["chkconfig", "td-agent", "on"])
+                              ["chkconfig", "td-agent", "on"])
 
         if not container.shutdown(30):
             container.stop()
@@ -510,69 +510,69 @@ def create_redmine():
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                            ["rpm", "-ivh", RPM_URL])
+                              ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["yum", "groupinstall", "-y", "Development Tools"])
+                              ["yum", "groupinstall", "-y", "Development Tools"])
         container.attach_wait(lxc.attach_run_command,
-                            ["yum", "install", "-y",
-                             "openssl-devel", "readline-devel", "zlib-devel",
-                             "curl-devel", "libyaml-devel", "mysql-server",
-                             "mysql-devel", "httpd", "httpd-devel",
-                             "ImageMagick", "ImageMagick-devel",
-                             "ipa-pgothic-fonts", "wget"])
+                              ["yum", "install", "-y",
+                               "openssl-devel", "readline-devel", "zlib-devel",
+                               "curl-devel", "libyaml-devel", "mysql-server",
+                               "mysql-devel", "httpd", "httpd-devel",
+                               "ImageMagick", "ImageMagick-devel",
+                               "ipa-pgothic-fonts", "wget"])
         container.attach_wait(lxc.attach_run_command,
-                            ["curl", "-O", RUBY_INSTALL_URL])
+                              ["curl", "-O", RUBY_INSTALL_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["chmod", "+x", RUBY_INSTALL_NAME])
+                              ["chmod", "+x", RUBY_INSTALL_NAME])
         container.attach_wait(lxc.attach_run_command,
-                            ["curl", "-O", RUBY_SOURCE_URL])
+                              ["curl", "-O", RUBY_SOURCE_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["tar", "zxvf", RUBY_SOURCE_NAME])
+                              ["tar", "zxvf", RUBY_SOURCE_NAME])
         container.attach_wait(lxc.attach_run_command,
-                            ["./" + RUBY_INSTALL_NAME])
+                              ["./" + RUBY_INSTALL_NAME])
         container.attach_wait(lxc.attach_run_command,
-                            ["gem", "install", "bundler", "--no-rdoc", "--no-ri"])
+                              ["gem", "install", "bundler", "--no-rdoc", "--no-ri"])
         container.attach_wait(lxc.attach_run_command,
-                            ["service", "mysqld", "start"])
+                              ["service", "mysqld", "start"])
         container.attach_wait(lxc.attach_run_command,
-                            ["chkconfig", "mysqld", "on"])
+                              ["chkconfig", "mysqld", "on"])
 
         container.attach_wait(lxc.attach_run_command,
-                            ["mysql", "-uroot", "-e",
-                             "CREATE DATABASE db_redmine DEFAULT CHARACTER SET utf8;"])
+                              ["mysql", "-uroot", "-e",
+                               "CREATE DATABASE db_redmine DEFAULT CHARACTER SET utf8;"])
         container.attach_wait(lxc.attach_run_command,
-                            ["mysql", "-uroot", "-e",
-                             "GRANT ALL ON db_redmine.* TO user_redmine@localhost IDENTIFIED BY \'pass_redmine\';"])
+                              ["mysql", "-uroot", "-e",
+                               "GRANT ALL ON db_redmine.* TO user_redmine@localhost IDENTIFIED BY \'pass_redmine\';"])
 
         container.attach_wait(lxc.attach_run_command,
-                            ["curl", "-O", REDMINE_TARBALL_URL])
+                              ["curl", "-O", REDMINE_TARBALL_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["tar", "xvf", REDMINE_TARTBALL_NAME])
+                              ["tar", "xvf", REDMINE_TARTBALL_NAME])
         container.attach_wait(lxc.attach_run_command,
-                            ["mv", redmine_dir_name, "/var/lib/redmine"])
+                              ["mv", redmine_dir_name, "/var/lib/redmine"])
 
         container.attach_wait(lxc.attach_run_command,
-                            ["gem", "install", "passenger",
-                             "--no-rdoc", "--no-ri"])
+                              ["gem", "install", "passenger",
+                               "--no-rdoc", "--no-ri"])
         container.attach_wait(lxc.attach_run_command,
-                            ["passenger-install-apache2-module", "--auto"])
+                              ["passenger-install-apache2-module", "--auto"])
 
         container.attach_wait(lxc.attach_run_command,
-                            ["wget", "-P", "/etc/httpd/httpd.conf.d/",
-                             PASSENGER_URL])
+                              ["wget", "-P", "/etc/httpd/httpd.conf.d/",
+                               PASSENGER_URL])
 
         container.attach_wait(lxc.attach_run_command,
-                            ["sed", "-i", "-e", "292d",
-                             "/etc/httpd/conf/httpd.conf"])
+                              ["sed", "-i", "-e", "292d",
+                               "/etc/httpd/conf/httpd.conf"])
         container.attach_wait(lxc.attach_run_command,
-                            ["sed", "-i", "-e",
-                             "291 a\\DocumentRoot /var/lib/redmine/public",
-                             "/etc/httpd/conf/httpd.conf"])
+                              ["sed", "-i", "-e",
+                               "291 a\\DocumentRoot /var/lib/redmine/public",
+                               "/etc/httpd/conf/httpd.conf"])
 
         container.attach_wait(lxc.attach_run_command,
-                            ["service", "httpd", "start"])
+                              ["service", "httpd", "start"])
         container.attach_wait(lxc.attach_run_command,
-                            ["chkconfig", "httpd", "on"])
+                              ["chkconfig", "httpd", "on"])
 
         if not container.shutdown(30):
             container.stop()
