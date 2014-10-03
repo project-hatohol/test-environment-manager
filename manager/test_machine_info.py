@@ -3,6 +3,7 @@
 import machine_info
 import unittest
 import sys
+import lxc
 
 def get_output(file_name, func_name, **kwargs):
     sys.stdout = open(file_name, "w")
@@ -35,7 +36,12 @@ class TestMachineInfo(unittest.TestCase):
 
 
     def test_print_container_info(self):
-        get_output("output_container_info", machine_info.print_container_info, dict = test_dict)
+        test_container_list = lxc.list_containers()
+        test_container_boj_list = lxc.list_containers(as_object = True)
+
+        get_output("output_container_info", machine_info.print_container_info, 
+                   dict = test_dict, container_list = test_container_list,
+                   container_obj_list = test_container_obj_list)
         lines = read_file("output_container_info")
         self.assertIn("machine1_1", lines[0])
 
