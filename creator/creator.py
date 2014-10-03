@@ -187,42 +187,28 @@ def create_nagios_server3():
         RPM_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
         SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
         script_name = "import_NDOUtils3.sh"
+        CMDS = [["rpm", "-ivh", RPM_URL],
+                ["yum", "install", "-y", "httpd", "mysql-server",
+                 "nagios", "nagios-plugins-all", "ndoutils-mysql"],
+                ["service", "mysqld", "start"],
+                ["chkconfig", "mysqld", "on"],
+                ["mysql", "-uroot", "-e",
+                 "CREATE DATABASE ndoutils;"],
+                ["mysql", "-uroot", "-e",
+                 "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"],
+                ["curl", "-O", SCRIPT_URL],
+                ["chmod", "+x", SCRIPT_NAME],
+                ["./" + SCRIPT_NAME],
+                ["rm", SCRIPT_NAME],
+                ["chkconfig", "ndo2db", "on"],
+                ["chkconfig", "nagios", "on"],
+                ["chkconfig", "httpd", "on"]]
+
         container.start()
         container.get_ips(timeout=30)
-        container.attach_wait(lxc.attach_run_command,
-                              ["rpm", "-ivh", RPM_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y",
-                               "httpd", "mysql-server",
-                               "nagios", "nagios-plugins-all",
-                               "ndoutils-mysql"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "mysqld", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "mysqld", "on"])
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e",
-                               "CREATE DATABASE ndoutils;"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e",
-                               "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["curl", "-O", SCRIPT_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chmod", "+x", SCRIPT_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["./" + SCRIPT_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["rm", SCRIPT_NAME])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "ndo2db", "on"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "nagios", "on"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "httpd", "on"])
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
