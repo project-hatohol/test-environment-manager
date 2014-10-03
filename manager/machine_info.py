@@ -21,32 +21,32 @@ def print_container_info(dict):
           + " | " + container_obj_list[dict["id"]].state + " | ")
 
 
-def insert_header(line_number):
+def insert_header(exe_count):
     punctuation = 20
-    if line_number % punctuation == 0:
+    if exe_count % punctuation == 0:
         print_header()
 
 
-def read_file(container_address, file_name):
-    file = open(container_address + file_name)
+def read_file(container_pass, file_name):
+    file = open(container_pass + file_name)
     lines = file.readlines()
     file.close()
 
     return lines
 
 
-def get_container_address(machine_id):
-    container_address = "/var/lib/lxc/" + container_list[machine_id] + "/"
+def get_container_pass(machine_id):
+    container_pass = "/var/lib/lxc/" + container_list[machine_id] + "/"
 
-    return container_address
-
-
-def get_group_info(info_dict, container_address):
-    info_dict["group"] = read_file(container_address, "group")[0].rstrip()
+    return container_pass
 
 
-def get_config_info(info_dict, container_address):
-    conf_lines = read_file(container_address, "config")
+def get_group_info(info_dict, container_pass):
+    info_dict["group"] = read_file(container_pass, "group")[0].rstrip()
+
+
+def get_config_info(info_dict, container_pass):
+    conf_lines = read_file(container_pass, "config")
     for line in conf_lines:
         if line.find("lxc.network.ipv4") >= 0 and line.find("/") >= 0:
             (key, address_and_mask) = line.split("=")
@@ -58,17 +58,17 @@ def get_config_info(info_dict, container_address):
             info_dict["host"] = host.strip()
 
 
-def get_info_dict(info_dict, container_address):
-    get_config_info(info_dict, container_address)
-    get_group_info(info_dict, container_address)
+def get_info_dict(info_dict, container_pass):
+    get_config_info(info_dict, container_pass)
+    get_group_info(info_dict, container_pass)
 
     return info_dict
 
 
 if __name__ == '__main__':
-    for machine_id in range(len(container_list)):
-        container_address = get_container_address(machine_id)
-        insert_header(machine_id)
-        info_dict = {"id":machine_id}
-        print_container_info(get_info_dict(info_dict, container_address))
+    for exe_count in range(len(container_list)):
+        container_pass = get_container_address(exe_count)
+        insert_header(exe_count)
+        info_dict = {"id":exe_count}
+        print_container_info(get_info_dict(info_dict, container_pass))
 
