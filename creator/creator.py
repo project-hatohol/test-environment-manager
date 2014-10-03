@@ -338,42 +338,29 @@ def create_hatohol_rpm():
                                  flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        container.start()
-        container.get_ips(timeout=30)
         REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
         EPEL_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y", "wget"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["rpm", "-ivh", EPEL_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y",
-                               "hatohol", "hatohol-client",
-                               "python-argparse"])
+        CMDS = [["yum", "install", "-y", "wget"],
+                ["wget", "-P", "/etc/yum.repos.d", REPO_URL],
+                ["rpm", "-ivh", EPEL_URL],
+                ["yum", "install", "-y", "hatohol", "hatohol-client",
+                 "python-argparse"],
+                ["chkconfig", "mysqld", "on"],
+                ["service", "mysqld", "start"],
+                ["hatohol-db-initiator", "hatohol", "root", ""],
+                ["mysql", "-uroot", "-e"
+                 "CREATE DATABASE hatohol_client;"],
+                ["mysql", "-uroot", "-e"
+                 "GRANT ALL PRIVILEGES ON hatohol_client.* TO hatohol@localhost IDENTIFIED BY 'hatohol';"],
+                ["/usr/libexec/hatohol/client/manage.py", "syncdb"],
+                ["chkconfig", "hatohol", "on"],
+                ["chkconfig", "httpd", "on"]]
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "mysqld", "on"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "mysqld", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["hatohol-db-initiator", "hatohol",
-                               "root", ""])
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e"
-                               "CREATE DATABASE hatohol_client;"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e"
-                               "GRANT ALL PRIVILEGES ON hatohol_client.* TO hatohol@localhost IDENTIFIED BY 'hatohol';"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["/usr/libexec/hatohol/client/manage.py",
-                               "syncdb"])
+        container.start()
+        container.get_ips(timeout=30)
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "hatohol", "on"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "httpd", "on"])
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
