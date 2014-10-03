@@ -20,11 +20,11 @@ def read_file(file_name):
     return lines
 
 
-test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
-
 class TestMachineInfo(unittest.TestCase):
+    test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
+
     def test_get_info_dict(self):
-        self.assertEqual(machine_info.get_info_dict(0, "/var/lib/lxc/test_stub"), test_dict)
+        self.assertEqual(machine_info.get_info_dict(0, "/var/lib/lxc/test_stub/"), self.test_dict)
 
 
     def test_print_header(self):
@@ -32,45 +32,45 @@ class TestMachineInfo(unittest.TestCase):
         lines = read_file("header_output")
         self.assertIn("------", lines[0])
         self.assertIn("No", lines[1])
-        self.assertIn("HostName", [1])
+        self.assertIn("HostName", lines[1])
 
 
     def test_print_container_info(self):
         test_container_list = lxc.list_containers()
-        test_container_boj_list = lxc.list_containers(as_object = True)
+        test_container_obj_list = lxc.list_containers(as_object = True)
 
         get_output("output_container_info", machine_info.print_container_info, 
-                   dict = test_dict, container_list = test_container_list,
+                   dict = self.test_dict, container_list = test_container_list,
                    container_obj_list = test_container_obj_list)
         lines = read_file("output_container_info")
         self.assertIn("machine1_1", lines[0])
 
 
-    def test_insert_header(self):
-        for test_line in [0, 10, 20]:
-            get_output("output_insert_header", machine_info.insert_header, line_number=test_line)
-            lines = read_file("output_insert_header")
-            if test_line % 20 == 0:
-                self.assertIn("-----", lines[0])
-            else:
-                self.assertFalse(lines)
+#    def test_insert_header(self):
+#        for test_line in [0, 10, 20]:
+#            get_output("output_insert_header", machine_info.insert_header, line_number=test_line)
+#            lines = read_file("output_insert_header")
+#            if test_line % 20 == 0:
+#                self.assertIn("-----", lines[0])
+#            else:
+#                self.assertFalse(lines)
 
 
     def test_read_file(self):
-        self.assertIn("1", machine_info.read_file("/var/lib/lxc/test_stub", "group")[0])
-        self.assertIn("test", machine_info.read_file("/var/lib/lxc/test_stub", "config")[0])
+        self.assertIn("1", machine_info.read_file("/var/lib/lxc/test_stub/", "group")[0])
+        self.assertIn("test", machine_info.read_file("/var/lib/lxc/test_stub/", "config")[0])
 
 
     def test_get_group_info(self):
-        test_dict = {}
-        machine_info.get_group_info(test_dict, 0)
-        self.assertEqual(test_dict["group"], "1")
+        self.test_dict = {}
+        machine_info.get_group_info(self.test_dict, "/var/lib/lxc/test_stub/")
+        self.assertEqual(self.test_dict["group"], "1")
 
 
     def test_get_config_info(self):
-        machine_info.get_config_info(test_dict, 0)
-        self.assertEqual(test_dict["ip"], "10.0.3.11")
-        self.assertEqual(test_dict["host"], "machine1_1")
+        machine_info.get_config_info(self.test_dict, "/var/lib/lxc/test_stub/")
+        self.assertEqual(self.test_dict["ip"], "10.0.3.11")
+        self.assertEqual(self.test_dict["host"], "machine1_1")
 
     
 if __name__ == '__main__':
