@@ -2,7 +2,7 @@
 import lxc
 import os
 import sys
-import clist
+from definevalue import *
 from utils import *
 
 def create_base(container, container_name):
@@ -376,8 +376,8 @@ def create_redmine(container_name, base):
 
 
 def create_container_if_needed(key, create_function_name):
-    container_name = clist.containers_name[key]
-    base_container = lxc.Container(clist.containers_name["base"])
+    container_name = containers_name[key]
+    base_container = lxc.Container(containers_name["base"])
     container = lxc.Container(container_name)
     if container.defined:
         print_exists_message(container_name)
@@ -386,7 +386,7 @@ def create_container_if_needed(key, create_function_name):
 
 
 def create_base_container_if_needed():
-    base_name = clist.containers_name["base"]
+    base_name = containers_name["base"]
     container = lxc.Container(base_name)
     if container.defined:
         print_exists_message(base_name)
