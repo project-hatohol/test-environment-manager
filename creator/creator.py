@@ -301,36 +301,27 @@ def create_hatohol_build():
                                    flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        container.start()
-        container.get_ips(timeout=30)
         REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
         CUTTER_RPM = "http://sourceforge.net/projects/cutter/files/centos/cutter-release-1.1.0-0.noarch.rpm"
-        container.attach_wait(lxc.attach_run_command,
-                              ["rpm", "-ivh", CUTTER_RPM])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "groupinstall", "-y",
-                               "Development Tools"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y",
-                               "libtool", "gettext-devel", "glib2-devel",
-                               "libsoup-devel", "json-glib-devel",
-                               "sqlite-devel", "libuuid-devel",
-                               "mysql-server", "mysql-devel",
-                               "librabbitmq-devel",
-                               "qpid-cpp-client-devel", "curl",
-                               "python-setuptools", "python-devel",
-                               "Django", "httpd", "mod_wsgi", "cutter"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["easy_install", "pip"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["pip", "install", "mysql-python"])
+        CMDS = [["rpm", "-ivh", CUTTER_RPM],
+                ["yum", "groupinstall", "-y", "Development Tools"],
+                ["wget", "-P", "/etc/yum.repos.d", REPO_URL],
+                ["yum", "install", "-y", "libtool", "gettext-devel",
+                 "glib2-devel", "libsoup-devel", "json-glib-devel",
+                 "sqlite-devel", "libuuid-devel", "mysql-server",
+                 "mysql-devel", "librabbitmq-devel", "curl",
+                 "qpid-cpp-client-devel","python-setuptools","python-devel",
+                 "Django", "httpd", "mod_wsgi", "cutter"],
+                ["easy_install", "pip"],
+                ["pip", "install", "mysql-python"],
+                ["service", "mysqld", "start"],
+                ["chkconfig", "mysqld", "on"]]
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "mysqld", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "mysqld", "on"])
+        container.start()
+        container.get_ips(timeout=30)
+
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
