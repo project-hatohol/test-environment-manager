@@ -379,21 +379,18 @@ def create_fluentd():
 
         GPG_URL = "http://packages.treasuredata.com/GPG-KEY-td-agent"
         REPO_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/fluentd.repo"
+        CMDS = [["yum", "install", "-y", "wget"],
+                ["rpm", "--import", GPG_URL],
+                ["wget", "-P", "/etc/yum.repos.d", REPO_URL],
+                ["yum", "install", "-y", "td-agent"],
+                ["service", "td-agent", "start"],
+                ["chkconfig", "td-agent", "on"]]
+
         container.start()
         container.get_ips(timeout=30)
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y", "wget"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["rpm", "--import", GPG_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y", "td-agent"])
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "td-agent", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "td-agent", "on"])
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
