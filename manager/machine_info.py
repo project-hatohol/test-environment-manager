@@ -4,8 +4,6 @@ import lxc
 import sys
 import os.path
 
-container_list = lxc.list_containers()
-container_obj_list = lxc.list_containers(as_object=True)
 
 def print_header():
     print ("-----------------------------------------------------------------\n"
@@ -14,7 +12,7 @@ def print_header():
            "-----------------------------------------------------------------")
 
 
-def print_container_info(dict):
+def print_container_info(dict, container_list, container_obj_list):
     print("%2s"%str(dict["id"] + 1) + " | " + "%-3s"%dict["group"] 
           + " | " + "%-12s"%container_list[dict["id"]] + " | " 
           + "%-12s"%dict["host"] + " | " + "%-12s"%dict["ip"] 
@@ -35,8 +33,8 @@ def read_file(container_pass, file_name):
     return lines
 
 
-def get_container_pass(machine_id):
-    container_pass = "/var/lib/lxc/" + container_list[machine_id] + "/"
+def get_container_pass(container_name):
+    container_pass = "/var/lib/lxc/" + container_name + "/"
 
     return container_pass
 
@@ -66,9 +64,13 @@ def get_info_dict(info_dict, container_pass):
 
 
 if __name__ == '__main__':
+    container_obj_list = lxc.list_containers(as_object=True)
+    container_list = lxc.list_containers()
+
     for exe_count in range(len(container_list)):
-        container_pass = get_container_address(exe_count)
+        container_pass = get_container_pass(container_list[exe_count])
         insert_header(exe_count)
         info_dict = {"id":exe_count}
-        print_container_info(get_info_dict(info_dict, container_pass))
+        print_container_info(get_info_dict(info_dict, container_pass),
+                             container_list, container_obj_list)
 
