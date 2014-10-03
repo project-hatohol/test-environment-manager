@@ -22,7 +22,7 @@ def read_file(file_name):
 
 
 class TestMachineInfo(unittest.TestCase):
-    def _print_header(self, test_line):
+    def _judge_printing_header(self, test_line):
         get_output("output_insert_header", machine_info.insert_header, exe_count = test_line)
         lines = read_file("output_insert_header")
         if test_line % 20 == 0:
@@ -58,9 +58,9 @@ class TestMachineInfo(unittest.TestCase):
 
 
     def test_insert_header(self):
-        self._print_header(0)
-        self._print_header(10)
-        self._print_header(20)
+        self._judge_printing_header(0)
+        self._judge_printing_header(10)
+        self._judge_printing_header(20)
 
 
     def test_read_file(self):
