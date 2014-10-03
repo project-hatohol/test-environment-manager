@@ -4,6 +4,7 @@ import machine_info
 import unittest
 import sys
 import lxc
+import os
 
 def get_output(file_name, func_name, **kwargs):
     sys.stdout = open(file_name, "w")
@@ -31,7 +32,7 @@ class TestMachineInfo(unittest.TestCase):
 
 
     test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
-    test_path = "/var/lib/lxc/test_stub/"
+    test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub/"
 
     def test_get_info_dict(self):
         self.assertEqual(machine_info.get_info_dict(0, self.test_path), self.test_dict)
