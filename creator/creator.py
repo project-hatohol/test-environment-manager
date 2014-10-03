@@ -394,9 +394,9 @@ def create_container_if_needed(key, create_function_name):
 
 def create_base_container_if_needed():
     base_name = clist.containers_name["base"]
-    container = lxc.Container(container_name)
+    container = lxc.Container(base_name)
     if container.defined:
-        print_exists_message(container_name)
+        print_exists_message(base_name)
     else:
         create_base(container, container_name)
 
