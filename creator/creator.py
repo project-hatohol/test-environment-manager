@@ -4,10 +4,6 @@ import os
 import sys
 import clist
 
-base_name = clist.containers_name["base"]
-base = lxc.Container(base_name)
-
-
 def print_success_message(name):
     print("Create Container: %s" % name)
 
@@ -17,7 +13,6 @@ def print_exists_message(name):
 
 
 def create_base():
-    if not base.defined:
         base.create("centos")
         print_success_message("Create Container: %s" % base_name)
 
@@ -32,11 +27,8 @@ def create_base():
         if not base.shutdown(30):
             base.stop()
 
-    else:
-        print_exists_message(base_name)
 
-
-def create_zabbix_server22(contatiner_name):
+def create_zabbix_server22(contatiner_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -75,7 +67,7 @@ def create_zabbix_server22(contatiner_name):
         container.stop()
 
 
-def create_zabbix_server20(container_name):
+def create_zabbix_server20(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -111,7 +103,7 @@ def create_zabbix_server20(container_name):
         container.stop()
 
 
-def create_zabbix_agent22(container_name):
+def create_zabbix_agent22(container_name, base):
     containers = base.clone(container_name, bdevtype="aufs",
                             flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -131,7 +123,7 @@ def create_zabbix_agent22(container_name):
         containers.stop()
 
 
-def create_zabbix_agent20(container_name):
+def create_zabbix_agent20(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -152,7 +144,7 @@ def create_zabbix_agent20(container_name):
         container.stop()
 
 
-def create_nagios_server3(container_name):
+def create_nagios_server3(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -187,7 +179,7 @@ def create_nagios_server3(container_name):
         container.stop()
 
 
-def create_nagios_server4(container_name):
+def create_nagios_server4(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -232,7 +224,7 @@ def create_nagios_server4(container_name):
         container.stop()
 
 
-def create_nagios_nrpe(container_name):
+def create_nagios_nrpe(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -251,7 +243,7 @@ def create_nagios_nrpe(container_name):
         container.stop()
 
 
-def create_hatohol_build(container_name):
+def create_hatohol_build(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -282,7 +274,7 @@ def create_hatohol_build(container_name):
         container.stop()
 
 
-def create_hatohol_rpm(container_name):
+def create_hatohol_rpm(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -315,7 +307,7 @@ def create_hatohol_rpm(container_name):
         container.stop()
 
 
-def create_fluentd(container_name):
+def create_fluentd(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -339,7 +331,7 @@ def create_fluentd(container_name):
         container.stop()
 
 
-def create_redmine(container_name):
+def create_redmine(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
@@ -398,11 +390,21 @@ def create_redmine(container_name):
 
 def create_container_if_needed(key, create_function_name):
     container_name = clist.containers_name[key]
+    base_container = lxc.Container(clist.containers_name["base"])
     container = lxc.Container(container_name)
     if container.defined:
         print_exists_message(container_name)
     else:
-        create_function_name(container_name)
+        create_function_name(container_name, base_container)
+
+
+def create_base_container_if_needed():
+    base_name = clist.containers_name["base"]
+    container = lxc.Container(container_name)
+    if container.defined:
+        print_exists_message(container_name)
+    else:
+        create_base()
 
 
 if __name__ == '__main__':
@@ -410,7 +412,7 @@ if __name__ == '__main__':
         print("You need root permission to use this script.")
         sys.exit(1)
 
-    create_base()
+    create_base_container_if_needed()
     create_container_if_needed("zabbix_server22", create_zabbix_server22)
     create_container_if_needed("zabbix_server20", create_zabbix_server20)
     create_container_if_needed("zabbix_agent22", create_zabbix_agent22)
