@@ -4,22 +4,7 @@ import os
 import sys
 import os.path
 import clist
-
-def print_container_exist_message(name):
-    print("Container \"%s\": True" % name)
-
-
-def print_container_non_exist_message(name):
-    print("Container \"%s\": false" % name)
-
-
-def print_container_name(name):
-    print("Container name: %s" % name)
-
-
-def print_new_line():
-    print("")
-
+from utils import *
 
 def is_container_existed(container):
     if lxc.Container(clist.containers_name[container]).defined:

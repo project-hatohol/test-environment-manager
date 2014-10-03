@@ -3,14 +3,7 @@ import lxc
 import os
 import sys
 import clist
-
-def print_success_message(name):
-    print("Create Container: %s" % name)
-
-
-def print_exists_message(name):
-    print("Container already exists: %s" % name)
-
+from utils import *
 
 def create_base(container, container_name):
     container.create("centos")
