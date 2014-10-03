@@ -57,7 +57,8 @@ class TestMachineInfo(unittest.TestCase):
 
 
     def test_read_file(self):
-        self.assertIn("1", machine_info.read_file(0, "group")[0])
+        self.assertIn("1", machine_info.read_file("/var/lib/lxc/test_stub", "group")[0])
+        self.assertIn("test", machine_info.read_file("/var/lib/lxc/test_stub", "config")[0])
 
 
     def test_get_group_info(self):
