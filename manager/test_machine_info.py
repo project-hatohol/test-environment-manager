@@ -21,10 +21,20 @@ def read_file(file_name):
 
 
 class TestMachineInfo(unittest.TestCase):
+    def _print_header(self, test_line):
+        get_output("output_insert_header", machine_info.insert_header, exe_count = test_line)
+        lines = read_file("output_insert_header")
+        if test_line % 20 == 0:
+            self.assertIn("-----", lines[0])
+        else:
+            self.assertFalse(lines)
+
+
     test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
+    test_path = "/var/lib/lxc/test_stub/"
 
     def test_get_info_dict(self):
-        self.assertEqual(machine_info.get_info_dict(0, "/var/lib/lxc/test_stub/"), self.test_dict)
+        self.assertEqual(machine_info.get_info_dict(0, self.test_path), self.test_dict)
 
 
     def test_print_header(self):
@@ -46,29 +56,25 @@ class TestMachineInfo(unittest.TestCase):
         self.assertIn("machine1_1", lines[0])
 
 
-#    def test_insert_header(self):
-#        for test_line in [0, 10, 20]:
-#            get_output("output_insert_header", machine_info.insert_header, line_number=test_line)
-#            lines = read_file("output_insert_header")
-#            if test_line % 20 == 0:
-#                self.assertIn("-----", lines[0])
-#            else:
-#                self.assertFalse(lines)
+    def test_insert_header(self):
+        self._print_header(0)
+        self._print_header(10)
+        self._print_header(20)
 
 
     def test_read_file(self):
-        self.assertIn("1", machine_info.read_file("/var/lib/lxc/test_stub/", "group")[0])
-        self.assertIn("test", machine_info.read_file("/var/lib/lxc/test_stub/", "config")[0])
+        self.assertIn("1", machine_info.read_file(self.test_path, "group")[0])
+        self.assertIn("test", machine_info.read_file(self.test_path, "config")[0])
 
 
     def test_get_group_info(self):
         self.test_dict = {}
-        machine_info.get_group_info(self.test_dict, "/var/lib/lxc/test_stub/")
+        machine_info.get_group_info(self.test_dict, self.test_path)
         self.assertEqual(self.test_dict["group"], "1")
 
 
     def test_get_config_info(self):
-        machine_info.get_config_info(self.test_dict, "/var/lib/lxc/test_stub/")
+        machine_info.get_config_info(self.test_dict, self.test_path)
         self.assertEqual(self.test_dict["ip"], "10.0.3.11")
         self.assertEqual(self.test_dict["host"], "machine1_1")
 
