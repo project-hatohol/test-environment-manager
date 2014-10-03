@@ -158,16 +158,16 @@ def create_zabbix_agent20():
         print_success_message(container_name)
 
         RPM_URL = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
+        CMDS = [["rpm", "-ivh", RPM_URL],
+                ["yum", "install", "-y",
+                 "zabbix-agent"],
+                ["chkconfig", "zabbix-agent", "on"]]
+
         container.start()
         container.get_ips(timeout=30)
-        container.attach_wait(lxc.attach_run_command,
-                              ["rpm", "-ivh", RPM_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y",
-                               "zabbix-agent"])
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "zabbix-agent", "on"])
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
