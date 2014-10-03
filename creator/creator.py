@@ -47,46 +47,32 @@ def create_zabbix_server22():
         RPM_URL = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
         SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb22.sh"
         SCRIPT_NAME = "import_zabbixdb22.sh"
+        CMDS = [["rpm", "-ivh", RPM_URL],
+                ["yum", "install", "-y", "mysql-server", "httpd",
+                 "zabbix-server-mysql", "zabbix-web-mysql", "zabbix-agent"],
+                ["service", "mysqld", "start"],
+                ["chkconfig", "mysqld", "on"],
+                ["yum", "install", "-y", "mysql-server", "httpd",
+                 "zabbix-server-mysql", "zabbix-web-mysql", "zabbix-agent"],
+                ["service", "mysqld", "start"],
+                ["chkconfig", "mysqld", "on"],
+                ["mysql", "-uroot", "-e",
+                 "create database zabbix character set utf8 collate utf8_bin;"],
+                ["mysql", "-uroot", "-e",
+                 "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"],
+                ["curl", "-O", SCRIPT_URL],
+                ["chmod", "+x", SCRIPT_NAME],
+                ["./" + SCRIPT_NAME],
+                ["rm", SCRIPT_NAME],
+                ["chkconfig", "httpd", "on"],
+                ["chkconfig", "zabbix-server", "on"],
+                ["chkconfig", "zabbix-agent", "on"]]
+
         container.start()
         container.get_ips(timeout=30)
-        container.attach_wait(lxc.attach_run_command,
-                              ["rpm", "-ivh", RPM_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y",
-                               "mysql-server", "httpd",
-                               "zabbix-server-mysql",
-                               "zabbix-web-mysql",
-                               "zabbix-agent"])
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "mysqld", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "mysqld", "on"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e",
-                               "create database zabbix character set utf8 collate utf8_bin;"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e",
-                               "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["curl", "-O", SCRIPT_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chmod", "+x", SCRIPT_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["./" + SCRIPT_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["rm", SCRIPT_NAME])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "httpd", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "httpd", "on"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "zabbix-server", "on"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "zabbix-agent", "on"])
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
