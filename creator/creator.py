@@ -154,11 +154,9 @@ def create_nagios_server3(container_name, base):
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
 
-    RPM_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
     SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
     script_name = "import_NDOUtils3.sh"
-    CMDS = [["rpm", "-ivh", RPM_URL],
-            ["yum", "install", "-y", "httpd", "mysql-server",
+    CMDS = [["yum", "install", "-y", "httpd", "mysql-server",
              "nagios", "nagios-plugins-all", "ndoutils-mysql"],
             ["service", "mysqld", "start"],
             ["chkconfig", "mysqld", "on"],
@@ -200,7 +198,6 @@ def create_nagios_server4(container_name, base):
     CMDS = [["yum", "install", "-y", "mysql-server", "mysql-devel",
              "wget", "httpd", "php", "tar", "gcc", "glibc", "glibc-common",
              "gd", "gd-devel", "make", "net-snmp"],
-            ["yum", "groupinstall", "-y", "Development Tools"],
             ["service", "mysqld", "start"],
             ["chkconfig", "mysqld", "on"],
             ["mysql", "-uroot", "-e",
@@ -234,9 +231,7 @@ def create_nagios_nrpe(container_name, base):
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
 
-    RPM_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
-    CMDS = [["rpm", "-ivh", RPM_URL],
-            ["yum", "install", "-y", "nagios-plugins-all", "nrpe"]]
+    CMDS = [["yum", "install", "-y", "nagios-plugins-all", "nrpe"]]
 
     container.start()
     container.get_ips(timeout=30)
@@ -256,7 +251,6 @@ def create_hatohol_build(container_name, base):
     REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
     CUTTER_RPM = "http://sourceforge.net/projects/cutter/files/centos/cutter-release-1.1.0-0.noarch.rpm"
     CMDS = [["rpm", "-ivh", CUTTER_RPM],
-            ["yum", "groupinstall", "-y", "Development Tools"],
             ["wget", "-P", "/etc/yum.repos.d", REPO_URL],
             ["yum", "install", "-y", "libtool", "gettext-devel",
              "glib2-devel", "libsoup-devel", "json-glib-devel",
@@ -285,10 +279,8 @@ def create_hatohol_rpm(container_name, base):
     print_success_message(container_name)
 
     REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
-    EPEL_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
     CMDS = [["yum", "install", "-y", "wget"],
             ["wget", "-P", "/etc/yum.repos.d", REPO_URL],
-            ["rpm", "-ivh", EPEL_URL],
             ["yum", "install", "-y", "hatohol", "hatohol-client",
              "python-argparse"],
             ["chkconfig", "mysqld", "on"],
@@ -341,7 +333,6 @@ def create_redmine(container_name, base):
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
 
-    RPM_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
     RUBY_SOURCE_URL = "http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p481.tar.gz"
     RUBY_SOURCE_NAME = "ruby-2.0.0-p481.tar.gz"
     RUBY_INSTALL_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/install_ruby.sh"
@@ -350,9 +341,7 @@ def create_redmine(container_name, base):
     REDMINE_TARTBALL_NAME = "redmine-2.5.2.tar.gz"
     REDMINE_DIR_NAME = "redmine-2.5.2"
     PASSENGER_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/passenger.conf"
-    CMDS = [["rpm", "-ivh", RPM_URL],
-            ["yum", "groupinstall", "-y", "Development Tools"],
-            ["yum", "install", "-y",
+    CMDS = [["yum", "install", "-y",
              "openssl-devel", "readline-devel", "zlib-devel", "curl-devel",
              "libyaml-devel", "mysql-server", "mysql-devel", "httpd",
              "httpd-devel", "ImageMagick", "ImageMagick-devel", "wget",
