@@ -277,14 +277,14 @@ def create_nagios_nrpe():
         print_success_message(container_name)
 
         RPM_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+        CMDS = [["rpm", "-ivh", RPM_URL],
+                ["yum", "install", "-y", "nagios-plugins-all", "nrpe"]]
+
         container.start()
         container.get_ips(timeout=30)
-        container.attach_wait(lxc.attach_run_command,
-                              ["rpm", "-ivh", RPM_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y",
-                               "nagios-plugins-all",
-                               "nrpe"])
+
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
