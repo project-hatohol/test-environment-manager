@@ -29,8 +29,9 @@ class TestMachineInfo(unittest.TestCase):
     def test_print_header(self):
         get_output("header_output", machine_info.print_header)
         lines = read_file("header_output")
-        self.assertIn("-", lines[0])
+        self.assertIn("------", lines[0])
         self.assertIn("No", lines[1])
+        self.assertIn("HostName", [1])
 
 
     def test_print_container_info(self):
