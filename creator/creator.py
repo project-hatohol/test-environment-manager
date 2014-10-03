@@ -44,13 +44,13 @@ def create_zabbix_server22():
                                      flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        rpm_url = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
-        script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb22.sh"
-        script_name = "import_zabbixdb22.sh"
+        RPM_URL = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
+        SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb22.sh"
+        SCRIPT_NAME = "import_zabbixdb22.sh"
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                    ["rpm", "-ivh", rpm_url])
+                                    ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
                                     ["yum", "install", "-y",
                                      "mysql-server", "httpd",
@@ -71,13 +71,13 @@ def create_zabbix_server22():
                                      "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["curl", "-O", script_url])
+                                    ["curl", "-O", SCRIPT_URL])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chmod", "+x", script_name])
+                                    ["chmod", "+x", SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                    ["./" + script_name])
+                                    ["./" + SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                    ["rm", script_name])
+                                    ["rm", SCRIPT_NAME])
 
         container.attach_wait(lxc.attach_run_command,
                                     ["service", "httpd", "start"])
@@ -103,13 +103,13 @@ def create_zabbix_server20():
                                      flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        rpm_url = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
-        script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb20.sh"
-        script_name = "import_zabbixdb20.sh"
+        RPM_URL = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
+        SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb20.sh"
+        SCRIPT_NAME = "import_zabbixdb20.sh"
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                    ["rpm", "-ivh", rpm_url])
+                                    ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
                                     ["yum", "install", "-y",
                                      "mysql-server", "httpd",
@@ -130,13 +130,13 @@ def create_zabbix_server20():
                                      "grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';"])
 
         container.attach_wait(lxc.attach_run_command,
-                                    ["curl", "-O", script_url])
+                                    ["curl", "-O", SCRIPT_URL])
         container.attach_wait(lxc.attach_run_command,
-                                    ["chmod", "+x", script_name])
+                                    ["chmod", "+x", SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                    ["./" + script_name])
+                                    ["./" + SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                    ["rm", script_name])
+                                    ["rm", SCRIPT_NAME])
 
         container.attach_wait(lxc.attach_run_command,
                                     ["service", "httpd", "start"])
@@ -162,11 +162,11 @@ def create_zabbix_agent22():
                                     flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        rpm_url = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
+        RPM_URL = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
         containers.start()
         containers.get_ips(timeout=30)
         containers.attach_wait(lxc.attach_run_command,
-                                   ["rpm", "-ivh", rpm_url])
+                                   ["rpm", "-ivh", RPM_URL])
         containers.attach_wait(lxc.attach_run_command,
                                    ["yum", "install", "-y",
                                     "zabbix-agent"])
@@ -189,11 +189,11 @@ def create_zabbix_agent20():
                                     flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        rpm_url = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
+        RPM_URL = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                   ["rpm", "-ivh", rpm_url])
+                                   ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
                                    ["yum", "install", "-y",
                                     "zabbix-agent"])
@@ -216,13 +216,13 @@ def create_nagios_server3():
                                     flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
-        script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
+        RPM_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+        SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
         script_name = "import_NDOUtils3.sh"
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                   ["rpm", "-ivh", rpm_url])
+                                   ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
                                    ["yum", "install", "-y",
                                     "httpd", "mysql-server",
@@ -241,13 +241,13 @@ def create_nagios_server3():
                                     "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["curl", "-O", script_url])
+                                   ["curl", "-O", SCRIPT_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["chmod", "+x", script_name])
+                                   ["chmod", "+x", SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["./" + script_name])
+                                   ["./" + SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["rm", script_name])
+                                   ["rm", SCRIPT_NAME])
 
         container.attach_wait(lxc.attach_run_command,
                                    ["chkconfig", "ndo2db", "on"])
@@ -271,14 +271,14 @@ def create_nagios_server4():
                                     flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        nagios_url = "http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.0.8.tar.gz"
-        nagios_name = "nagios-4.0.8.tar.gz"
-        plugin_url = "http://nagios-plugins.org/download/nagios-plugins-2.0.tar.gz"
-        plugin_name = "nagios-plugins-2.0.tar.gz"
-        ndoutils_url = "http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz"
-        ndoutils_name = "ndoutils-2.0.0.tar.gz"
-        script_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh"
-        script_name = "make_Nagios4.sh"
+        NAGIOS_URL = "http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.0.8.tar.gz"
+        NAGIOS_NAME = "nagios-4.0.8.tar.gz"
+        PLUGIN_URL = "http://nagios-plugins.org/download/nagios-plugins-2.0.tar.gz"
+        PLUGIN_NAME = "nagios-plugins-2.0.tar.gz"
+        NDOUTILS_URL = "http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz"
+        NDOUTILS_NAME = "ndoutils-2.0.0.tar.gz"
+        SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh"
+        SCRIPT_NAME = "make_Nagios4.sh"
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
@@ -303,27 +303,27 @@ def create_nagios_server4():
                                     "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["wget", nagios_url])
+                                   ["wget", NAGIOS_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["wget", plugin_url])
+                                   ["wget", PLUGIN_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["wget", ndoutils_url])
+                                   ["wget", NDOUTILS_URL])
         container.attach_wait(lxc.attach_run_command,
                                    ["useradd", "nagios"])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["tar", "zxvf", nagios_name])
+                                   ["tar", "zxvf", NAGIOS_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["tar", "zxvf", plugin_name])
+                                   ["tar", "zxvf", PLUGIN_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["tar", "zxvf", ndoutils_name])
+                                   ["tar", "zxvf", NDOUTILS_NAME])
 
         container.attach_wait(lxc.attach_run_command,
-                                   ["curl", "-O", script_url])
+                                   ["curl", "-O", SCRIPT_URL])
         container.attach_wait(lxc.attach_run_command,
-                                   ["chmod", "+x", script_name])
+                                   ["chmod", "+x", SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
-                                   ["./" + script_name])
+                                   ["./" + SCRIPT_NAME])
         container.attach_wait(lxc.attach_run_command,
                                    ["rm", script_name])
 
@@ -342,11 +342,11 @@ def create_nagios_nrpe():
                                  flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+        RPM_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                                ["rpm", "-ivh", rpm_url])
+                                ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
                                 ["yum", "install", "-y",
                                  "nagios-plugins-all",
@@ -369,15 +369,15 @@ def create_hatohol_build():
 
         container.start()
         container.get_ips(timeout=30)
-        repo_url = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
-        cutter_rpm = "http://sourceforge.net/projects/cutter/files/centos/cutter-release-1.1.0-0.noarch.rpm"
+        REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
+        CUTTER_RPM = "http://sourceforge.net/projects/cutter/files/centos/cutter-release-1.1.0-0.noarch.rpm"
         container.attach_wait(lxc.attach_run_command,
-                                  ["rpm", "-ivh", cutter_rpm])
+                                  ["rpm", "-ivh", CUTTER_RPM])
         container.attach_wait(lxc.attach_run_command,
                                   ["yum", "groupinstall", "-y",
                                    "Development Tools"])
         container.attach_wait(lxc.attach_run_command,
-                                  ["wget", "-P", "/etc/yum.repos.d", repo_url])
+                                  ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
         container.attach_wait(lxc.attach_run_command,
                                   ["yum", "install", "-y",
                                    "libtool", "gettext-devel", "glib2-devel",
@@ -415,14 +415,14 @@ def create_hatohol_rpm():
 
         container.start()
         container.get_ips(timeout=30)
-        repo_url = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
-        epel_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+        REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
+        EPEL_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
         container.attach_wait(lxc.attach_run_command,
                                 ["yum", "install", "-y", "wget"])
         container.attach_wait(lxc.attach_run_command,
-                                ["wget", "-P", "/etc/yum.repos.d", repo_url])
+                                ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
         container.attach_wait(lxc.attach_run_command,
-                                ["rpm", "-ivh", epel_url])
+                                ["rpm", "-ivh", EPEL_URL])
         container.attach_wait(lxc.attach_run_command,
                                 ["yum", "install", "-y",
                                  "hatohol", "hatohol-client",
@@ -465,16 +465,16 @@ def create_fluentd():
                              flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        GPG_url = "http://packages.treasuredata.com/GPG-KEY-td-agent"
-        repo_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/fluentd.repo"
+        GPG_URL = "http://packages.treasuredata.com/GPG-KEY-td-agent"
+        REPO_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/fluentd.repo"
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
                             ["yum", "install", "-y", "wget"])
         container.attach_wait(lxc.attach_run_command,
-                            ["rpm", "--import", GPG_url])
+                            ["rpm", "--import", GPG_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["wget", "-P", "/etc/yum.repos.d", repo_url])
+                            ["wget", "-P", "/etc/yum.repos.d", REPO_URL])
         container.attach_wait(lxc.attach_run_command,
                             ["yum", "install", "-y", "td-agent"])
 
@@ -498,19 +498,19 @@ def create_redmine():
                              flags=lxc.LXC_CLONE_SNAPSHOT)
         print_success_message(container_name)
 
-        rpm_url = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
-        ruby_source_url = "http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p481.tar.gz"
-        ruby_source_name = "ruby-2.0.0-p481.tar.gz"
-        ruby_install_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/install_ruby.sh"
-        ruby_install_name = "install_ruby.sh"
-        redmine_tarball_url = "http://www.redmine.org/releases/redmine-2.5.2.tar.gz"
-        redmine_tartball_name = "redmine-2.5.2.tar.gz"
-        redmine_dir_name = "redmine-2.5.2"
-        passenger_url = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/passenger.conf"
+        RPM_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+        RUBY_SOURCE_URL = "http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p481.tar.gz"
+        RUBY_SOURCE_NAME = "ruby-2.0.0-p481.tar.gz"
+        RUBY_INSTALL_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/install_ruby.sh"
+        RUBY_INSTALL_NAME = "install_ruby.sh"
+        REDMINE_TARBALL_URL = "http://www.redmine.org/releases/redmine-2.5.2.tar.gz"
+        REDMINE_TARTBALL_NAME = "redmine-2.5.2.tar.gz"
+        REDMINE_DIR_NAME = "redmine-2.5.2"
+        PASSENGER_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/passenger.conf"
         container.start()
         container.get_ips(timeout=30)
         container.attach_wait(lxc.attach_run_command,
-                            ["rpm", "-ivh", rpm_url])
+                            ["rpm", "-ivh", RPM_URL])
         container.attach_wait(lxc.attach_run_command,
                             ["yum", "groupinstall", "-y", "Development Tools"])
         container.attach_wait(lxc.attach_run_command,
@@ -521,15 +521,15 @@ def create_redmine():
                              "ImageMagick", "ImageMagick-devel",
                              "ipa-pgothic-fonts", "wget"])
         container.attach_wait(lxc.attach_run_command,
-                            ["curl", "-O", ruby_install_url])
+                            ["curl", "-O", RUBY_INSTALL_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["chmod", "+x", ruby_install_name])
+                            ["chmod", "+x", RUBY_INSTALL_NAME])
         container.attach_wait(lxc.attach_run_command,
-                            ["curl", "-O", ruby_source_url])
+                            ["curl", "-O", RUBY_SOURCE_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["tar", "zxvf", ruby_source_name])
+                            ["tar", "zxvf", RUBY_SOURCE_NAME])
         container.attach_wait(lxc.attach_run_command,
-                            ["./" + ruby_install_name])
+                            ["./" + RUBY_INSTALL_NAME])
         container.attach_wait(lxc.attach_run_command,
                             ["gem", "install", "bundler", "--no-rdoc", "--no-ri"])
         container.attach_wait(lxc.attach_run_command,
@@ -545,9 +545,9 @@ def create_redmine():
                              "GRANT ALL ON db_redmine.* TO user_redmine@localhost IDENTIFIED BY \'pass_redmine\';"])
 
         container.attach_wait(lxc.attach_run_command,
-                            ["curl", "-O", redmine_tarball_url])
+                            ["curl", "-O", REDMINE_TARBALL_URL])
         container.attach_wait(lxc.attach_run_command,
-                            ["tar", "xvf", redmine_tartball_name])
+                            ["tar", "xvf", REDMINE_TARTBALL_NAME])
         container.attach_wait(lxc.attach_run_command,
                             ["mv", redmine_dir_name, "/var/lib/redmine"])
 
@@ -559,7 +559,7 @@ def create_redmine():
 
         container.attach_wait(lxc.attach_run_command,
                             ["wget", "-P", "/etc/httpd/httpd.conf.d/",
-                             passenger_url])
+                             PASSENGER_URL])
 
         container.attach_wait(lxc.attach_run_command,
                             ["sed", "-i", "-e", "292d",
