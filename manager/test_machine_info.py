@@ -23,7 +23,7 @@ test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
 
 class TestMachineInfo(unittest.TestCase):
     def test_get_info_dict(self):
-        self.assertEqual(machine_info.get_info_dict(0), test_dict)
+        self.assertEqual(machine_info.get_info_dict(0, "/var/lib/lxc/test_stub"), test_dict)
 
 
     def test_print_header(self):
@@ -51,11 +51,6 @@ class TestMachineInfo(unittest.TestCase):
 
     def test_read_file(self):
         self.assertIn("1", machine_info.read_file(0, "group")[0])
-
-
-    def test_get_info_dict(self):
-        get_info_dict = machine_info.get_info_dict(0)
-        self.assertEqual(test_dict, get_info_dict)
 
 
     def test_get_group_info(self):
