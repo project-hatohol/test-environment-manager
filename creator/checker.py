@@ -36,7 +36,7 @@ def is_given_file_usable(file_path):
         print("\"%s\" file exists: False" % file_path)
 
 
-def is_provided_directory_existence(directory_path):
+def is_given_directory_usable(directory_path):
     if os.path.isdir(directory_path):
         print("\"%s\" directory exists: True" % directory_path)
     else:
@@ -97,7 +97,7 @@ def check_nagios_nrpe_container():
     container = lxc.Container(clist.containers_name[container_name])
     container.start()
     container.attach_wait(is_given_file_usable, "/etc/nagios/nrpe.cfg")
-    container.attach_wait(is_provided_directory_existence, "/usr/lib64/nagios/plugins/")
+    container.attach_wait(is_given_directory_usable, "/usr/lib64/nagios/plugins/")
 
     if not container.shutdown(30):
         container.stop()
@@ -121,7 +121,7 @@ def check_redmine_container():
     print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
-    container.attach_wait(is_provided_directory_existence, "/var/lib/redmine")
+    container.attach_wait(is_given_directory_usable, "/var/lib/redmine")
     container.attach_wait(is_given_file_usable, "/usr/local/bin/ruby")
 
     if not container.shutdown(30):
