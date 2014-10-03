@@ -462,6 +462,15 @@ def create_redmine():
         print_exists_message(container_name)
 
 
+def create_container_if_needed(key, create_function_name):
+    container_name = clist.containers_name[key]
+    container = lxc.Container(container_name)
+    if container.defined:
+        print_exists_message(container_name)
+    else:
+        create_function_name()
+
+
 if __name__ == '__main__':
     if not os.geteuid() == 0:
         print("You need root permission to use this script.")
