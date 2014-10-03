@@ -233,53 +233,33 @@ def create_nagios_server4():
         NDOUTILS_NAME = "ndoutils-2.0.0.tar.gz"
         SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh"
         SCRIPT_NAME = "make_Nagios4.sh"
+        CMDS = [["yum", "install", "-y", "mysql-server", "mysql-devel",
+                 "wget", "httpd", "php", "tar", "gcc", "glibc", "glibc-common",
+                 "gd", "gd-devel", "make", "net-snmp"],
+                ["yum", "groupinstall", "-y", "Development Tools"],
+                ["service", "mysqld", "start"],
+                ["chkconfig", "mysqld", "on"],
+                ["mysql", "-uroot", "-e",
+                 "CREATE DATABASE ndoutils;"],
+                ["mysql", "-uroot", "-e",
+                 "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"],
+                ["wget", NAGIOS_URL],
+                ["wget", PLUGIN_URL],
+                ["wget", NDOUTILS_URL],
+                ["useradd", "nagios"],
+                ["tar", "zxvf", NAGIOS_NAME],
+                ["tar", "zxvf", PLUGIN_NAME],
+                ["tar", "zxvf", NDOUTILS_NAME],
+                ["curl", "-O", SCRIPT_URL],
+                ["chmod", "+x", SCRIPT_NAME],
+                ["./" + SCRIPT_NAME],
+                ["rm", script_name]]
+
         container.start()
         container.get_ips(timeout=30)
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y",
-                               "mysql-server", "mysql-devel",
-                               "wget", "httpd", "php", "tar",
-                               "gcc", "glibc", "glibc-common",
-                               "gd", "gd-devel", "make", "net-snmp"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "groupinstall", "-y",
-                               "Development Tools"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "mysqld", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "mysqld", "on"])
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e",
-                               "CREATE DATABASE ndoutils;"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e",
-                               "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["wget", NAGIOS_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["wget", PLUGIN_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["wget", NDOUTILS_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["useradd", "nagios"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["tar", "zxvf", NAGIOS_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["tar", "zxvf", PLUGIN_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["tar", "zxvf", NDOUTILS_NAME])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["curl", "-O", SCRIPT_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chmod", "+x", SCRIPT_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["./" + SCRIPT_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["rm", script_name])
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
