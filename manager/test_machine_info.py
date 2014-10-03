@@ -29,14 +29,14 @@ class TestMachineInfo(unittest.TestCase):
     def test_print_header(self):
         get_output("header_output", machine_info.print_header)
         lines = read_file("header_output")
-        self.assertTrue("-" in lines[0])
-        self.assertTrue("No" in lines[1])
+        self.assertIn("-", lines[0])
+        self.assertIn("No", lines[1])
 
 
     def test_print_container_info(self):
         get_output("output_container_info", machine_info.print_container_info, dict = test_dict)
         lines = read_file("output_container_info")
-        self.assertTrue("machine1_1" in lines[0])
+        self.assertIn("machine1_1", lines[0])
 
 
     def test_insert_header(self):
@@ -44,30 +44,30 @@ class TestMachineInfo(unittest.TestCase):
             get_output("output_insert_header", machine_info.insert_header, line_number=test_line)
             lines = read_file("output_insert_header")
             if test_line % 20 == 0:
-                self.assertTrue("-" in lines[0])
+                self.assertIn("-----", lines[0])
             else:
                 self.assertFalse(lines)
 
 
     def test_read_file(self):
-        self.assertTrue("1" in machine_info.read_file(0, "group")[0])
+        self.assertIn("1", machine_info.read_file(0, "group")[0])
 
 
     def test_get_info_dict(self):
         get_info_dict = machine_info.get_info_dict(0)
-        self.assertTrue(test_dict == get_info_dict)
+        self.assertEqual(test_dict, get_info_dict)
 
 
     def test_get_group_info(self):
         test_dict = {}
         machine_info.get_group_info(test_dict, 0)
-        self.assertTrue(test_dict["group"] == "1")
+        self.assertEqual(test_dict["group"], "1")
 
 
     def test_get_config_info(self):
         machine_info.get_config_info(test_dict, 0)
-        self.assertTrue(test_dict["ip"] == "10.0.3.11")
-        self.assertTrue(test_dict["host"] == "machine1_1")
+        self.assertEqual(test_dict["ip"], "10.0.3.11")
+        self.assertEqual(test_dict["host"], "machine1_1")
 
     
 if __name__ == '__main__':
