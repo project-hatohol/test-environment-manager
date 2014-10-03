@@ -12,20 +12,25 @@ def print_exists_message(name):
     print("Container already exists: %s" % name)
 
 
-def create_base():
-        base.create("centos")
-        print_success_message("Create Container: %s" % base_name)
+def create_base(container, container_name):
+    container.create("centos")
+    print_success_message(container_name)
 
-        base.start()
-        base.get_ips(timeout=30)
-        print("Input password for root account:")
-        base.attach_wait(lxc.attach_run_command,
-                         ["passwd"])
-        base.attach_wait(lxc.attach_run_command,
-                         ["yum", "upgrade", "-y"])
+    EPEL_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+    CMDS = [["yum", "upgrade", "-y"],
+            ["yum", "groupinstall", "-y", "Development Tools"],
+            ["rpm", "-ivh", EPEL_URL]]
 
-        if not base.shutdown(30):
-            base.stop()
+    container.start()
+    container.get_ips(timeout=30)
+    print("Input password for root account:")
+    container.attach_wait(lxc.attach_run_command, ["passwd"])
+
+    for arg in CMDS:
+        container.attach_wait(lxc.attach_run_command, arg)
+
+    if not container.shutdown(30):
+        container.stop()
 
 
 def create_zabbix_server22(contatiner_name, base):
@@ -404,7 +409,7 @@ def create_base_container_if_needed():
     if container.defined:
         print_exists_message(container_name)
     else:
-        create_base()
+        create_base(container, container_name)
 
 
 if __name__ == '__main__':
