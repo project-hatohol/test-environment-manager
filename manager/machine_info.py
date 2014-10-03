@@ -39,6 +39,10 @@ def get_container_pass(container_name):
     return container_pass
 
 
+def get_id_info(info_dict, machine_id):
+    info_dict["id"] = machine_id
+
+
 def get_group_info(info_dict, container_pass):
     info_dict["group"] = read_file(container_pass, "group")[0].rstrip()
 
@@ -56,7 +60,9 @@ def get_config_info(info_dict, container_pass):
             info_dict["host"] = host.strip()
 
 
-def get_info_dict(info_dict, container_pass):
+def get_info_dict(machine_id, container_pass):
+    info_dict = {}
+    get_id_info(info_dict, machine_id)
     get_config_info(info_dict, container_pass)
     get_group_info(info_dict, container_pass)
 
@@ -70,7 +76,6 @@ if __name__ == '__main__':
     for exe_count in range(len(container_list)):
         container_pass = get_container_pass(container_list[exe_count])
         insert_header(exe_count)
-        info_dict = {"id":exe_count}
-        print_container_info(get_info_dict(info_dict, container_pass),
+        print_container_info(get_info_dict(exe_count, container_pass),
                              container_list, container_obj_list)
 
