@@ -416,72 +416,44 @@ def create_redmine():
         REDMINE_TARTBALL_NAME = "redmine-2.5.2.tar.gz"
         REDMINE_DIR_NAME = "redmine-2.5.2"
         PASSENGER_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/passenger.conf"
+        CMDS = [["rpm", "-ivh", RPM_URL],
+                ["yum", "groupinstall", "-y", "Development Tools"],
+                ["yum", "install", "-y",
+                 "openssl-devel", "readline-devel", "zlib-devel", "curl-devel",
+                 "libyaml-devel", "mysql-server", "mysql-devel", "httpd",
+                 "httpd-devel", "ImageMagick", "ImageMagick-devel", "wget",
+                 "ipa-pgothic-fonts"],
+                ["curl", "-O", RUBY_INSTALL_URL],
+                ["chmod", "+x", RUBY_INSTALL_NAME],
+                ["curl", "-O", RUBY_SOURCE_URL],
+                ["tar", "zxvf", RUBY_SOURCE_NAME],
+                ["./" + RUBY_INSTALL_NAME],
+                ["gem", "install", "bundler", "--no-rdoc", "--no-ri"],
+                ["service", "mysqld", "start"],
+                ["chkconfig", "mysqld", "on"],
+                ["mysql", "-uroot", "-e",
+                 "CREATE DATABASE db_redmine DEFAULT CHARACTER SET utf8;"],
+                ["mysql", "-uroot", "-e",
+                 "GRANT ALL ON db_redmine.* TO user_redmine@localhost IDENTIFIED BY \'pass_redmine\';"],
+                ["curl", "-O", REDMINE_TARBALL_URL],
+                ["tar", "xvf", REDMINE_TARTBALL_NAME],
+                ["mv", redmine_dir_name, "/var/lib/redmine"],
+                ["gem", "install", "passenger",
+                 "--no-rdoc", "--no-ri"],
+                ["passenger-install-apache2-module", "--auto"],
+                ["wget", "-P", "/etc/httpd/httpd.conf.d/", PASSENGER_URL],
+                ["sed", "-i", "-e", "292d", "/etc/httpd/conf/httpd.conf"],
+                ["sed", "-i", "-e",
+                 "291 a\\DocumentRoot /var/lib/redmine/public",
+                 "/etc/httpd/conf/httpd.conf"],
+                ["service", "httpd", "start"],
+                ["chkconfig", "httpd", "on"]]
+
         container.start()
         container.get_ips(timeout=30)
-        container.attach_wait(lxc.attach_run_command,
-                              ["rpm", "-ivh", RPM_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "groupinstall", "-y", "Development Tools"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["yum", "install", "-y",
-                               "openssl-devel", "readline-devel", "zlib-devel",
-                               "curl-devel", "libyaml-devel", "mysql-server",
-                               "mysql-devel", "httpd", "httpd-devel",
-                               "ImageMagick", "ImageMagick-devel",
-                               "ipa-pgothic-fonts", "wget"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["curl", "-O", RUBY_INSTALL_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chmod", "+x", RUBY_INSTALL_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["curl", "-O", RUBY_SOURCE_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["tar", "zxvf", RUBY_SOURCE_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["./" + RUBY_INSTALL_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["gem", "install", "bundler", "--no-rdoc", "--no-ri"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "mysqld", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "mysqld", "on"])
 
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e",
-                               "CREATE DATABASE db_redmine DEFAULT CHARACTER SET utf8;"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["mysql", "-uroot", "-e",
-                               "GRANT ALL ON db_redmine.* TO user_redmine@localhost IDENTIFIED BY \'pass_redmine\';"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["curl", "-O", REDMINE_TARBALL_URL])
-        container.attach_wait(lxc.attach_run_command,
-                              ["tar", "xvf", REDMINE_TARTBALL_NAME])
-        container.attach_wait(lxc.attach_run_command,
-                              ["mv", redmine_dir_name, "/var/lib/redmine"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["gem", "install", "passenger",
-                               "--no-rdoc", "--no-ri"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["passenger-install-apache2-module", "--auto"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["wget", "-P", "/etc/httpd/httpd.conf.d/",
-                               PASSENGER_URL])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["sed", "-i", "-e", "292d",
-                               "/etc/httpd/conf/httpd.conf"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["sed", "-i", "-e",
-                               "291 a\\DocumentRoot /var/lib/redmine/public",
-                               "/etc/httpd/conf/httpd.conf"])
-
-        container.attach_wait(lxc.attach_run_command,
-                              ["service", "httpd", "start"])
-        container.attach_wait(lxc.attach_run_command,
-                              ["chkconfig", "httpd", "on"])
+        for arg in CMDS:
+            container.attach_wait(lxc.attach_run_command, arg)
 
         if not container.shutdown(30):
             container.stop()
