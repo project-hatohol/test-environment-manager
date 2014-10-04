@@ -29,14 +29,14 @@ def check_container_exist():
     print_new_line()
 
 
-def is_given_file_usable(file_path):
+def is_file_usable(file_path):
     if os.path.isfile(file_path):
         print("\"%s\" file exists: True" % file_path)
     else:
         print("\"%s\" file exists: False" % file_path)
 
 
-def is_given_directory_usable(directory_path):
+def is_directory_usable(directory_path):
     if os.path.isdir(directory_path):
         print("\"%s\" directory exists: True" % directory_path)
     else:
@@ -47,8 +47,8 @@ def check_zabbix_server_container(container_name):
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_given_file_usable, "/usr/sbin/zabbix_server")
-    container.attach_wait(is_given_file_usable, "/usr/sbin/zabbix_agentd")
+    container.attach_wait(is_file_usable, "/usr/sbin/zabbix_server")
+    container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
 
     if not container.shutdown(30):
         container.stop()
@@ -59,7 +59,7 @@ def check_zabbix_agent_container(container_name):
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_given_file_usable, "/usr/sbin/zabbix_agentd")
+    container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
 
     if not container.shutdown(30):
         container.stop()
@@ -70,8 +70,8 @@ def check_nagios_server3_container():
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_given_file_usable, "/usr/sbin/nagios")
-    container.attach_wait(is_given_file_usable, "/usr/sbin/ndo2db")
+    container.attach_wait(is_file_usable, "/usr/sbin/nagios")
+    container.attach_wait(is_file_usable, "/usr/sbin/ndo2db")
 
     if not container.shutdown(30):
         container.stop()
@@ -83,8 +83,8 @@ def check_nagios_server4_container():
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_given_file_usable, "/usr/local/nagios/bin/nagios")
-    container.attach_wait(is_given_file_usable, "/usr/local/nagios/bin/ndo2db")
+    container.attach_wait(is_file_usable, "/usr/local/nagios/bin/nagios")
+    container.attach_wait(is_file_usable, "/usr/local/nagios/bin/ndo2db")
 
     if not container.shutdown(30):
         container.stop()
@@ -96,8 +96,8 @@ def check_nagios_nrpe_container():
     print_container_name(container_name)
     container = lxc.Container(containers_name[container_name])
     container.start()
-    container.attach_wait(is_given_file_usable, "/etc/nagios/nrpe.cfg")
-    container.attach_wait(is_given_directory_usable, "/usr/lib64/nagios/plugins/")
+    container.attach_wait(is_file_usable, "/etc/nagios/nrpe.cfg")
+    container.attach_wait(is_directory_usable, "/usr/lib64/nagios/plugins/")
 
     if not container.shutdown(30):
         container.stop()
@@ -109,7 +109,7 @@ def check_hatohol_container():
     print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
-    container.attach_wait(is_given_file_usable, "/usr/sbin/hatohol")
+    container.attach_wait(is_file_usable, "/usr/sbin/hatohol")
 
     if not container.shutdown(30):
         container.stop()
@@ -121,8 +121,8 @@ def check_redmine_container():
     print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
-    container.attach_wait(is_given_directory_usable, "/var/lib/redmine")
-    container.attach_wait(is_given_file_usable, "/usr/local/bin/ruby")
+    container.attach_wait(is_directory_usable, "/var/lib/redmine")
+    container.attach_wait(is_file_usable, "/usr/local/bin/ruby")
 
     if not container.shutdown(30):
         container.stop()
@@ -134,7 +134,7 @@ def check_fluentd_container():
     print_container_name(container_name)
     container = lxc.Container(container_name)
     container.start()
-    container.attach_wait(is_given_file_usable, "/usr/sbin/td-agent")
+    container.attach_wait(is_file_usable, "/usr/sbin/td-agent")
 
     if not container.shutdown(30):
         container.stop()
