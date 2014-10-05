@@ -25,7 +25,7 @@ def create_base(container, container_name):
     shutdown_container(container)
 
 
-def create_zabbix_server22(contatiner_name, base):
+def create_zabbix_server22(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
