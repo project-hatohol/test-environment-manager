@@ -14,18 +14,14 @@ def is_container_existed(container):
 
 
 def check_container_exist():
-    is_container_existed("base")
-    is_container_existed("zabbix_server22")
-    is_container_existed("zabbix_server20")
-    is_container_existed("zabbix_agent22")
-    is_container_existed("zabbix_agent20")
-    is_container_existed("nagios_server3")
-    is_container_existed("nagios_server4")
-    is_container_existed("nagios_nrpe")
-    is_container_existed("hatohol_build")
-    is_container_existed("hatohol_rpm")
-    is_container_existed("fluentd")
-    is_container_existed("redmine")
+    NAMES = ["base", "zabbix_server22", "zabbix_server20", "zabbix_agent22",
+             "zabbix_agent20", "nagios_server3", "nagios_server4",
+             "nagios_nrpe", "hatohol_build", "hatohol_rpm", "fluentd",
+             "redmine"]
+
+    for arg in NAMES:
+        is_container_existed(arg)
+
     print_new_line()
 
 
