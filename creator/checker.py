@@ -50,8 +50,7 @@ def check_zabbix_server_container(container_name):
     container.attach_wait(is_file_usable, "/usr/sbin/zabbix_server")
     container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
     print_new_line()
 
 
@@ -61,8 +60,7 @@ def check_zabbix_agent_container(container_name):
     container.start()
     container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
     print_new_line()
 
 def check_nagios_server3_container():
@@ -73,8 +71,7 @@ def check_nagios_server3_container():
     container.attach_wait(is_file_usable, "/usr/sbin/nagios")
     container.attach_wait(is_file_usable, "/usr/sbin/ndo2db")
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
     print_new_line()
 
 
@@ -86,8 +83,7 @@ def check_nagios_server4_container():
     container.attach_wait(is_file_usable, "/usr/local/nagios/bin/nagios")
     container.attach_wait(is_file_usable, "/usr/local/nagios/bin/ndo2db")
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
     print_new_line()
 
 
@@ -99,8 +95,7 @@ def check_nagios_nrpe_container():
     container.attach_wait(is_file_usable, "/etc/nagios/nrpe.cfg")
     container.attach_wait(is_directory_usable, "/usr/lib64/nagios/plugins/")
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
     print_new_line()
 
 
@@ -111,8 +106,7 @@ def check_hatohol_container():
     container.start()
     container.attach_wait(is_file_usable, "/usr/sbin/hatohol")
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
     print_new_line()
 
 
@@ -124,8 +118,7 @@ def check_redmine_container():
     container.attach_wait(is_directory_usable, "/var/lib/redmine")
     container.attach_wait(is_file_usable, "/usr/local/bin/ruby")
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
     print_new_line()
 
 
@@ -136,8 +129,7 @@ def check_fluentd_container():
     container.start()
     container.attach_wait(is_file_usable, "/usr/sbin/td-agent")
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
     print_new_line()
 
 

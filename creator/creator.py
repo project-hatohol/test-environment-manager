@@ -22,8 +22,7 @@ def create_base(container, container_name):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_zabbix_server22(contatiner_name, base):
@@ -61,8 +60,7 @@ def create_zabbix_server22(contatiner_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_zabbix_server20(container_name, base):
@@ -97,8 +95,7 @@ def create_zabbix_server20(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_zabbix_agent22(container_name, base):
@@ -117,8 +114,7 @@ def create_zabbix_agent22(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not containers.shutdown(30):
-        containers.stop()
+    shutdown_container(container)
 
 
 def create_zabbix_agent20(container_name, base):
@@ -138,8 +134,7 @@ def create_zabbix_agent20(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_nagios_server3(container_name, base):
@@ -171,8 +166,7 @@ def create_nagios_server3(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_nagios_server4(container_name, base):
@@ -215,8 +209,7 @@ def create_nagios_server4(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_nagios_nrpe(container_name, base):
@@ -232,8 +225,7 @@ def create_nagios_nrpe(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_hatohol_build(container_name, base):
@@ -262,8 +254,7 @@ def create_hatohol_build(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_hatohol_rpm(container_name, base):
@@ -293,8 +284,7 @@ def create_hatohol_rpm(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_fluentd(container_name, base):
@@ -317,8 +307,7 @@ def create_fluentd(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_redmine(container_name, base):
@@ -371,8 +360,7 @@ def create_redmine(container_name, base):
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
 
-    if not container.shutdown(30):
-        container.stop()
+    shutdown_container(container)
 
 
 def create_container_if_needed(key, create_function_name):
