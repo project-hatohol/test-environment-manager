@@ -12,6 +12,7 @@ def create_base(container, container_name):
     EPEL_URL = "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
     CMDS = [["yum", "upgrade", "-y"],
             ["yum", "groupinstall", "-y", "Development Tools"],
+            ["yum", "install", "-y", "wget"],
             ["rpm", "-ivh", EPEL_URL]]
 
     container.start()
@@ -165,7 +166,7 @@ def create_nagios_server4(container_name, base):
     SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh"
     SCRIPT_NAME = "make_Nagios4.sh"
     CMDS = [["yum", "install", "-y", "mysql-server", "mysql-devel",
-             "wget", "httpd", "php", "tar", "gcc", "glibc", "glibc-common",
+             "httpd", "php", "tar", "gcc", "glibc", "glibc-common",
              "gd", "gd-devel", "make", "net-snmp"],
             ["service", "mysqld", "start"],
             ["chkconfig", "mysqld", "on"],
@@ -230,8 +231,7 @@ def create_hatohol_build(container_name, base):
 
 def create_hatohol_rpm(container_name, base):
     REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
-    CMDS = [["yum", "install", "-y", "wget"],
-            ["wget", "-P", "/etc/yum.repos.d", REPO_URL],
+    CMDS = [["wget", "-P", "/etc/yum.repos.d", REPO_URL],
             ["yum", "install", "-y", "hatohol", "hatohol-client",
              "python-argparse"],
             ["chkconfig", "mysqld", "on"],
@@ -256,8 +256,7 @@ def create_hatohol_rpm(container_name, base):
 def create_fluentd(container_name, base):
     GPG_URL = "http://packages.treasuredata.com/GPG-KEY-td-agent"
     REPO_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/fluentd.repo"
-    CMDS = [["yum", "install", "-y", "wget"],
-            ["rpm", "--import", GPG_URL],
+    CMDS = [["rpm", "--import", GPG_URL],
             ["wget", "-P", "/etc/yum.repos.d", REPO_URL],
             ["yum", "install", "-y", "td-agent"],
             ["service", "td-agent", "start"],
@@ -283,7 +282,7 @@ def create_redmine(container_name, base):
     CMDS = [["yum", "install", "-y",
              "openssl-devel", "readline-devel", "zlib-devel", "curl-devel",
              "libyaml-devel", "mysql-server", "mysql-devel", "httpd",
-             "httpd-devel", "ImageMagick", "ImageMagick-devel", "wget",
+             "httpd-devel", "ImageMagick", "ImageMagick-devel",
              "ipa-pgothic-fonts"],
             ["curl", "-O", RUBY_INSTALL_URL],
             ["chmod", "+x", RUBY_INSTALL_NAME],
