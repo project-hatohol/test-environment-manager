@@ -9,8 +9,10 @@ from utils import *
 def is_container_existed(container):
     if lxc.Container(definevalue.containers_name[container]).defined:
         print_container_exist_message(definevalue.containers_name[container])
+        return True
     else:
         print_container_non_exist_message(definevalue.containers_name[container])
+        return False
 
 
 def check_container_exist():
@@ -20,9 +22,11 @@ def check_container_exist():
              "redmine"]
 
     for arg in NAMES:
-        is_container_existed(arg)
+        if not is_container_existed(arg):
+            return False
 
     print_new_line()
+    return True
 
 
 def is_file_usable(file_path):
@@ -147,5 +151,5 @@ if __name__ == '__main__':
         print("You need root permission to use this script.")
         sys.exit(1)
 
-    check_container_exist()
-    check_container_successfully()
+    if check_container_exist():
+        check_container_successfully()
