@@ -43,10 +43,14 @@ def is_directory_usable(directory_path):
         print("\"%s\" directory exists: False" % directory_path)
 
 
-def check_zabbix_server_container(container_key):
+def define_container(container_key):
     container_name = definevalue.containers_name[container_key]
     print_container_name(container_name)
-    container = lxc.Container(container_name)
+
+    return lxc.Container(container_name)
+
+def check_zabbix_server_container(container_key):
+    container = define_container(container_key)
     container.start()
     container.attach_wait(is_file_usable, "/usr/sbin/zabbix_server")
     container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
@@ -56,9 +60,7 @@ def check_zabbix_server_container(container_key):
 
 
 def check_zabbix_agent_container(container_key):
-    container_name = definevalue.containers_name[container_key]
-    print_container_name(container_name)
-    container = lxc.Container(container_name)
+    container = define_container(container_key)
     container.start()
     container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
 
@@ -67,9 +69,7 @@ def check_zabbix_agent_container(container_key):
 
 def check_nagios_server3_container():
     container_key = "nagios_server3"
-    container_name = definevalue.containers_name[container_key]
-    print_container_name(container_name)
-    container = lxc.Container(container_name)
+    container = define_container(container_key)
     container.start()
     container.attach_wait(is_file_usable, "/usr/sbin/nagios")
     container.attach_wait(is_file_usable, "/usr/sbin/ndo2db")
@@ -80,9 +80,7 @@ def check_nagios_server3_container():
 
 def check_nagios_server4_container():
     container_key = "nagios_server4"
-    container_name = definevalue.containers_name[container_key]
-    print_container_name(container_name)
-    container = lxc.Container(container_name)
+    container = define_container(container_key)
     container.start()
     container.attach_wait(is_file_usable, "/usr/local/nagios/bin/nagios")
     container.attach_wait(is_file_usable, "/usr/local/nagios/bin/ndo2db")
@@ -93,9 +91,7 @@ def check_nagios_server4_container():
 
 def check_nagios_nrpe_container():
     container_key = "nagios_nrpe"
-    container_name = definevalue.containers_name[container_key]
-    print_container_name(container_name)
-    container = lxc.Container(container_name)
+    container = define_container(container_key)
     container.start()
     container.attach_wait(is_file_usable, "/etc/nagios/nrpe.cfg")
     container.attach_wait(is_directory_usable, "/usr/lib64/nagios/plugins/")
@@ -105,9 +101,8 @@ def check_nagios_nrpe_container():
 
 
 def check_hatohol_container():
-    container_name = definevalue.containers_name["hatohol_rpm"]
-    print_container_name(container_name)
-    container = lxc.Container(container_name)
+    container_key = "hatohol_rpm"
+    container = define_container(container_key)
     container.start()
     container.attach_wait(is_file_usable, "/usr/sbin/hatohol")
 
@@ -116,9 +111,8 @@ def check_hatohol_container():
 
 
 def check_redmine_container():
-    container_name = definevalue.containers_name["redmine"]
-    print_container_name(container_name)
-    container = lxc.Container(container_name)
+    container_key = "redmine"
+    container = define_container(container_key)
     container.start()
     container.attach_wait(is_directory_usable, "/var/lib/redmine")
     container.attach_wait(is_file_usable, "/usr/local/bin/ruby")
@@ -128,9 +122,8 @@ def check_redmine_container():
 
 
 def check_fluentd_container():
-    container_name = definevalue.containers_name["fluentd"]
-    print_container_name(container_name)
-    container = lxc.Container(container_name)
+    container_key = "fluentd"
+    container = define_container(container_key)
     container.start()
     container.attach_wait(is_file_usable, "/usr/sbin/td-agent")
 
