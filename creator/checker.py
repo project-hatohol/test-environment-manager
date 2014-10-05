@@ -49,6 +49,7 @@ def define_container(container_key):
 
     return lxc.Container(container_name)
 
+
 def check_zabbix_server_container(container_key):
     container = define_container(container_key)
     container.start()
@@ -66,6 +67,7 @@ def check_zabbix_agent_container(container_key):
 
     shutdown_container(container)
     print_new_line()
+
 
 def check_nagios_server3_container():
     container_key = "nagios_server3"
