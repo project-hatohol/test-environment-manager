@@ -143,7 +143,7 @@ def create_nagios_server3(container_name, base):
     print_success_message(container_name)
 
     SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
-    script_name = "import_NDOUtils3.sh"
+    SCRIPT_NAME = "import_NDOUtils3.sh"
     CMDS = [["yum", "install", "-y", "httpd", "mysql-server",
              "nagios", "nagios-plugins-all", "ndoutils-mysql"],
             ["service", "mysqld", "start"],
