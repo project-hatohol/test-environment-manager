@@ -342,7 +342,7 @@ def create_redmine(container_name, base):
              "GRANT ALL ON db_redmine.* TO user_redmine@localhost IDENTIFIED BY \'pass_redmine\';"],
             ["curl", "-O", REDMINE_TARBALL_URL],
             ["tar", "xvf", REDMINE_TARTBALL_NAME],
-            ["mv", redmine_dir_name, "/var/lib/redmine"],
+            ["mv", REDMINE_DIR_NAME, "/var/lib/redmine"],
             ["gem", "install", "passenger",
              "--no-rdoc", "--no-ri"],
             ["passenger-install-apache2-module", "--auto"],
