@@ -25,11 +25,18 @@ def create_base(container, container_name):
     shutdown_container(container)
 
 
-def create_zabbix_server22(container_name, base):
+def clone_start_container(container_name, base):
     container = base.clone(container_name, bdevtype="aufs",
                            flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
 
+    container.start()
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+
+    return container
+
+
+def create_zabbix_server22(container_name, base):
     RPM_URL = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
     SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb22.sh"
     SCRIPT_NAME = "import_zabbixdb22.sh"
@@ -54,8 +61,7 @@ def create_zabbix_server22(container_name, base):
             ["chkconfig", "zabbix-server", "on"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -64,10 +70,6 @@ def create_zabbix_server22(container_name, base):
 
 
 def create_zabbix_server20(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     RPM_URL = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
     SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb20.sh"
     SCRIPT_NAME = "import_zabbixdb20.sh"
@@ -89,8 +91,7 @@ def create_zabbix_server20(container_name, base):
             ["chkconfig", "zabbix-server", "on"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -99,17 +100,12 @@ def create_zabbix_server20(container_name, base):
 
 
 def create_zabbix_agent22(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                            flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     RPM_URL = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
     CMDS = [["rpm", "-ivh", RPM_URL],
             ["yum", "install", "-y", "zabbix-agent"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -118,18 +114,13 @@ def create_zabbix_agent22(container_name, base):
 
 
 def create_zabbix_agent20(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     RPM_URL = "http://repo.zabbix.com/zabbix/2.0/rhel/6/x86_64/zabbix-release-2.0-1.el6.noarch.rpm"
     CMDS = [["rpm", "-ivh", RPM_URL],
             ["yum", "install", "-y",
              "zabbix-agent"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -138,10 +129,6 @@ def create_zabbix_agent20(container_name, base):
 
 
 def create_nagios_server3(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
     SCRIPT_NAME = "import_NDOUtils3.sh"
     CMDS = [["yum", "install", "-y", "httpd", "mysql-server",
@@ -160,8 +147,7 @@ def create_nagios_server3(container_name, base):
             ["chkconfig", "nagios", "on"],
             ["chkconfig", "httpd", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -170,10 +156,6 @@ def create_nagios_server3(container_name, base):
 
 
 def create_nagios_server4(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     NAGIOS_URL = "http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.0.8.tar.gz"
     NAGIOS_NAME = "nagios-4.0.8.tar.gz"
     PLUGIN_URL = "http://nagios-plugins.org/download/nagios-plugins-2.0.tar.gz"
@@ -203,8 +185,7 @@ def create_nagios_server4(container_name, base):
             ["./" + SCRIPT_NAME],
             ["rm", SCRIPT_NAME]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -213,14 +194,9 @@ def create_nagios_server4(container_name, base):
 
 
 def create_nagios_nrpe(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     CMDS = [["yum", "install", "-y", "nagios-plugins-all", "nrpe"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -229,10 +205,6 @@ def create_nagios_nrpe(container_name, base):
 
 
 def create_hatohol_build(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
     CUTTER_RPM = "http://sourceforge.net/projects/cutter/files/centos/cutter-release-1.1.0-0.noarch.rpm"
     CMDS = [["rpm", "-ivh", CUTTER_RPM],
@@ -248,8 +220,7 @@ def create_hatohol_build(container_name, base):
             ["service", "mysqld", "start"],
             ["chkconfig", "mysqld", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -258,10 +229,6 @@ def create_hatohol_build(container_name, base):
 
 
 def create_hatohol_rpm(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     REPO_URL = "https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo"
     CMDS = [["yum", "install", "-y", "wget"],
             ["wget", "-P", "/etc/yum.repos.d", REPO_URL],
@@ -278,8 +245,7 @@ def create_hatohol_rpm(container_name, base):
             ["chkconfig", "hatohol", "on"],
             ["chkconfig", "httpd", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -288,10 +254,6 @@ def create_hatohol_rpm(container_name, base):
 
 
 def create_fluentd(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     GPG_URL = "http://packages.treasuredata.com/GPG-KEY-td-agent"
     REPO_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/fluentd.repo"
     CMDS = [["yum", "install", "-y", "wget"],
@@ -301,8 +263,7 @@ def create_fluentd(container_name, base):
             ["service", "td-agent", "start"],
             ["chkconfig", "td-agent", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -311,10 +272,6 @@ def create_fluentd(container_name, base):
 
 
 def create_redmine(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
     RUBY_SOURCE_URL = "http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p481.tar.gz"
     RUBY_SOURCE_NAME = "ruby-2.0.0-p481.tar.gz"
     RUBY_INSTALL_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/install_ruby.sh"
@@ -354,8 +311,7 @@ def create_redmine(container_name, base):
             ["service", "httpd", "start"],
             ["chkconfig", "httpd", "on"]]
 
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container = clone_start_container(container_name, base)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
