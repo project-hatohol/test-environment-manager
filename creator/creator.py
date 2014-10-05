@@ -379,7 +379,7 @@ def create_base_container_if_needed():
     if container.defined:
         print_exists_message(base_name)
     else:
-        create_base(container, container_name)
+        create_base(container, base_name)
 
 
 if __name__ == '__main__':
