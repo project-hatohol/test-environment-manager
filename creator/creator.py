@@ -15,7 +15,7 @@ def create_base(container, container_name):
             ["rpm", "-ivh", EPEL_URL]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
     print("Input password for root account:")
     container.attach_wait(lxc.attach_run_command, ["passwd"])
 
@@ -55,7 +55,7 @@ def create_zabbix_server22(contatiner_name, base):
             ["chkconfig", "zabbix-agent", "on"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -90,7 +90,7 @@ def create_zabbix_server20(container_name, base):
             ["chkconfig", "zabbix-agent", "on"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -109,7 +109,7 @@ def create_zabbix_agent22(container_name, base):
             ["chkconfig", "zabbix-agent", "on"]]
 
     containers.start()
-    containers.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    containers.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -129,7 +129,7 @@ def create_zabbix_agent20(container_name, base):
             ["chkconfig", "zabbix-agent", "on"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -161,7 +161,7 @@ def create_nagios_server3(container_name, base):
             ["chkconfig", "httpd", "on"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -204,7 +204,7 @@ def create_nagios_server4(container_name, base):
             ["rm", script_name]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -220,7 +220,7 @@ def create_nagios_nrpe(container_name, base):
     CMDS = [["yum", "install", "-y", "nagios-plugins-all", "nrpe"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -249,7 +249,7 @@ def create_hatohol_build(container_name, base):
             ["chkconfig", "mysqld", "on"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -279,7 +279,7 @@ def create_hatohol_rpm(container_name, base):
             ["chkconfig", "httpd", "on"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -302,7 +302,7 @@ def create_fluentd(container_name, base):
             ["chkconfig", "td-agent", "on"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
@@ -355,7 +355,7 @@ def create_redmine(container_name, base):
             ["chkconfig", "httpd", "on"]]
 
     container.start()
-    container.get_ips(timeout=definedvalue.TIMEOUT_VALUE)
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
