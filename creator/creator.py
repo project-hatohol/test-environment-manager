@@ -99,7 +99,7 @@ def create_zabbix_server20(container_name, base):
 
 
 def create_zabbix_agent22(container_name, base):
-    containers = base.clone(container_name, bdevtype="aufs",
+    container = base.clone(container_name, bdevtype="aufs",
                             flags=lxc.LXC_CLONE_SNAPSHOT)
     print_success_message(container_name)
 
@@ -108,8 +108,8 @@ def create_zabbix_agent22(container_name, base):
             ["yum", "install", "-y", "zabbix-agent"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    containers.start()
-    containers.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container.start()
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for arg in CMDS:
         container.attach_wait(lxc.attach_run_command, arg)
