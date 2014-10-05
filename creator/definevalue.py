@@ -14,3 +14,5 @@ containers_name = {
     "fluentd": "env_fluentd",
     "redmine": "env_redmine"
 }
+
+TIMEOUT_VALUE = 30

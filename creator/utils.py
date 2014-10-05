@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import definevalue
 
 def print_success_message(name):
     print("Create Container: %s" % name)
@@ -25,5 +26,5 @@ def print_new_line():
 
 
 def shutdown_container(container):
-    if not container.shutdown(30):
+    if not container.shutdown(definevalue.TIMEOUT_VALUE):
         container.stop()
