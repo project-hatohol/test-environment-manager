@@ -22,3 +22,8 @@ def print_container_name(name):
 
 def print_new_line():
     print("")
+
+
+def shutdown_container(container):
+    if not container.shutdown(30):
+        container.stop()
