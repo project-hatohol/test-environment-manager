@@ -57,7 +57,6 @@ def check_zabbix_server_container(container_key):
     container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
 
     shutdown_container(container)
-    print_new_line()
 
 
 def check_zabbix_agent_container(container_key):
@@ -66,7 +65,6 @@ def check_zabbix_agent_container(container_key):
     container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
 
     shutdown_container(container)
-    print_new_line()
 
 
 def check_nagios_server3_container():
@@ -77,7 +75,6 @@ def check_nagios_server3_container():
     container.attach_wait(is_file_usable, "/usr/sbin/ndo2db")
 
     shutdown_container(container)
-    print_new_line()
 
 
 def check_nagios_server4_container():
@@ -88,7 +85,6 @@ def check_nagios_server4_container():
     container.attach_wait(is_file_usable, "/usr/local/nagios/bin/ndo2db")
 
     shutdown_container(container)
-    print_new_line()
 
 
 def check_nagios_nrpe_container():
@@ -99,7 +95,6 @@ def check_nagios_nrpe_container():
     container.attach_wait(is_directory_usable, "/usr/lib64/nagios/plugins/")
 
     shutdown_container(container)
-    print_new_line()
 
 
 def check_hatohol_container():
@@ -109,7 +104,6 @@ def check_hatohol_container():
     container.attach_wait(is_file_usable, "/usr/sbin/hatohol")
 
     shutdown_container(container)
-    print_new_line()
 
 
 def check_redmine_container():
@@ -120,7 +114,6 @@ def check_redmine_container():
     container.attach_wait(is_file_usable, "/usr/local/bin/ruby")
 
     shutdown_container(container)
-    print_new_line()
 
 
 def check_fluentd_container():
@@ -130,7 +123,6 @@ def check_fluentd_container():
     container.attach_wait(is_file_usable, "/usr/sbin/td-agent")
 
     shutdown_container(container)
-    print_new_line()
 
 
 def check_container_successfully():

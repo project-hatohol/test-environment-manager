@@ -26,5 +26,6 @@ def print_new_line():
 
 
 def shutdown_container(container):
+    print_new_line()
     if not container.shutdown(definevalue.TIMEOUT_VALUE):
         container.stop()
