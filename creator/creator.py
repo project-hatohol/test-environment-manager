@@ -201,7 +201,7 @@ def create_nagios_server4(container_name, base):
             ["curl", "-O", SCRIPT_URL],
             ["chmod", "+x", SCRIPT_NAME],
             ["./" + SCRIPT_NAME],
-            ["rm", script_name]]
+            ["rm", SCRIPT_NAME]]
 
     container.start()
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
