@@ -50,6 +50,11 @@ def define_container(container_key):
     return lxc.Container(container_name)
 
 
+def run_check_command(container, check_item):
+    for (function_name, argument) in check_item:
+        container.attach_wait(function_name, argument)
+
+
 def check_zabbix_server_container(container_key):
     container = define_container(container_key)
     container.start()
