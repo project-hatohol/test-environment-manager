@@ -18,6 +18,15 @@ class TestMachineInfo(unittest.TestCase):
         self.assertFalse(before_state == self.container_obj_list[container_id].state)
 
 
+    def _get_containers_state(self, container_ids):
+        states = []
+        for container_id in container_ids:
+            print(container_id)
+            states.append(self.container_obj_list[container_id].state)
+
+        return states
+
+
 if __name__ == '__main__':
     unittest.main()
 
