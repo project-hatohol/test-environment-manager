@@ -32,7 +32,7 @@ class TestMachineInfo(unittest.TestCase):
 
 
     test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
-    test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub/"
+    test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
 
     def test_get_info_dict(self):
         self.assertEqual(machine_info.get_info_dict(0, self.test_path), self.test_dict)
