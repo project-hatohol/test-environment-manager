@@ -30,8 +30,8 @@ def change_state_to_stop(obj, name):
         print(name + " | " + "Stop " + str(succeed_stop))
 
 
-def toggle_state_for_group(group_id_list):
-    group_dict = create_group_dict()
+def toggle_state_for_group(group_id_list, container_dir_path):
+    group_dict = create_group_dict(container_dir_path)
     for group_id in group_id_list:
         toggle_state_for_each_machine(group_dict[group_id])
 
@@ -58,10 +58,10 @@ def enum_id_list(input_argument):
     return lists
 
 
-def create_group_dict():
+def create_group_dict(container_dir_path):
     dict = {}
     for machine_id in range(len(container_list)):
-        container_path = machine_info.get_container_path(container_list[machine_id])
+        container_path = container_dir_path + container_list[machine_id] + "/"
         group_id = int(machine_info.read_file(container_path, "group")[0].rstrip())
         
         if group_id not in dict:
@@ -72,6 +72,12 @@ def create_group_dict():
     return dict
 
 
+def get_container_dir_path():
+    container_dir_path = "/var/lib/lxc/"
+
+    return container_dir_path
+
+
 if __name__ == '__main__':
     input_argument = sys.argv[2:]
     if sys.argv[1] == "m":   
@@ -80,8 +86,9 @@ if __name__ == '__main__':
         toggle_state_for_each_machine(machine_id_list)
 
     elif sys.argv[1] == "g":
+        container_dir_path = get_container_dir_path()
         group_id_list = enum_id_list(input_argument)
-        toggle_state_for_group(group_id_list)
+        toggle_state_for_group(group_id_list, container_dir_path)
 
     else:
         print("You must input the first argument as 'm' or 'g'.")
