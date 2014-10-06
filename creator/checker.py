@@ -55,79 +55,70 @@ def run_check_command(container, check_item):
         container.attach_wait(function_name, argument)
 
 
-def check_zabbix_server_container(container_key):
+def check_container(container_key, check_item):
     container = define_container(container_key)
     container.start()
-    container.attach_wait(print_file_is_usable, "/usr/sbin/zabbix_server")
-    container.attach_wait(print_file_is_usable, "/usr/sbin/zabbix_agentd")
-
+    run_check_command(container, check_item)
     shutdown_container(container)
+
+
+def check_zabbix_server_container(container_key):
+    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_server"],
+                  [print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
+
+    check_container(container_key, CHECK_ITEM)
 
 
 def check_zabbix_agent_container(container_key):
-    container = define_container(container_key)
-    container.start()
-    container.attach_wait(print_file_is_usable, "/usr/sbin/zabbix_agentd")
+    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
-    shutdown_container(container)
+    check_container(container_key, CHECK_ITEM)
 
 
 def check_nagios_server3_container():
+    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/nagios"],
+                  [print_file_is_usable, "/usr/sbin/ndo2db"]]
     container_key = "nagios_server3"
-    container = define_container(container_key)
-    container.start()
-    container.attach_wait(print_file_is_usable, "/usr/sbin/nagios")
-    container.attach_wait(print_file_is_usable, "/usr/sbin/ndo2db")
 
-    shutdown_container(container)
+    check_container(container_key, CHECK_ITEM)
 
 
 def check_nagios_server4_container():
+    CHECK_ITEM = [[print_file_is_usable, "/usr/local/nagios/bin/nagios"],
+                  [print_file_is_usable, "/usr/local/nagios/bin/ndo2db"]]
     container_key = "nagios_server4"
-    container = define_container(container_key)
-    container.start()
-    container.attach_wait(print_file_is_usable, "/usr/local/nagios/bin/nagios")
-    container.attach_wait(print_file_is_usable, "/usr/local/nagios/bin/ndo2db")
 
-    shutdown_container(container)
+    check_container(container_key, CHECK_ITEM)
 
 
 def check_nagios_nrpe_container():
+    CHECK_ITEM = [[print_file_is_usable, "/etc/nagios/nrpe.cfg"],
+                  [print_directory_is_usable, "/usr/lib64/nagios/plugins/"]]
     container_key = "nagios_nrpe"
-    container = define_container(container_key)
-    container.start()
-    container.attach_wait(print_file_is_usable, "/etc/nagios/nrpe.cfg")
-    container.attach_wait(print_directory_is_usable, "/usr/lib64/nagios/plugins/")
 
-    shutdown_container(container)
+    check_container(container_key, CHECK_ITEM)
 
 
 def check_hatohol_container():
+    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/hatohol"]]
     container_key = "hatohol_rpm"
-    container = define_container(container_key)
-    container.start()
-    container.attach_wait(print_file_is_usable, "/usr/sbin/hatohol")
 
-    shutdown_container(container)
+    check_container(container_key, CHECK_ITEM)
 
 
 def check_redmine_container():
+    CHECK_ITEM = [[print_directory_is_usable, "/var/lib/redmine"],
+                  [print_file_is_usable, "/usr/local/bin/ruby"]]
     container_key = "redmine"
-    container = define_container(container_key)
-    container.start()
-    container.attach_wait(print_directory_is_usable, "/var/lib/redmine")
-    container.attach_wait(print_file_is_usable, "/usr/local/bin/ruby")
 
-    shutdown_container(container)
+    check_container(container_key, CHECK_ITEM)
 
 
 def check_fluentd_container():
+    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/td-agent"]]
     container_key = "fluentd"
-    container = define_container(container_key)
-    container.start()
-    container.attach_wait(print_file_is_usable, "/usr/sbin/td-agent")
 
-    shutdown_container(container)
+    check_container(container_key, CHECK_ITEM)
 
 
 def check_container_successfully():
