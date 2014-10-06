@@ -37,6 +37,12 @@ class TestMachineInfo(unittest.TestCase):
         self.assertEquals("RUNNING", self.container_obj_list[0].state)
 
 
+    def test_change_state_to_stop(self):
+        machine_switcher.change_state_to_stop(self.container_obj_list[0],
+                                               self.container_list[0])
+        self.assertEquals("STOPPED", self.container_obj_list[0].state)
+
+
 if __name__ == '__main__':
     unittest.main()
 
