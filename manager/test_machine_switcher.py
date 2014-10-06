@@ -7,11 +7,10 @@ import sys
 import os
 
 class TestMachineInfo(unittest.TestCase):
-    def test_toggle_state(self):
-        before_state = container_objs[0].state
-        machine_switcher.toggle_state(0)
-        self.assertFalse(before_state == container_objs[0].state)
-
+    container_list = test_stub.test_container_list()
+    container_obj_list = test_stub.test_obj_list()
+    test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 if __name__ == '__main__':
     unittest.main()
+
