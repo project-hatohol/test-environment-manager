@@ -40,6 +40,12 @@ def create_base(container, container_name):
     shutdown_container(container)
 
 
+def clone_container_and_run_commands(container_name, base, cmds):
+    container = clone_start_container(container_name, base)
+    run_commands_in_container(container, cmds)
+    shutdown_container(container)
+
+
 def create_zabbix_server22(container_name, base):
     RPM_URL = "http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm"
     SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb22.sh"
@@ -65,9 +71,7 @@ def create_zabbix_server22(container_name, base):
             ["chkconfig", "zabbix-server", "on"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_zabbix_server20(container_name, base):
@@ -92,9 +96,7 @@ def create_zabbix_server20(container_name, base):
             ["chkconfig", "zabbix-server", "on"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_zabbix_agent22(container_name, base):
@@ -103,9 +105,7 @@ def create_zabbix_agent22(container_name, base):
             ["yum", "install", "-y", "zabbix-agent"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_zabbix_agent20(container_name, base):
@@ -115,9 +115,7 @@ def create_zabbix_agent20(container_name, base):
              "zabbix-agent"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_nagios_server3(container_name, base):
@@ -139,9 +137,7 @@ def create_nagios_server3(container_name, base):
             ["chkconfig", "nagios", "on"],
             ["chkconfig", "httpd", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_nagios_server4(container_name, base):
@@ -174,17 +170,13 @@ def create_nagios_server4(container_name, base):
             ["./" + SCRIPT_NAME],
             ["rm", SCRIPT_NAME]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_nagios_nrpe(container_name, base):
     CMDS = [["yum", "install", "-y", "nagios-plugins-all", "nrpe"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_hatohol_build(container_name, base):
@@ -203,9 +195,7 @@ def create_hatohol_build(container_name, base):
             ["service", "mysqld", "start"],
             ["chkconfig", "mysqld", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_hatohol_rpm(container_name, base):
@@ -224,9 +214,7 @@ def create_hatohol_rpm(container_name, base):
             ["chkconfig", "hatohol", "on"],
             ["chkconfig", "httpd", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_fluentd(container_name, base):
@@ -238,9 +226,7 @@ def create_fluentd(container_name, base):
             ["service", "td-agent", "start"],
             ["chkconfig", "td-agent", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_redmine(container_name, base):
@@ -283,9 +269,7 @@ def create_redmine(container_name, base):
             ["service", "httpd", "start"],
             ["chkconfig", "httpd", "on"]]
 
-    container = clone_start_container(container_name, base)
-    run_commands_in_container(container, CMDS)
-    shutdown_container(container)
+    clone_container_and_run_commands(container_name, base, CMDS)
 
 
 def create_container_if_needed(key, create_function_name):
