@@ -54,6 +54,17 @@ class TestMachineInfo(unittest.TestCase):
             self.assertNotEquals(before_states, after_states)
 
 
+    def test_toggle_state_for_each_machine(self):
+        test_ids = [0, 1, 3]
+        before_states = self._get_containers_state(test_ids)
+        machine_switcher.toggle_state_for_each_machine(test_ids, self.container_obj_list,
+                                                       self.container_list)
+        after_states = self._get_containers_state(test_ids)
+
+        for num in range(len(test_ids)):
+            self.assertNotEquals(before_states, after_states)
+
+
 if __name__ == '__main__':
     unittest.main()
 
