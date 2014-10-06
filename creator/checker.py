@@ -46,7 +46,7 @@ def run_check_command(container, check_item):
         container.attach_wait(function_name, argument)
 
 
-def check_container(container_name, check_item):
+def print_result_of_check_item(container_name, check_item):
     container = lxc.Container(container_name)
     print("Container name: %s" % container_name)
 
@@ -59,13 +59,13 @@ def print_zabbix_server_is_installed_successfully(container_name):
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_server"],
                   [print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
-    check_container(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, CHECK_ITEM)
 
 
 def print_zabbix_agent_is_installed_successfully(container_name):
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
-    check_container(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, CHECK_ITEM)
 
 
 def print_nagios_server3_is_installed_successfully():
@@ -73,7 +73,7 @@ def print_nagios_server3_is_installed_successfully():
                   [print_file_is_usable, "/usr/sbin/ndo2db"]]
     container_name = "env_nagios_server3"
 
-    check_container(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, CHECK_ITEM)
 
 
 def print_nagios_server4_is_installed_successfully():
@@ -81,7 +81,7 @@ def print_nagios_server4_is_installed_successfully():
                   [print_file_is_usable, "/usr/local/nagios/bin/ndo2db"]]
     container_name = "env_nagios_server4"
 
-    check_container(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, CHECK_ITEM)
 
 
 def print_nagios_nrpe_is_installed_successfully():
@@ -89,14 +89,14 @@ def print_nagios_nrpe_is_installed_successfully():
                   [print_directory_is_usable, "/usr/lib64/nagios/plugins/"]]
     container_name = "env_nagios_nrpe"
 
-    check_container(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, CHECK_ITEM)
 
 
 def check_hatohol_container():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/hatohol"]]
     container_name = "env_hatohol_rpm"
 
-    check_container(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, CHECK_ITEM)
 
 
 def print_redmine_is_installed_successfully():
@@ -104,14 +104,14 @@ def print_redmine_is_installed_successfully():
                   [print_file_is_usable, "/usr/local/bin/ruby"]]
     container_name = "env_redmine"
 
-    check_container(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, CHECK_ITEM)
 
 
 def print_fluentd_container_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/td-agent"]]
     container_name = "env_fluentd"
 
-    check_container(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, CHECK_ITEM)
 
 
 def check_container_successfully():
