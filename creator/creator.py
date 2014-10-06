@@ -40,7 +40,7 @@ def create_base(container, container_name):
     shutdown_container(container)
 
 
-def clone_container_and_run_commands(container_name, base, cmds):
+def clone_container_and_install_software(container_name, base, cmds):
     container = clone_start_container(container_name, base)
     run_commands_in_container(container, cmds)
     shutdown_container(container)
@@ -71,7 +71,7 @@ def create_zabbix_server22(container_name, base):
             ["chkconfig", "zabbix-server", "on"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_zabbix_server20(container_name, base):
@@ -96,7 +96,7 @@ def create_zabbix_server20(container_name, base):
             ["chkconfig", "zabbix-server", "on"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_zabbix_agent22(container_name, base):
@@ -105,7 +105,7 @@ def create_zabbix_agent22(container_name, base):
             ["yum", "install", "-y", "zabbix-agent"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_zabbix_agent20(container_name, base):
@@ -115,7 +115,7 @@ def create_zabbix_agent20(container_name, base):
              "zabbix-agent"],
             ["chkconfig", "zabbix-agent", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_nagios_server3(container_name, base):
@@ -137,7 +137,7 @@ def create_nagios_server3(container_name, base):
             ["chkconfig", "nagios", "on"],
             ["chkconfig", "httpd", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_nagios_server4(container_name, base):
@@ -170,13 +170,13 @@ def create_nagios_server4(container_name, base):
             ["./" + SCRIPT_NAME],
             ["rm", SCRIPT_NAME]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_nagios_nrpe(container_name, base):
     CMDS = [["yum", "install", "-y", "nagios-plugins-all", "nrpe"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_hatohol_build(container_name, base):
@@ -195,7 +195,7 @@ def create_hatohol_build(container_name, base):
             ["service", "mysqld", "start"],
             ["chkconfig", "mysqld", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_hatohol_rpm(container_name, base):
@@ -214,7 +214,7 @@ def create_hatohol_rpm(container_name, base):
             ["chkconfig", "hatohol", "on"],
             ["chkconfig", "httpd", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_fluentd(container_name, base):
@@ -226,7 +226,7 @@ def create_fluentd(container_name, base):
             ["service", "td-agent", "start"],
             ["chkconfig", "td-agent", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_redmine(container_name, base):
@@ -269,7 +269,7 @@ def create_redmine(container_name, base):
             ["service", "httpd", "start"],
             ["chkconfig", "httpd", "on"]]
 
-    clone_container_and_run_commands(container_name, base, CMDS)
+    clone_container_and_install_software(container_name, base, CMDS)
 
 
 def create_container_if_needed(container_name, create_function_name):
