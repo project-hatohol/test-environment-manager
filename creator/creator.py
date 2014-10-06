@@ -10,6 +10,17 @@ def run_commands_in_container(container, cmds):
         container.attach_wait(lxc.attach_run_command, command)
 
 
+def clone_start_container(container_name, base):
+    container = base.clone(container_name, bdevtype="aufs",
+                           flags=lxc.LXC_CLONE_SNAPSHOT)
+    print_success_message(container_name)
+
+    container.start()
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+
+    return container
+
+
 def create_base(container, container_name):
     container.create("centos")
     print_success_message(container_name)
@@ -27,17 +38,6 @@ def create_base(container, container_name):
 
     run_commands_in_container(container, CMDS)
     shutdown_container(container)
-
-
-def clone_start_container(container_name, base):
-    container = base.clone(container_name, bdevtype="aufs",
-                           flags=lxc.LXC_CLONE_SNAPSHOT)
-    print_success_message(container_name)
-
-    container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
-
-    return container
 
 
 def create_zabbix_server22(container_name, base):
