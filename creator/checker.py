@@ -6,7 +6,7 @@ import os.path
 import definevalue
 from utils import *
 
-def is_container_existed(container):
+def check_and_print_container_exist(container):
     if lxc.Container(definevalue.containers_name[container]).defined:
         print_container_exist_message(definevalue.containers_name[container])
         return True
@@ -22,7 +22,7 @@ def check_container_exist():
              "redmine"]
 
     for container_name in NAMES:
-        if not is_container_existed(container_name):
+        if not check_and_print_container_exist(container_name):
             return False
 
     print_new_line()
