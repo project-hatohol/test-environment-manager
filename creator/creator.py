@@ -291,20 +291,27 @@ def create_base_container_if_needed():
         create_base(container, base_name)
 
 
+def create_containers():
+    ARGS = [["zabbix_server22", create_zabbix_server22],
+            ["zabbix_server20", create_zabbix_server20],
+            ["zabbix_agent22", create_zabbix_agent22],
+            ["zabbix_agent20", create_zabbix_agent20],
+            ["nagios_server3", create_nagios_server3],
+            ["nagios_server4", create_nagios_server4],
+            ["nagios_nrpe", create_nagios_nrpe],
+            ["hatohol_build", create_hatohol_build],
+            ["hatohol_rpm", create_hatohol_rpm],
+            ["fluentd", create_fluentd],
+            ["redmine", create_redmine]]
+
+    create_base_container_if_needed()
+    for (container_key, create_function_name) in ARGS:
+        create_container_if_needed(container_key, create_function_name)
+
+
 if __name__ == '__main__':
     if not os.geteuid() == 0:
         print("You need root permission to use this script.")
         sys.exit(1)
 
-    create_base_container_if_needed()
-    create_container_if_needed("zabbix_server22", create_zabbix_server22)
-    create_container_if_needed("zabbix_server20", create_zabbix_server20)
-    create_container_if_needed("zabbix_agent22", create_zabbix_agent22)
-    create_container_if_needed("zabbix_agent20", create_zabbix_agent20)
-    create_container_if_needed("nagios_server3", create_nagios_server3)
-    create_container_if_needed("nagios_server4", create_nagios_server4)
-    create_container_if_needed("nagios_nrpe", create_nagios_nrpe)
-    create_container_if_needed("hatohol_build", create_hatohol_build)
-    create_container_if_needed("hatohol_rpm", create_hatohol_rpm)
-    create_container_if_needed("fluentd", create_fluentd)
-    create_container_if_needed("redmine", create_redmine)
+    create_containers()
