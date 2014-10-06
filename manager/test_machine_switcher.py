@@ -43,6 +43,17 @@ class TestMachineInfo(unittest.TestCase):
         self.assertEquals("STOPPED", self.container_obj_list[0].state)
 
 
+    def test_toggle_state_for_group(self):
+        test_ids = [0, 1, 2, 3, 4, 5]
+        before_states = self._get_containers_state(test_ids)
+        machine_switcher.toggle_state_for_group([1, 2], self.test_container_dir_path,
+                                                self.container_list, self.container_obj_list)
+        after_states = self._get_containers_state(test_ids)
+
+        for num in range(len(test_ids)):
+            self.assertNotEquals(before_states, after_states)
+
+
 if __name__ == '__main__':
     unittest.main()
 
