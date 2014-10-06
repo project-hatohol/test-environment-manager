@@ -12,17 +12,17 @@ def toggle_state(machine_id):
     obj = container_obj_list[machine_id]
     name = container_list[machine_id]
     if obj.state == "STOPPED":
-        change_state_to_start(machine_id, obj, name)
+        change_state_to_start(obj, name)
     else:
-        change_state_to_stop(machine_id, obj, name)
+        change_state_to_stop(obj, name)
 
 
-def change_state_to_start(machine_id, obj, name):
+def change_state_to_start(obj, name):
     succeed_start = obj.start()
     print(name + " | " + "Start " + str(succeed_start))
 
 
-def change_state_to_stop(machine_id, obj, name):
+def change_state_to_stop(obj, name):
     succeed_shutdown = obj.shutdown()
     print(name + " | " + "Shutdown " + str(succeed_shutdown))
     if not succeed_shutdown:
@@ -47,10 +47,9 @@ def convert_machine_nums_to_ids(machine_num_list):
     return machine_id_list
 
 
-def enum_id_list():
+def enum_id_list(input_argument):
     lists = []
-    select_id_list = 2
-    for select_id in sys.argv[select_id_list:]:
+    for select_id in input_argument:
         if "-" in select_id:
             (min, max) = select_id.split("-")
             lists.extend(range(int(min), int(max)+1))
@@ -73,13 +72,14 @@ def create_group_dict():
 
 
 if __name__ == '__main__':
+    input_argument = sys.argv[2:]
     if sys.argv[1] == "m":   
-        machine_num_list = enum_id_list()
+        machine_num_list = enum_id_list(input_argument)
         machine_id_list = convert_machine_nums_to_ids(machine_num_list)
         toggle_state_for_each_machine(machine_id_list)
 
     elif sys.argv[1] == "g":
-        group_id_list = enum_id_list()
+        group_id_list = enum_id_list(input_argument)
         toggle_state_for_group(group_id_list)
 
     else:
