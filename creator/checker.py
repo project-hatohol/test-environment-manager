@@ -6,23 +6,18 @@ import os.path
 import definevalue
 from utils import *
 
-def check_and_print_container_exist(container):
-    if lxc.Container(definevalue.containers_name[container]).defined:
-        print_container_exist_message(definevalue.containers_name[container])
-        return True
-    else:
-        print_container_non_exist_message(definevalue.containers_name[container])
-        return False
-
-
 def check_container_exist():
     NAMES = ["base", "zabbix_server22", "zabbix_server20", "zabbix_agent22",
              "zabbix_agent20", "nagios_server3", "nagios_server4",
              "nagios_nrpe", "hatohol_build", "hatohol_rpm", "fluentd",
              "redmine"]
 
-    for container_name in NAMES:
-        if not check_and_print_container_exist(container_name):
+    for container_key in NAMES:
+        container_name = definevalue.containers_name[container_key]
+        if lxc.Container(container_name).defined:
+            print("Container \"%s\": True" % container_name)
+        else:
+            print("Container \"%s\": False" % container_name)
             return False
 
     print_new_line()
