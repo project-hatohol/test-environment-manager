@@ -77,6 +77,12 @@ class TestMachineInfo(unittest.TestCase):
         self.assertEquals([0, 1, 2, 3, 5], enum_ids)
 
 
+    def test_create_group_dict(self):
+        test_group_dict = machine_switcher.create_group_dict(self.test_container_dir_path,
+                                                             self.container_list)
+        self.assertEquals(test_group_dict, {1: [0, 1, 2], 2: [3, 4, 5]})
+
+
 if __name__ == '__main__':
     unittest.main()
 
