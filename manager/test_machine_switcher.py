@@ -65,6 +65,12 @@ class TestMachineInfo(unittest.TestCase):
             self.assertNotEquals(before_states, after_states)
 
 
+    def test_convert_machine_nums_to_ids(self):
+        test_machine_nums = [1, 2, 3]
+        after_convert = machine_switcher.convert_machine_nums_to_ids(test_machine_nums)
+        self.assertEquals(after_convert, [0, 1, 2])
+
+
 if __name__ == '__main__':
     unittest.main()
 
