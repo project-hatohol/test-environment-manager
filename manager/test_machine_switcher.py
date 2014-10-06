@@ -11,11 +11,11 @@ class TestMachineInfo(unittest.TestCase):
     container_obj_list = test_stub.test_obj_list()
     test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/"
 
-    def _compare_container_state(self, container_id):
-        before_state = self.container_obj_list[container_id].state
+    def _assert_container_state(self, container_id):
+        previous_state = self.container_obj_list[container_id].state
         machine_switcher.toggle_state(self.container_obj_list[container_id],
                                       self.container_list[container_id])
-        self.assertFalse(before_state == self.container_obj_list[container_id].state)
+        self.assertFalse(previous_state == self.container_obj_list[container_id].state)
 
 
     def _get_containers_state(self, container_ids):
@@ -28,7 +28,7 @@ class TestMachineInfo(unittest.TestCase):
 
 
     def test_toggle_state(self):
-        self._compare_container_state(0)
+        self._assert_container_state(0)
 
 
     def test_change_state_to_start(self):
@@ -45,30 +45,30 @@ class TestMachineInfo(unittest.TestCase):
 
     def test_toggle_state_for_group(self):
         test_ids = [0, 1, 2, 3, 4, 5]
-        before_states = self._get_containers_state(test_ids)
+        previous_states = self._get_containers_state(test_ids)
         machine_switcher.toggle_state_for_group([1, 2], self.test_container_dir_path,
                                                 self.container_list, self.container_obj_list)
-        after_states = self._get_containers_state(test_ids)
+        current_states = self._get_containers_state(test_ids)
 
         for num in range(len(test_ids)):
-            self.assertNotEquals(before_states, after_states)
+            self.assertNotEquals(previous_states, current_states)
 
 
     def test_toggle_state_for_each_machine(self):
         test_ids = [0, 1, 3]
-        before_states = self._get_containers_state(test_ids)
+        previous_states = self._get_containers_state(test_ids)
         machine_switcher.toggle_state_for_each_machine(test_ids, self.container_obj_list,
                                                        self.container_list)
-        after_states = self._get_containers_state(test_ids)
+        current_states = self._get_containers_state(test_ids)
 
         for num in range(len(test_ids)):
-            self.assertNotEquals(before_states, after_states)
+            self.assertNotEquals(previous_states, current_states)
 
 
     def test_convert_machine_nums_to_ids(self):
         test_machine_nums = [1, 2, 3]
-        after_convert = machine_switcher.convert_machine_nums_to_ids(test_machine_nums)
-        self.assertEquals(after_convert, [0, 1, 2])
+        current_convert = machine_switcher.convert_machine_nums_to_ids(test_machine_nums)
+        self.assertEquals(current_convert, [0, 1, 2])
 
 
     def test_enum_id_list(self):
