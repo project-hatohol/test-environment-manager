@@ -25,13 +25,16 @@ def change_state_to_stop(obj, name):
         print(name + " | " + "Stop " + str(succeed_stop))
 
 
-def toggle_state_for_group(group_id_list, container_dir_path, container_list, container_obj_list):
+def toggle_state_for_group(group_id_list, container_dir_path,
+                           container_list, container_obj_list):
     group_dict = create_group_dict(container_dir_path, container_list)
     for group_id in group_id_list:
-        toggle_state_for_each_machine(group_dict[group_id],container_obj_list, container_list)
+        toggle_state_for_each_machine(group_dict[group_id],container_obj_list,
+                                      container_list)
 
 
-def toggle_state_for_each_machine(machine_id_list, container_obj_list, container_list):
+def toggle_state_for_each_machine(machine_id_list, container_obj_list,
+                                  container_list):
     for machine_id in machine_id_list:
         toggle_state(container_obj_list[machine_id], container_list[machine_id])
 
