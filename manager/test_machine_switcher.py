@@ -27,6 +27,10 @@ class TestMachineInfo(unittest.TestCase):
         return states
 
 
+    def test_toggle_state(self):
+        self._compare_container_state(0)
+
+
 if __name__ == '__main__':
     unittest.main()
 
