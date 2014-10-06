@@ -31,6 +31,12 @@ class TestMachineInfo(unittest.TestCase):
         self._compare_container_state(0)
 
 
+    def test_change_state_to_start(self):
+        machine_switcher.change_state_to_start(self.container_obj_list[0],
+                                               self.container_list[0])
+        self.assertEquals("RUNNING", self.container_obj_list[0].state)
+
+
 if __name__ == '__main__':
     unittest.main()
 
