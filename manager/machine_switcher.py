@@ -61,7 +61,8 @@ def enum_id_list(input_argument):
 def create_group_dict():
     dict = {}
     for machine_id in range(len(container_list)):
-        group_id = int(machine_info.read_file(machine_id, "group")[0].rstrip())
+        container_path = machine_info.get_container_path(container_list[machine_id])
+        group_id = int(machine_info.read_file(container_path, "group")[0].rstrip())
         
         if group_id not in dict:
             dict[group_id] = [machine_id]
