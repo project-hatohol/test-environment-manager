@@ -7,13 +7,16 @@ import definevalue
 from utils import *
 
 def check_container_exist():
-    NAMES = ["base", "zabbix_server22", "zabbix_server20", "zabbix_agent22",
-             "zabbix_agent20", "nagios_server3", "nagios_server4",
-             "nagios_nrpe", "hatohol_build", "hatohol_rpm", "fluentd",
-             "redmine"]
+    NAMES = ["env_base", "env_zabbix_server22", "env_zabbix_server20",
+             "env_zabbix_agent22", "env_zabbix_agent20",
+             "env_nagios_server3", "env_nagios_server4",
+             "env_nagios_nrpe", "env_hatohol_build",
+             "env_hatohol_rpm", "env_fluentd", "env_redmine"]
 
-    for container_key in NAMES:
-        container_name = definevalue.containers_name[container_key]
+    for container_name in NAMES:
+        if not is_container_name_defined(container_name):
+            return False
+
         if lxc.Container(container_name).defined:
             print("Container \"%s\": True" % container_name)
         else:
@@ -38,90 +41,85 @@ def print_directory_is_usable(directory_path):
         print("\"%s\" directory exists: False" % directory_path)
 
 
-def define_container(container_key):
-    container_name = definevalue.containers_name[container_key]
-    print_container_name(container_name)
-
-    return lxc.Container(container_name)
-
-
 def run_check_command(container, check_item):
     for (function_name, argument) in check_item:
         container.attach_wait(function_name, argument)
 
 
-def check_container(container_key, check_item):
-    container = define_container(container_key)
+def check_container(container_name, check_item):
+    container = lxc.Container(container_name)
+    print("Container name: %s" % container_name)
+
     container.start()
     run_check_command(container, check_item)
     shutdown_container(container)
 
 
-def check_zabbix_server_container(container_key):
+def check_zabbix_server_container(container_name):
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_server"],
                   [print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
-    check_container(container_key, CHECK_ITEM)
+    check_container(container_name, CHECK_ITEM)
 
 
-def check_zabbix_agent_container(container_key):
+def check_zabbix_agent_container(container_name):
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
-    check_container(container_key, CHECK_ITEM)
+    check_container(container_name, CHECK_ITEM)
 
 
 def check_nagios_server3_container():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/nagios"],
                   [print_file_is_usable, "/usr/sbin/ndo2db"]]
-    container_key = "nagios_server3"
+    container_name = "env_nagios_server3"
 
-    check_container(container_key, CHECK_ITEM)
+    check_container(container_name, CHECK_ITEM)
 
 
 def check_nagios_server4_container():
     CHECK_ITEM = [[print_file_is_usable, "/usr/local/nagios/bin/nagios"],
                   [print_file_is_usable, "/usr/local/nagios/bin/ndo2db"]]
-    container_key = "nagios_server4"
+    container_name = "env_nagios_server4"
 
-    check_container(container_key, CHECK_ITEM)
+    check_container(container_name, CHECK_ITEM)
 
 
 def check_nagios_nrpe_container():
     CHECK_ITEM = [[print_file_is_usable, "/etc/nagios/nrpe.cfg"],
                   [print_directory_is_usable, "/usr/lib64/nagios/plugins/"]]
-    container_key = "nagios_nrpe"
+    container_name = "env_nagios_nrpe"
 
-    check_container(container_key, CHECK_ITEM)
+    check_container(container_name, CHECK_ITEM)
 
 
 def check_hatohol_container():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/hatohol"]]
-    container_key = "hatohol_rpm"
+    container_name = "env_hatohol_rpm"
 
-    check_container(container_key, CHECK_ITEM)
+    check_container(container_name, CHECK_ITEM)
 
 
 def check_redmine_container():
     CHECK_ITEM = [[print_directory_is_usable, "/var/lib/redmine"],
                   [print_file_is_usable, "/usr/local/bin/ruby"]]
-    container_key = "redmine"
+    container_name = "env_redmine"
 
-    check_container(container_key, CHECK_ITEM)
+    check_container(container_name, CHECK_ITEM)
 
 
 def check_fluentd_container():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/td-agent"]]
-    container_key = "fluentd"
+    container_name = "env_fluentd"
 
-    check_container(container_key, CHECK_ITEM)
+    check_container(container_name, CHECK_ITEM)
 
 
 def check_container_successfully():
     check_hatohol_container()
-    check_zabbix_server_container("zabbix_server22")
-    check_zabbix_server_container("zabbix_server20")
-    check_zabbix_agent_container("zabbix_agent22")
-    check_zabbix_agent_container("zabbix_agent20")
+    check_zabbix_server_container("env_zabbix_server22")
+    check_zabbix_server_container("env_zabbix_server20")
+    check_zabbix_agent_container("env_zabbix_agent22")
+    check_zabbix_agent_container("env_zabbix_agent20")
     check_nagios_server3_container()
     check_nagios_server4_container()
     check_nagios_nrpe_container()

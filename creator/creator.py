@@ -272,9 +272,11 @@ def create_redmine(container_name, base):
     clone_container_and_run_commands(container_name, base, CMDS)
 
 
-def create_container_if_needed(key, create_function_name):
-    container_name = definevalue.containers_name[key]
-    base_container = lxc.Container(definevalue.containers_name["base"])
+def create_container_if_needed(container_name, create_function_name):
+    if not is_container_name_defined(container_name):
+        return
+
+    base_container = lxc.Container("env_base")
     container = lxc.Container(container_name)
     if container.defined:
         print_exists_message(container_name)
@@ -283,30 +285,37 @@ def create_container_if_needed(key, create_function_name):
 
 
 def create_base_container_if_needed():
-    base_name = definevalue.containers_name["base"]
+    base_name = "env_base"
+    if not is_container_name_defined(base_name):
+        return False
+
     container = lxc.Container(base_name)
     if container.defined:
         print_exists_message(base_name)
     else:
         create_base(container, base_name)
 
+    return True
+
 
 def create_containers():
-    ARGS = [["zabbix_server22", create_zabbix_server22],
-            ["zabbix_server20", create_zabbix_server20],
-            ["zabbix_agent22", create_zabbix_agent22],
-            ["zabbix_agent20", create_zabbix_agent20],
-            ["nagios_server3", create_nagios_server3],
-            ["nagios_server4", create_nagios_server4],
-            ["nagios_nrpe", create_nagios_nrpe],
-            ["hatohol_build", create_hatohol_build],
-            ["hatohol_rpm", create_hatohol_rpm],
-            ["fluentd", create_fluentd],
-            ["redmine", create_redmine]]
+    ARGS = [["env_zabbix_server22", create_zabbix_server22],
+            ["env_zabbix_server20", create_zabbix_server20],
+            ["env_zabbix_agent22", create_zabbix_agent22],
+            ["env_zabbix_agent20", create_zabbix_agent20],
+            ["env_nagios_server3", create_nagios_server3],
+            ["env_nagios_server4", create_nagios_server4],
+            ["env_nagios_nrpe", create_nagios_nrpe],
+            ["env_hatohol_build", create_hatohol_build],
+            ["env_hatohol_rpm", create_hatohol_rpm],
+            ["env_fluentd", create_fluentd],
+            ["env_redmine", create_redmine]]
 
-    create_base_container_if_needed()
-    for (container_key, create_function_name) in ARGS:
-        create_container_if_needed(container_key, create_function_name)
+    if not create_base_container_if_needed():
+        return
+
+    for (container_name, create_function_name) in ARGS:
+        create_container_if_needed(container_name, create_function_name)
 
 
 if __name__ == '__main__':

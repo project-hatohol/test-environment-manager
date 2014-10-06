@@ -9,12 +9,16 @@ def print_exists_message(name):
     print("Container already exists: %s" % name)
 
 
-def print_container_name(name):
-    print("Container name: %s" % name)
-
-
 def print_new_line():
     print("")
+
+
+def is_container_name_defined(container_name):
+    if container_name in definevalue.CONTAINER_NAME:
+        return True
+    else:
+        print ("Provided name is wrong: %s" % container_name)
+        return False
 
 
 def shutdown_container(container):
