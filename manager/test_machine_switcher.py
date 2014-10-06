@@ -1,11 +1,10 @@
 #! /usr/bin/env python3
 
 import machine_switcher
+import test_stub
 import unittest
 import sys
-import lxc 
-
-container_objs = lxc.list_containers(as_object = True)
+import os
 
 class TestMachineInfo(unittest.TestCase):
     def test_toggle_state(self):
