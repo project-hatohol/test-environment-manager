@@ -5,6 +5,11 @@ import sys
 import definevalue
 from utils import *
 
+def run_commands_in_container(container, cmds):
+    for command in cmds:
+        container.attach_wait(lxc.attach_run_command, command)
+
+
 def create_base(container, container_name):
     container.create("centos")
     print_success_message(container_name)
@@ -20,9 +25,7 @@ def create_base(container, container_name):
     print("Input password for root account:")
     container.attach_wait(lxc.attach_run_command, ["passwd"])
 
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -63,10 +66,7 @@ def create_zabbix_server22(container_name, base):
             ["chkconfig", "zabbix-agent", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -93,10 +93,7 @@ def create_zabbix_server20(container_name, base):
             ["chkconfig", "zabbix-agent", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -107,10 +104,7 @@ def create_zabbix_agent22(container_name, base):
             ["chkconfig", "zabbix-agent", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -122,10 +116,7 @@ def create_zabbix_agent20(container_name, base):
             ["chkconfig", "zabbix-agent", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -149,10 +140,7 @@ def create_nagios_server3(container_name, base):
             ["chkconfig", "httpd", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -187,10 +175,7 @@ def create_nagios_server4(container_name, base):
             ["rm", SCRIPT_NAME]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -198,10 +183,7 @@ def create_nagios_nrpe(container_name, base):
     CMDS = [["yum", "install", "-y", "nagios-plugins-all", "nrpe"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -222,10 +204,7 @@ def create_hatohol_build(container_name, base):
             ["chkconfig", "mysqld", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -246,10 +225,7 @@ def create_hatohol_rpm(container_name, base):
             ["chkconfig", "httpd", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -263,10 +239,7 @@ def create_fluentd(container_name, base):
             ["chkconfig", "td-agent", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
@@ -311,10 +284,7 @@ def create_redmine(container_name, base):
             ["chkconfig", "httpd", "on"]]
 
     container = clone_start_container(container_name, base)
-
-    for arg in CMDS:
-        container.attach_wait(lxc.attach_run_command, arg)
-
+    run_commands_in_container(container, CMDS)
     shutdown_container(container)
 
 
