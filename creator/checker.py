@@ -55,20 +55,20 @@ def check_container(container_name, check_item):
     shutdown_container(container)
 
 
-def check_zabbix_server_container(container_name):
+def print_zabbix_server_is_installed_successfully(container_name):
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_server"],
                   [print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
     check_container(container_name, CHECK_ITEM)
 
 
-def check_zabbix_agent_container(container_name):
+def print_zabbix_agent_is_installed_successfully(container_name):
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
     check_container(container_name, CHECK_ITEM)
 
 
-def check_nagios_server3_container():
+def print_nagios_server3_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/nagios"],
                   [print_file_is_usable, "/usr/sbin/ndo2db"]]
     container_name = "env_nagios_server3"
@@ -76,7 +76,7 @@ def check_nagios_server3_container():
     check_container(container_name, CHECK_ITEM)
 
 
-def check_nagios_server4_container():
+def print_nagios_server4_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/local/nagios/bin/nagios"],
                   [print_file_is_usable, "/usr/local/nagios/bin/ndo2db"]]
     container_name = "env_nagios_server4"
@@ -84,7 +84,7 @@ def check_nagios_server4_container():
     check_container(container_name, CHECK_ITEM)
 
 
-def check_nagios_nrpe_container():
+def print_nagios_nrpe_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/etc/nagios/nrpe.cfg"],
                   [print_directory_is_usable, "/usr/lib64/nagios/plugins/"]]
     container_name = "env_nagios_nrpe"
@@ -99,7 +99,7 @@ def check_hatohol_container():
     check_container(container_name, CHECK_ITEM)
 
 
-def check_redmine_container():
+def print_redmine_is_installed_successfully():
     CHECK_ITEM = [[print_directory_is_usable, "/var/lib/redmine"],
                   [print_file_is_usable, "/usr/local/bin/ruby"]]
     container_name = "env_redmine"
@@ -107,7 +107,7 @@ def check_redmine_container():
     check_container(container_name, CHECK_ITEM)
 
 
-def check_fluentd_container():
+def print_fluentd_container_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/td-agent"]]
     container_name = "env_fluentd"
 
@@ -116,15 +116,15 @@ def check_fluentd_container():
 
 def check_container_successfully():
     check_hatohol_container()
-    check_zabbix_server_container("env_zabbix_server22")
-    check_zabbix_server_container("env_zabbix_server20")
-    check_zabbix_agent_container("env_zabbix_agent22")
-    check_zabbix_agent_container("env_zabbix_agent20")
-    check_nagios_server3_container()
-    check_nagios_server4_container()
-    check_nagios_nrpe_container()
-    check_redmine_container()
-    check_fluentd_container()
+    print_zabbix_server_is_installed_successfully("env_zabbix_server22")
+    print_zabbix_server_is_installed_successfully("env_zabbix_server20")
+    print_zabbix_agent_is_installed_successfully("env_zabbix_agent22")
+    print_zabbix_agent_is_installed_successfully("env_zabbix_agent20")
+    print_nagios_server3_is_installed_successfully()
+    print_nagios_server4_is_installed_successfully()
+    print_nagios_nrpe_is_installed_successfully()
+    print_redmine_is_installed_successfully()
+    print_fluentd_container_is_installed_successfully()
 
 
 if __name__ == '__main__':
