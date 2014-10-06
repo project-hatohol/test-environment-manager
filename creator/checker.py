@@ -29,7 +29,7 @@ def check_container_exist():
     return True
 
 
-def is_file_usable(file_path):
+def print_file_is_usable(file_path):
     if os.path.isfile(file_path):
         print("\"%s\" file exists: True" % file_path)
     else:
@@ -53,8 +53,8 @@ def define_container(container_key):
 def check_zabbix_server_container(container_key):
     container = define_container(container_key)
     container.start()
-    container.attach_wait(is_file_usable, "/usr/sbin/zabbix_server")
-    container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
+    container.attach_wait(print_file_is_usable, "/usr/sbin/zabbix_server")
+    container.attach_wait(print_file_is_usable, "/usr/sbin/zabbix_agentd")
 
     shutdown_container(container)
 
@@ -62,7 +62,7 @@ def check_zabbix_server_container(container_key):
 def check_zabbix_agent_container(container_key):
     container = define_container(container_key)
     container.start()
-    container.attach_wait(is_file_usable, "/usr/sbin/zabbix_agentd")
+    container.attach_wait(print_file_is_usable, "/usr/sbin/zabbix_agentd")
 
     shutdown_container(container)
 
@@ -71,8 +71,8 @@ def check_nagios_server3_container():
     container_key = "nagios_server3"
     container = define_container(container_key)
     container.start()
-    container.attach_wait(is_file_usable, "/usr/sbin/nagios")
-    container.attach_wait(is_file_usable, "/usr/sbin/ndo2db")
+    container.attach_wait(print_file_is_usable, "/usr/sbin/nagios")
+    container.attach_wait(print_file_is_usable, "/usr/sbin/ndo2db")
 
     shutdown_container(container)
 
@@ -81,8 +81,8 @@ def check_nagios_server4_container():
     container_key = "nagios_server4"
     container = define_container(container_key)
     container.start()
-    container.attach_wait(is_file_usable, "/usr/local/nagios/bin/nagios")
-    container.attach_wait(is_file_usable, "/usr/local/nagios/bin/ndo2db")
+    container.attach_wait(print_file_is_usable, "/usr/local/nagios/bin/nagios")
+    container.attach_wait(print_file_is_usable, "/usr/local/nagios/bin/ndo2db")
 
     shutdown_container(container)
 
@@ -91,7 +91,7 @@ def check_nagios_nrpe_container():
     container_key = "nagios_nrpe"
     container = define_container(container_key)
     container.start()
-    container.attach_wait(is_file_usable, "/etc/nagios/nrpe.cfg")
+    container.attach_wait(print_file_is_usable, "/etc/nagios/nrpe.cfg")
     container.attach_wait(is_directory_usable, "/usr/lib64/nagios/plugins/")
 
     shutdown_container(container)
@@ -101,7 +101,7 @@ def check_hatohol_container():
     container_key = "hatohol_rpm"
     container = define_container(container_key)
     container.start()
-    container.attach_wait(is_file_usable, "/usr/sbin/hatohol")
+    container.attach_wait(print_file_is_usable, "/usr/sbin/hatohol")
 
     shutdown_container(container)
 
@@ -111,7 +111,7 @@ def check_redmine_container():
     container = define_container(container_key)
     container.start()
     container.attach_wait(is_directory_usable, "/var/lib/redmine")
-    container.attach_wait(is_file_usable, "/usr/local/bin/ruby")
+    container.attach_wait(print_file_is_usable, "/usr/local/bin/ruby")
 
     shutdown_container(container)
 
@@ -120,7 +120,7 @@ def check_fluentd_container():
     container_key = "fluentd"
     container = define_container(container_key)
     container.start()
-    container.attach_wait(is_file_usable, "/usr/sbin/td-agent")
+    container.attach_wait(print_file_is_usable, "/usr/sbin/td-agent")
 
     shutdown_container(container)
 
