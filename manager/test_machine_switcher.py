@@ -71,6 +71,12 @@ class TestMachineInfo(unittest.TestCase):
         self.assertEquals(after_convert, [0, 1, 2])
 
 
+    def test_enum_id_list(self):
+        test_argument = ["0-3",  "5"]
+        enum_ids = machine_switcher.enum_id_list(test_argument)
+        self.assertEquals([0, 1, 2, 3, 5], enum_ids)
+
+
 if __name__ == '__main__':
     unittest.main()
 
