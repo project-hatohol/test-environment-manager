@@ -25,6 +25,7 @@ class TestMachineInfo(unittest.TestCase):
     def _judge_printing_header(self, test_line):
         get_output("output_insert_header", machine_info.insert_header, exe_count = test_line)
         lines = read_file("output_insert_header")
+        os.remove("output_insert_header")
         if test_line % 20 == 0:
             self.assertIn("-----", lines[0])
         else:
@@ -41,6 +42,7 @@ class TestMachineInfo(unittest.TestCase):
     def test_print_header(self):
         get_output("header_output", machine_info.print_header)
         lines = read_file("header_output")
+        os.remove("header_output")
         self.assertIn("------", lines[0])
         self.assertIn("No", lines[1])
         self.assertIn("HostName", lines[1])
@@ -54,6 +56,7 @@ class TestMachineInfo(unittest.TestCase):
                    dict = self.test_dict, container_list = test_container_list,
                    container_obj_list = test_container_obj_list)
         lines = read_file("output_container_info")
+        os.remove("output_container_info")
         self.assertIn("machine1_1", lines[0])
 
 
