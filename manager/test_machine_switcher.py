@@ -83,6 +83,11 @@ class TestMachineInfo(unittest.TestCase):
         self.assertEquals(test_group_dict, {1: [0, 1, 2], 2: [3, 4, 5]})
 
 
+    def test_get_container_dir_path(self):
+        container_dir_path = machine_switcher.get_container_dir_path()
+        self.assertEquals("/var/lib/lxc/", container_dir_path)
+
+
 if __name__ == '__main__':
     unittest.main()
 
