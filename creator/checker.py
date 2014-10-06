@@ -21,8 +21,8 @@ def check_container_exist():
              "nagios_nrpe", "hatohol_build", "hatohol_rpm", "fluentd",
              "redmine"]
 
-    for arg in NAMES:
-        if not is_container_existed(arg):
+    for container_name in NAMES:
+        if not is_container_existed(container_name):
             return False
 
     print_new_line()
