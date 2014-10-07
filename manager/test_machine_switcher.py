@@ -21,7 +21,6 @@ class TestMachineInfo(unittest.TestCase):
     def _get_containers_state(self, container_ids):
         states = []
         for container_id in container_ids:
-            print(container_id)
             states.append(self.container_obj_list[container_id].state)
 
         return states
