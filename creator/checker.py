@@ -6,12 +6,17 @@ import os.path
 import definevalue
 from utils import *
 
-def print_container_is_existing():
-    for container_name in definevalue.CONTAINER_NAMES:
-        if lxc.Container(container_name).defined:
-            print("Container \"%s\": True" % container_name)
-        else:
-            print("Container \"%s\": False" % container_name)
+def check_and_print_if_container_exists(container_name):
+    result = lxc.Container(container_name).defined
+    print("\"%s\" container exists: %r" % (container_name, result))
+
+    return result
+
+
+def list_containers_and_abort_if_one_does_not_exist(containers):
+    for container_name in containers:
+        result = check_and_print_if_container_exists(container_name)
+        if not result:
             return False
 
     print_new_line()
@@ -67,5 +72,5 @@ if __name__ == '__main__':
         print("You need root permission to use this script.")
         sys.exit(1)
 
-    if print_container_is_existing():
+    if list_containers_and_abort_if_one_does_not_exist(definevalue.CONTAINER_NAMES):
         print_installation_result()
