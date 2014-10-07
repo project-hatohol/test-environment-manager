@@ -9,7 +9,7 @@ import os
 class TestMachineInfo(unittest.TestCase):
     _container_list = test_stub.test__container_list()
     _container_obj_list = test_stub.test_obj_list()
-    test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/"
+    _test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/"
     test_id = 0
 
     def _assert_container_state(self, container_id):
@@ -46,7 +46,7 @@ class TestMachineInfo(unittest.TestCase):
     def test_toggle_state_for_group(self):
         test_ids = [0, 1, 2, 3, 4, 5]
         previous_states = self._get_containers_state(test_ids)
-        machine_switcher.toggle_state_for_group([1, 2], self.test_container_dir_path,
+        machine_switcher.toggle_state_for_group([1, 2], self._test_container_dir_path,
                                                 self._container_list, self._container_obj_list)
         current_states = self._get_containers_state(test_ids)
 
@@ -78,7 +78,7 @@ class TestMachineInfo(unittest.TestCase):
 
 
     def test_create_group_dict(self):
-        test_group_dict = machine_switcher.create_group_dict(self.test_container_dir_path,
+        test_group_dict = machine_switcher.create_group_dict(self._test_container_dir_path,
                                                              self._container_list)
         self.assertEquals(test_group_dict, {1: [0, 1, 2], 2: [3, 4, 5]})
 
