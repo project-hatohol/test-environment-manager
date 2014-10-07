@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 
 import machine_info
+import test_stub
 import unittest
 import sys
-import lxc
 import os
 
 def _get_output(file_name, func_name, **kwargs):
@@ -51,8 +51,8 @@ class _TestMachineInfo(unittest.TestCase):
 
 
     def test_print_container_info(self):
-        test_container_list = lxc.list_containers()
-        test_container_obj_list = lxc.list_containers(as_object = True)
+        test_container_list = test_stub.test_container_list()
+        test_container_obj_list = test_stub.test_obj_list()
 
         _get_output("output_container_info", machine_info.print_container_info, 
                    dict = self.test_dict, container_list = test_container_list,
