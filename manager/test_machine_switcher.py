@@ -50,7 +50,7 @@ class _TestMachineSwitcher(unittest.TestCase):
                                                 self._container_list, self._container_obj_list)
         current_states = self._get_containers_state(test_ids)
 
-        for num in range(len(test_ids)):
+        for container_id in range(len(test_ids)):
             self.assertNotEquals(previous_states, current_states)
 
 
@@ -61,7 +61,7 @@ class _TestMachineSwitcher(unittest.TestCase):
                                                        self._container_list)
         current_states = self._get_containers_state(test_ids)
 
-        for num in range(len(test_ids)):
+        for container_id in range(len(test_ids)):
             self.assertNotEquals(previous_states, current_states)
 
 
