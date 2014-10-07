@@ -14,7 +14,7 @@ def print_new_line():
 
 
 def is_container_name_defined(container_name):
-    if container_name in definevalue.CONTAINER_NAME:
+    if container_name in definevalue.CONTAINER_NAMES:
         return True
     else:
         print ("Provided name is wrong: %s" % container_name)
