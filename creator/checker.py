@@ -7,7 +7,7 @@ import definevalue
 from utils import *
 
 def print_container_is_existing():
-    for container_name in definevalue.CONTAINER_NAME:
+    for container_name in definevalue.CONTAINER_NAMES:
         if lxc.Container(container_name).defined:
             print("Container \"%s\": True" % container_name)
         else:
