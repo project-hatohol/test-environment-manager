@@ -24,16 +24,6 @@ class _TestMachineInfo(unittest.TestCase):
     test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
     test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
 
-    def _assert_printing_header(self, test_line):
-        lines = _get_output(machine_info.insert_header, container_id = test_line)
-
-        insert_criteria = 20
-        if test_line % insert_criteria == 0:
-            self.assertIn("-----", lines[0])
-        else:
-            self.assertFalse(lines)
-
-
     def test_get_info_dict(self):
         self.assertEqual(machine_info.get_info_dict(0, self.test_path), self.test_dict)
 
@@ -53,12 +43,6 @@ class _TestMachineInfo(unittest.TestCase):
                             container_list = test_container_list,
                             container_obj_list = test_container_obj_list)
         self.assertIn("machine1_1", lines[0])
-
-
-    def test_insert_header(self):
-        self._assert_printing_header(0)
-        self._assert_printing_header(10)
-        self._assert_printing_header(20)
 
 
     def test_read_file(self):
