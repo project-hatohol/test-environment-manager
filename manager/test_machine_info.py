@@ -27,8 +27,8 @@ class _TestMachineInfo(unittest.TestCase):
     def _assert_printing_header(self, test_line):
         lines = _get_output(machine_info.insert_header, container_id = test_line)
 
-        delimit_output = 20
-        if test_line % delimit_output == 0:
+        insert_criteria = 20
+        if test_line % insert_criteria == 0:
             self.assertIn("-----", lines[0])
         else:
             self.assertFalse(lines)

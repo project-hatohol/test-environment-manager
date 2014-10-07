@@ -20,8 +20,8 @@ def print_container_info(dict, container_list, container_obj_list):
 
 
 def insert_header(container_id):
-    delimit_output = 20
-    if container_id % delimit_output == 0:
+    insert_criteria = 20
+    if container_id % insert_criteria == 0:
         print_header()
 
 
