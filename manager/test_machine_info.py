@@ -21,7 +21,7 @@ def _read_file(file_name):
     return lines
 
 
-class TestMachineInfo(unittest.TestCase):
+class _TestMachineInfo(unittest.TestCase):
     test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
     test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
 
@@ -30,7 +30,7 @@ class TestMachineInfo(unittest.TestCase):
         lines = _read_file("output_insert_header")
         os.remove("output_insert_header")
 
-		delimit_output = 20
+        delimit_output = 20
         if test_line % delimit_output == 0:
             self.assertIn("-----", lines[0])
         else:
