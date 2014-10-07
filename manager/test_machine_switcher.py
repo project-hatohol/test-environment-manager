@@ -7,14 +7,15 @@ import sys
 import os
 
 class TestMachineInfo(unittest.TestCase):
-    container_list = test_stub.test_container_list()
+    _container_list = test_stub.test__container_list()
     container_obj_list = test_stub.test_obj_list()
     test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/"
+    test_id = 0
 
     def _assert_container_state(self, container_id):
         previous_state = self.container_obj_list[container_id].state
         machine_switcher.toggle_state(self.container_obj_list[container_id],
-                                      self.container_list[container_id])
+                                      self._container_list[container_id])
         self.assertFalse(previous_state == self.container_obj_list[container_id].state)
 
 
@@ -27,26 +28,26 @@ class TestMachineInfo(unittest.TestCase):
 
 
     def test_toggle_state(self):
-        self._assert_container_state(0)
+        self._assert_container_state(self.test_id)
 
 
     def test_change_state_to_start(self):
-        machine_switcher.change_state_to_start(self.container_obj_list[0],
-                                               self.container_list[0])
-        self.assertEquals("RUNNING", self.container_obj_list[0].state)
+        machine_switcher.change_state_to_start(self.container_obj_list[self.test_id],
+                                               self._container_list[self.test_id])
+        self.assertEquals("RUNNING", self.container_obj_list[self.test_id].state)
 
 
     def test_change_state_to_stop(self):
-        machine_switcher.change_state_to_stop(self.container_obj_list[0],
-                                               self.container_list[0])
-        self.assertEquals("STOPPED", self.container_obj_list[0].state)
+        machine_switcher.change_state_to_stop(self.container_obj_list[self.test_id],
+                                               self._container_list[self.test_id])
+        self.assertEquals("STOPPED", self.container_obj_list[self.test_id].state)
 
 
     def test_toggle_state_for_group(self):
         test_ids = [0, 1, 2, 3, 4, 5]
         previous_states = self._get_containers_state(test_ids)
         machine_switcher.toggle_state_for_group([1, 2], self.test_container_dir_path,
-                                                self.container_list, self.container_obj_list)
+                                                self._container_list, self.container_obj_list)
         current_states = self._get_containers_state(test_ids)
 
         for num in range(len(test_ids)):
@@ -57,7 +58,7 @@ class TestMachineInfo(unittest.TestCase):
         test_ids = [0, 1, 3]
         previous_states = self._get_containers_state(test_ids)
         machine_switcher.toggle_state_for_each_machine(test_ids, self.container_obj_list,
-                                                       self.container_list)
+                                                       self._container_list)
         current_states = self._get_containers_state(test_ids)
 
         for num in range(len(test_ids)):
@@ -78,7 +79,7 @@ class TestMachineInfo(unittest.TestCase):
 
     def test_create_group_dict(self):
         test_group_dict = machine_switcher.create_group_dict(self.test_container_dir_path,
-                                                             self.container_list)
+                                                             self._container_list)
         self.assertEquals(test_group_dict, {1: [0, 1, 2], 2: [3, 4, 5]})
 
 
