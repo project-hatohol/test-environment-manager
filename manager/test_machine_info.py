@@ -11,6 +11,7 @@ def _get_output(func_name, **kwargs):
     save_output = os.fdopen(read_fd)
     connect_output_to_save_output = os.fdopen(write_fd, "w")
 
+    #This process has possibility that to stop when read many output. 
     sys.stdout = connect_output_to_save_output
     func_name(**kwargs)
     sys.stdout.close()
