@@ -14,7 +14,7 @@ def test_obj_list():
     test_containers_name = test_container_list()
     test_objs = []
     for num in range(len(test_containers_name)):
-        test_objs.append(TestObjList(test_containers_name[num]))
+        test_objs.append(_TestObjList(test_containers_name[num]))
 
     return test_objs
 
