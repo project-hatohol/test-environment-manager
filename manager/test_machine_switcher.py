@@ -6,7 +6,7 @@ import unittest
 import sys
 import os
 
-class TestMachineInfo(unittest.TestCase):
+class _TestMachineSwitcher(unittest.TestCase):
     _container_list = test_stub.test_container_list()
     _container_obj_list = test_stub.test_obj_list()
     _test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/"
