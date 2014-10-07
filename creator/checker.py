@@ -107,7 +107,7 @@ def print_redmine_is_installed_successfully():
     print_result_of_check_item(container_name, CHECK_ITEM)
 
 
-def print_fluentd_container_is_installed_successfully():
+def print_fluentd_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/td-agent"]]
     container_name = "env_fluentd"
 
@@ -124,7 +124,7 @@ def check_container_successfully():
     print_nagios_server4_is_installed_successfully()
     print_nagios_nrpe_is_installed_successfully()
     print_redmine_is_installed_successfully()
-    print_fluentd_container_is_installed_successfully()
+    print_fluentd_is_installed_successfully()
 
 
 if __name__ == '__main__':
