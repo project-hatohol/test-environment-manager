@@ -6,7 +6,7 @@ import sys
 import lxc
 import os
 
-def get_output(file_name, func_name, **kwargs):
+def _get_output(file_name, func_name, **kwargs):
     sys.stdout = open(file_name, "w")
     func_name(**kwargs)
     sys.stdout.close()
@@ -26,7 +26,7 @@ class TestMachineInfo(unittest.TestCase):
     test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
 
     def _judge_printing_header(self, test_line):
-        get_output("output_insert_header", machine_info.insert_header, container_id = test_line)
+        _get_output("output_insert_header", machine_info.insert_header, container_id = test_line)
         lines = read_file("output_insert_header")
         os.remove("output_insert_header")
 
@@ -42,7 +42,7 @@ class TestMachineInfo(unittest.TestCase):
 
 
     def test_print_header(self):
-        get_output("header_output", machine_info.print_header)
+        _get_output("header_output", machine_info.print_header)
         lines = read_file("header_output")
         os.remove("header_output")
         self.assertIn("------", lines[0])
@@ -54,7 +54,7 @@ class TestMachineInfo(unittest.TestCase):
         test_container_list = lxc.list_containers()
         test_container_obj_list = lxc.list_containers(as_object = True)
 
-        get_output("output_container_info", machine_info.print_container_info, 
+        _get_output("output_container_info", machine_info.print_container_info, 
                    dict = self.test_dict, container_list = test_container_list,
                    container_obj_list = test_container_obj_list)
         lines = read_file("output_container_info")
