@@ -7,16 +7,7 @@ import definevalue
 from utils import *
 
 def check_container_exist():
-    NAMES = ["env_base", "env_zabbix_server22", "env_zabbix_server20",
-             "env_zabbix_agent22", "env_zabbix_agent20",
-             "env_nagios_server3", "env_nagios_server4",
-             "env_nagios_nrpe", "env_hatohol_build",
-             "env_hatohol_rpm", "env_fluentd", "env_redmine"]
-
-    for container_name in NAMES:
-        if not is_container_name_defined(container_name):
-            return False
-
+    for container_name in definevalue.CONTAINER_NAME:
         if lxc.Container(container_name).defined:
             print("Container \"%s\": True" % container_name)
         else:
