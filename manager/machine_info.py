@@ -20,8 +20,8 @@ def print_container_info(dict, container_list, container_obj_list):
 
 
 def insert_header(exe_count):
-    punctuation = 20
-    if exe_count % punctuation == 0:
+    delimit_output = 20
+    if exe_count % delimit_output == 0:
         print_header()
 
 
@@ -39,8 +39,8 @@ def get_container_path(container_name):
     return container_path
 
 
-def get_id_info(info_dict, machine_id):
-    info_dict["id"] = machine_id
+def get_id_info(info_dict, container_id):
+    info_dict["id"] = container_id
 
 
 def get_group_info(info_dict, container_path):
@@ -60,9 +60,9 @@ def get_config_info(info_dict, container_path):
             info_dict["host"] = host.strip()
 
 
-def get_info_dict(machine_id, container_path):
+def get_info_dict(container_id, container_path):
     info_dict = {}
-    get_id_info(info_dict, machine_id)
+    get_id_info(info_dict, container_id)
     get_config_info(info_dict, container_path)
     get_group_info(info_dict, container_path)
 
@@ -73,9 +73,9 @@ if __name__ == '__main__':
     container_obj_list = lxc.list_containers(as_object=True)
     container_list = lxc.list_containers()
 
-    for exe_count in range(len(container_list)):
-        container_path = get_container_path(container_list[exe_count])
-        insert_header(exe_count)
-        print_container_info(get_info_dict(exe_count, container_path),
+    for container_id in range(len(container_list)):
+        container_path = get_container_path(container_list[container_id])
+        insert_header(container_id)
+        print_container_info(get_info_dict(container_id, container_path),
                              container_list, container_obj_list)
 
