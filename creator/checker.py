@@ -91,7 +91,7 @@ def print_installation_result_of_fluentd():
     print_result_of_check_item(CONTAINER_NAME, LIST_OF_PATH)
 
 
-def check_container_successfully():
+def print_installation_result():
     print_installation_result_of_hatohol()
     print_installation_result_of_zabbix_server("env_zabbix_server22")
     print_installation_result_of_zabbix_server("env_zabbix_server20")
@@ -110,4 +110,4 @@ if __name__ == '__main__':
         sys.exit(1)
 
     if print_container_is_existing():
-        check_container_successfully()
+        print_installation_result()
