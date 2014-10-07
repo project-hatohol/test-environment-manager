@@ -6,7 +6,7 @@ import os.path
 import definevalue
 from utils import *
 
-def check_container_exist():
+def print_container_is_existing():
     for container_name in definevalue.CONTAINER_NAME:
         if lxc.Container(container_name).defined:
             print("Container \"%s\": True" % container_name)
@@ -109,5 +109,5 @@ if __name__ == '__main__':
         print("You need root permission to use this script.")
         sys.exit(1)
 
-    if check_container_exist():
+    if print_container_is_existing():
         check_container_successfully()
