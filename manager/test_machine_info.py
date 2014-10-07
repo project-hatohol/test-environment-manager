@@ -26,10 +26,12 @@ class TestMachineInfo(unittest.TestCase):
     test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
 
     def _judge_printing_header(self, test_line):
-        get_output("output_insert_header", machine_info.insert_header, exe_count = test_line)
+        get_output("output_insert_header", machine_info.insert_header, container_id = test_line)
         lines = read_file("output_insert_header")
         os.remove("output_insert_header")
-        if test_line % 20 == 0:
+
+		delimit_output = 20
+        if test_line % delimit_output == 0:
             self.assertIn("-----", lines[0])
         else:
             self.assertFalse(lines)

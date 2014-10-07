@@ -19,9 +19,9 @@ def print_container_info(dict, container_list, container_obj_list):
           + " | " + container_obj_list[dict["id"]].state + " | ")
 
 
-def insert_header(exe_count):
+def insert_header(container_id):
     delimit_output = 20
-    if exe_count % delimit_output == 0:
+    if container_id % delimit_output == 0:
         print_header()
 
 
