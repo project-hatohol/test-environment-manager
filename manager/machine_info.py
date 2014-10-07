@@ -19,12 +19,6 @@ def print_container_info(dict, container_list, container_obj_list):
           + " | " + container_obj_list[dict["id"]].state + " | ")
 
 
-def insert_header(container_id):
-    insert_criteria = 20
-    if container_id % insert_criteria == 0:
-        print_header()
-
-
 def read_file(container_path, file_name):
     file = open(container_path + file_name)
     lines = file.readlines()
@@ -73,9 +67,9 @@ if __name__ == '__main__':
     container_obj_list = lxc.list_containers(as_object=True)
     container_list = lxc.list_containers()
 
+    print_header()
     for container_id in range(len(container_list)):
         container_path = get_container_path(container_list[container_id])
-        insert_header(container_id)
         print_container_info(get_info_dict(container_id, container_path),
                              container_list, container_obj_list)
 
