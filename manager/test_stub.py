@@ -23,21 +23,21 @@ class _TestObjList():
     def __init__(self, test_container_name):
         self.state = "STOPPED"
 
-    def _start(self):
+    def start(self):
         if self.state == "STOPPED":
             self.state = "RUNNING"
 
         return True
 
 
-    def _stop(self): 
+    def stop(self):
         if self.state == "RUNNING":
             self.state = "STOPPED"
 
         return True
 
 
-    def _shutdown(self):
+    def shutdown(self):
         if self.state == "RUNNING":
             self.state = "STOPPED"
 
