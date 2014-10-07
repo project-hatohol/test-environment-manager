@@ -7,16 +7,16 @@ import sys
 import os
 
 def _get_output(func_name, **kwargs):
-	(rfd, wfd) = os.pipe()
-	infile = os.fdopen(rfd)
-	outfile = os.fdopen(wfd, "w")
+    (read_fd, write_fd) = os.pipe()
+    save_output = os.fdopen(read_fd)
+    connect_output_to_save_output = os.fdopen(write_fd, "w")
 
-	sys.stdout = outfile
-	func_name(**kwargs)
-	sys.stdout.close()
-	sys.stdout = sys.__stdout__
+    sys.stdout = connect_output_to_save_output
+    func_name(**kwargs)
+    sys.stdout.close()
+    sys.stdout = sys.__stdout__
 
-	return infile.readlines()
+    return save_output.readlines()
 
 
 class _TestMachineInfo(unittest.TestCase):
