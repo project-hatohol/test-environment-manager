@@ -24,7 +24,7 @@ class _TestMachineInfo(unittest.TestCase):
     test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
     test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
 
-    def _judge_printing_header(self, test_line):
+    def _assert_printing_header(self, test_line):
         lines = _get_output(machine_info.insert_header, container_id = test_line)
 
         delimit_output = 20
@@ -56,9 +56,9 @@ class _TestMachineInfo(unittest.TestCase):
 
 
     def test_insert_header(self):
-        self._judge_printing_header(0)
-        self._judge_printing_header(10)
-        self._judge_printing_header(20)
+        self._assert_printing_header(0)
+        self._assert_printing_header(10)
+        self._assert_printing_header(20)
 
 
     def test_read_file(self):
