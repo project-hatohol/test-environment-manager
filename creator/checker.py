@@ -23,7 +23,7 @@ def print_file_is_usable(file_path):
 
 
 def print_directory_is_usable(directory_path):
-    print("\"%s\" directory exists: %s" % directory_path, os.path.isfile(directory_path))
+    print("\"%s\" directory exists: %s" % directory_path, os.path.isdir(directory_path))
 
 
 def run_check_command(container, check_item):
