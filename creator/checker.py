@@ -28,17 +28,11 @@ def check_container_exist():
 
 
 def print_file_is_usable(file_path):
-    if os.path.isfile(file_path):
-        print("\"%s\" file exists: True" % file_path)
-    else:
-        print("\"%s\" file exists: False" % file_path)
+    print("\"%s\" file exists: %s" % file_path, os.path.isfile(file_path))
 
 
 def print_directory_is_usable(directory_path):
-    if os.path.isdir(directory_path):
-        print("\"%s\" directory exists: True" % directory_path)
-    else:
-        print("\"%s\" directory exists: False" % directory_path)
+    print("\"%s\" directory exists: %s" % directory_path, os.path.isfile(directory_path))
 
 
 def run_check_command(container, check_item):
