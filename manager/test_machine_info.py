@@ -22,6 +22,9 @@ def read_file(file_name):
 
 
 class TestMachineInfo(unittest.TestCase):
+    test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
+    test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
+
     def _judge_printing_header(self, test_line):
         get_output("output_insert_header", machine_info.insert_header, exe_count = test_line)
         lines = read_file("output_insert_header")
@@ -31,9 +34,6 @@ class TestMachineInfo(unittest.TestCase):
         else:
             self.assertFalse(lines)
 
-
-    test_dict = {"id":0, "host":"machine1_1", "group":"1", "ip":"10.0.3.11"}
-    test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
 
     def test_get_info_dict(self):
         self.assertEqual(machine_info.get_info_dict(0, self.test_path), self.test_dict)
