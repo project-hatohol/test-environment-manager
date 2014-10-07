@@ -92,7 +92,7 @@ def print_nagios_nrpe_is_installed_successfully():
     print_result_of_check_item(container_name, CHECK_ITEM)
 
 
-def check_hatohol_container():
+def print_hatohol_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/hatohol"]]
     container_name = "env_hatohol_rpm"
 
@@ -115,7 +115,7 @@ def print_fluentd_container_is_installed_successfully():
 
 
 def check_container_successfully():
-    check_hatohol_container()
+    print_hatohol_is_installed_successfully()
     print_zabbix_server_is_installed_successfully("env_zabbix_server22")
     print_zabbix_server_is_installed_successfully("env_zabbix_server20")
     print_zabbix_agent_is_installed_successfully("env_zabbix_agent22")
