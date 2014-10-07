@@ -84,7 +84,8 @@ if __name__ == '__main__':
     if sys.argv[1] == "m":   
         machine_num_list = enum_id_list(input_argument)
         machine_id_list = convert_machine_nums_to_ids(machine_num_list)
-        toggle_state_for_each_machine(machine_id_list, container_obj_list)
+        toggle_state_for_each_machine(machine_id_list,
+                                      container_obj_list, container_list)
 
     elif sys.argv[1] == "g":
         container_dir_path = get_container_dir_path()

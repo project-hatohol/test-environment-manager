@@ -7,7 +7,7 @@ import sys
 import os
 
 class TestMachineInfo(unittest.TestCase):
-    _container_list = test_stub.test__container_list()
+    _container_list = test_stub.test_container_list()
     _container_obj_list = test_stub.test_obj_list()
     _test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/"
     _test_id = 0
@@ -34,7 +34,7 @@ class TestMachineInfo(unittest.TestCase):
     def test_change_state_to_start(self):
         machine_switcher.change_state_to_start(self._container_obj_list[self._test_id],
                                                self._container_list[self._test_id])
-        self.assertEquals("RUNNING", self._container_obj_list[self.test_id].state)
+        self.assertEquals("RUNNING", self._container_obj_list[self._test_id].state)
 
 
     def test_change_state_to_stop(self):
