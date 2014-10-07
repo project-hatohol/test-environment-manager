@@ -18,85 +18,77 @@ def check_container_exist():
     return True
 
 
-def print_file_is_usable(file_path):
-    print("\"%s\" file exists: %s" % file_path, os.path.isfile(file_path))
+def print_usability_of(file_path):
+    print("\"%s\" exists: %r" % (file_path, os.path.exists(file_path)))
 
 
-def print_directory_is_usable(directory_path):
-    print("\"%s\" directory exists: %s" % directory_path, os.path.isdir(directory_path))
+def run_check_command(container, list_of_path):
+    for path in list_of_path:
+        container.attach_wait(print_usability_of, path)
 
 
-def run_check_command(container, check_item):
-    for (function_name, argument) in check_item:
-        container.attach_wait(function_name, argument)
-
-
-def print_result_of_check_item(container_name, check_item):
+def print_result_of_check_item(container_name, list_of_path):
     container = lxc.Container(container_name)
     print("Container name: %s" % container_name)
 
     container.start()
-    run_check_command(container, check_item)
+    run_check_command(container, list_of_path)
     shutdown_container(container)
 
 
 def print_installation_result_of_zabbix_server(container_name):
-    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_server"],
-                  [print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
+    LIST_OF_PATH = ["/usr/sbin/zabbix_server", "/usr/sbin/zabbix_agentd"]
 
-    print_result_of_check_item(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, LIST_OF_PATH)
 
 
 def print_installation_result_of_zabbix_agent(container_name):
-    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
+    LIST_OF_PATH = ["/usr/sbin/zabbix_agentd"]
 
-    print_result_of_check_item(container_name, CHECK_ITEM)
+    print_result_of_check_item(container_name, LIST_OF_PATH)
 
 
 def print_installation_result_of_nagios_server3():
-    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/nagios"],
-                  [print_file_is_usable, "/usr/sbin/ndo2db"]]
+    LIST_OF_PATH = ["/usr/sbin/nagios", "/usr/sbin/ndo2db"]
     CONTAINER_NAME = "env_nagios_server3"
 
-    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, LIST_OF_PATH)
 
 
 def print_installation_result_of_nagios_server4():
-    CHECK_ITEM = [[print_file_is_usable, "/usr/local/nagios/bin/nagios"],
-                  [print_file_is_usable, "/usr/local/nagios/bin/ndo2db"]]
+    LIST_OF_PATH = ["/usr/local/nagios/bin/nagios",
+                  "/usr/local/nagios/bin/ndo2db"]
     CONTAINER_NAME = "env_nagios_server4"
 
-    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, LIST_OF_PATH)
 
 
 def print_installation_result_of_nagios_nrpe():
-    CHECK_ITEM = [[print_file_is_usable, "/etc/nagios/nrpe.cfg"],
-                  [print_directory_is_usable, "/usr/lib64/nagios/plugins/"]]
+    LIST_OF_PATH = ["/etc/nagios/nrpe.cfg", "/usr/lib64/nagios/plugins/"]
     CONTAINER_NAME = "env_nagios_nrpe"
 
-    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, LIST_OF_PATH)
 
 
 def print_installation_result_of_hatohol():
-    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/hatohol"]]
+    LIST_OF_PATH = ["/usr/sbin/hatohol"]
     CONTAINER_NAME = "env_hatohol_rpm"
 
-    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, LIST_OF_PATH)
 
 
 def print_installation_result_of_redmine():
-    CHECK_ITEM = [[print_directory_is_usable, "/var/lib/redmine"],
-                  [print_file_is_usable, "/usr/local/bin/ruby"]]
+    LIST_OF_PATH = ["/var/lib/redmine", "/usr/local/bin/ruby"]
     CONTAINER_NAME = "env_redmine"
 
-    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, LIST_OF_PATH)
 
 
 def print_installation_result_of_fluentd():
-    CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/td-agent"]]
+    LIST_OF_PATH = ["/usr/sbin/td-agent"]
     CONTAINER_NAME = "env_fluentd"
 
-    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, LIST_OF_PATH)
 
 
 def check_container_successfully():
