@@ -6,19 +6,17 @@ import unittest
 import sys
 import os
 
-def _get_output(file_name, func_name, **kwargs):
-    sys.stdout = open(file_name, "w")
-    func_name(**kwargs)
-    sys.stdout.close()
-    sys.stdout = sys.__stdout__
- 
+def _get_output(func_name, **kwargs):
+	(rfd, wfd) = os.pipe()
+	infile = os.fdopen(rfd)
+	outfile = os.fdopen(wfd, "w")
 
-def _read_file(file_name):
-    file = open(file_name)
-    lines = file.readlines()
-    file.close()
+	sys.stdout = outfile
+	func_name(**kwargs)
+	sys.stdout.close()
+	sys.stdout = sys.__stdout__
 
-    return lines
+	return infile.readlines()
 
 
 class _TestMachineInfo(unittest.TestCase):
@@ -26,9 +24,7 @@ class _TestMachineInfo(unittest.TestCase):
     test_path = os.path.dirname(os.path.abspath(__file__)) + "/test_stub1_1/"
 
     def _judge_printing_header(self, test_line):
-        _get_output("output_insert_header", machine_info.insert_header, container_id = test_line)
-        lines = _read_file("output_insert_header")
-        os.remove("output_insert_header")
+        lines = _get_output(machine_info.insert_header, container_id = test_line)
 
         delimit_output = 20
         if test_line % delimit_output == 0:
@@ -42,9 +38,7 @@ class _TestMachineInfo(unittest.TestCase):
 
 
     def test_print_header(self):
-        _get_output("header_output", machine_info.print_header)
-        lines = _read_file("header_output")
-        os.remove("header_output")
+        lines = _get_output(machine_info.print_header)
         self.assertIn("------", lines[0])
         self.assertIn("No", lines[1])
         self.assertIn("HostName", lines[1])
@@ -54,11 +48,9 @@ class _TestMachineInfo(unittest.TestCase):
         test_container_list = test_stub.test_container_list()
         test_container_obj_list = test_stub.test_obj_list()
 
-        _get_output("output_container_info", machine_info.print_container_info, 
-                   dict = self.test_dict, container_list = test_container_list,
-                   container_obj_list = test_container_obj_list)
-        lines = _read_file("output_container_info")
-        os.remove("output_container_info")
+        lines = _get_output(machine_info.print_container_info, dict = self.test_dict,
+                            container_list = test_container_list,
+                            container_obj_list = test_container_obj_list)
         self.assertIn("machine1_1", lines[0])
 
 
