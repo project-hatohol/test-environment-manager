@@ -8,16 +8,13 @@ import os
 
 def _get_output(func_name, **kwargs):
     (read_fd, write_fd) = os.pipe()
-    save_output = os.fdopen(read_fd)
-    connect_output_to_save_output = os.fdopen(write_fd, "w")
 
-    #This process has possibility that to stop when read many output. 
-    sys.stdout = connect_output_to_save_output
-    func_name(**kwargs)
+    sys.stdout = os.fdopen(write_fd, "w")
+    func_name(**kwargs) #This process is blocked when print many output 
     sys.stdout.close()
     sys.stdout = sys.__stdout__
 
-    return save_output.readlines()
+    return os.fdopen(read_fd).readlines()
 
 
 class _TestMachineInfo(unittest.TestCase):
