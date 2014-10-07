@@ -19,26 +19,25 @@ def test_obj_list():
     return test_objs
 
 
-class TestObjList():
+class _TestObjList():
     def __init__(self, test_container_name):
-        self.test_state_path = os.path.dirname(os.path.abspath(__file__)) + "/" + test_container_name + "/state"
         self.state = "STOPPED"
 
-    def start(self):
+    def _start(self):
         if self.state == "STOPPED":
             self.state = "RUNNING"
 
         return True
 
 
-    def stop(self): 
+    def _stop(self): 
         if self.state == "RUNNING":
             self.state = "STOPPED"
 
         return True
 
 
-    def shutdown(self):
+    def _shutdown(self):
         if self.state == "RUNNING":
             self.state = "STOPPED"
 
