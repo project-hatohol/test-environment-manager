@@ -56,47 +56,47 @@ def print_zabbix_agent_is_installed_successfully(container_name):
 def print_nagios_server3_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/nagios"],
                   [print_file_is_usable, "/usr/sbin/ndo2db"]]
-    container_name = "env_nagios_server3"
+    CONTAINER_NAME = "env_nagios_server3"
 
-    print_result_of_check_item(container_name, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
 def print_nagios_server4_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/local/nagios/bin/nagios"],
                   [print_file_is_usable, "/usr/local/nagios/bin/ndo2db"]]
-    container_name = "env_nagios_server4"
+    CONTAINER_NAME = "env_nagios_server4"
 
-    print_result_of_check_item(container_name, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
 def print_nagios_nrpe_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/etc/nagios/nrpe.cfg"],
                   [print_directory_is_usable, "/usr/lib64/nagios/plugins/"]]
-    container_name = "env_nagios_nrpe"
+    CONTAINER_NAME = "env_nagios_nrpe"
 
-    print_result_of_check_item(container_name, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
 def print_hatohol_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/hatohol"]]
-    container_name = "env_hatohol_rpm"
+    CONTAINER_NAME = "env_hatohol_rpm"
 
-    print_result_of_check_item(container_name, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
 def print_redmine_is_installed_successfully():
     CHECK_ITEM = [[print_directory_is_usable, "/var/lib/redmine"],
                   [print_file_is_usable, "/usr/local/bin/ruby"]]
-    container_name = "env_redmine"
+    CONTAINER_NAME = "env_redmine"
 
-    print_result_of_check_item(container_name, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
 def print_fluentd_is_installed_successfully():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/td-agent"]]
-    container_name = "env_fluentd"
+    CONTAINER_NAME = "env_fluentd"
 
-    print_result_of_check_item(container_name, CHECK_ITEM)
+    print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
 def check_container_successfully():
