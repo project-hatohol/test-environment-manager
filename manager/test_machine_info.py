@@ -13,7 +13,7 @@ def _get_output(file_name, func_name, **kwargs):
     sys.stdout = sys.__stdout__
  
 
-def read_file(file_name):
+def _read_file(file_name):
     file = open(file_name)
     lines = file.readlines()
     file.close()
@@ -27,7 +27,7 @@ class TestMachineInfo(unittest.TestCase):
 
     def _judge_printing_header(self, test_line):
         _get_output("output_insert_header", machine_info.insert_header, container_id = test_line)
-        lines = read_file("output_insert_header")
+        lines = _read_file("output_insert_header")
         os.remove("output_insert_header")
 
 		delimit_output = 20
@@ -43,7 +43,7 @@ class TestMachineInfo(unittest.TestCase):
 
     def test_print_header(self):
         _get_output("header_output", machine_info.print_header)
-        lines = read_file("header_output")
+        lines = _read_file("header_output")
         os.remove("header_output")
         self.assertIn("------", lines[0])
         self.assertIn("No", lines[1])
@@ -57,7 +57,7 @@ class TestMachineInfo(unittest.TestCase):
         _get_output("output_container_info", machine_info.print_container_info, 
                    dict = self.test_dict, container_list = test_container_list,
                    container_obj_list = test_container_obj_list)
-        lines = read_file("output_container_info")
+        lines = _read_file("output_container_info")
         os.remove("output_container_info")
         self.assertIn("machine1_1", lines[0])
 
