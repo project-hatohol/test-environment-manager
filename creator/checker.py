@@ -40,20 +40,20 @@ def print_result_of_check_item(container_name, check_item):
     shutdown_container(container)
 
 
-def print_zabbix_server_is_installed_successfully(container_name):
+def print_installation_result_of_zabbix_server(container_name):
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_server"],
                   [print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
     print_result_of_check_item(container_name, CHECK_ITEM)
 
 
-def print_zabbix_agent_is_installed_successfully(container_name):
+def print_installation_result_of_zabbix_agent(container_name):
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/zabbix_agentd"]]
 
     print_result_of_check_item(container_name, CHECK_ITEM)
 
 
-def print_nagios_server3_is_installed_successfully():
+def print_installation_result_of_nagios_server3():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/nagios"],
                   [print_file_is_usable, "/usr/sbin/ndo2db"]]
     CONTAINER_NAME = "env_nagios_server3"
@@ -61,7 +61,7 @@ def print_nagios_server3_is_installed_successfully():
     print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
-def print_nagios_server4_is_installed_successfully():
+def print_installation_result_of_nagios_server4():
     CHECK_ITEM = [[print_file_is_usable, "/usr/local/nagios/bin/nagios"],
                   [print_file_is_usable, "/usr/local/nagios/bin/ndo2db"]]
     CONTAINER_NAME = "env_nagios_server4"
@@ -69,7 +69,7 @@ def print_nagios_server4_is_installed_successfully():
     print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
-def print_nagios_nrpe_is_installed_successfully():
+def print_installation_result_of_nagios_nrpe():
     CHECK_ITEM = [[print_file_is_usable, "/etc/nagios/nrpe.cfg"],
                   [print_directory_is_usable, "/usr/lib64/nagios/plugins/"]]
     CONTAINER_NAME = "env_nagios_nrpe"
@@ -77,14 +77,14 @@ def print_nagios_nrpe_is_installed_successfully():
     print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
-def print_hatohol_is_installed_successfully():
+def print_installation_result_of_hatohol():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/hatohol"]]
     CONTAINER_NAME = "env_hatohol_rpm"
 
     print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
-def print_redmine_is_installed_successfully():
+def print_installation_result_of_redmine():
     CHECK_ITEM = [[print_directory_is_usable, "/var/lib/redmine"],
                   [print_file_is_usable, "/usr/local/bin/ruby"]]
     CONTAINER_NAME = "env_redmine"
@@ -92,7 +92,7 @@ def print_redmine_is_installed_successfully():
     print_result_of_check_item(CONTAINER_NAME, CHECK_ITEM)
 
 
-def print_fluentd_is_installed_successfully():
+def print_installation_result_of_fluentd():
     CHECK_ITEM = [[print_file_is_usable, "/usr/sbin/td-agent"]]
     CONTAINER_NAME = "env_fluentd"
 
@@ -100,16 +100,16 @@ def print_fluentd_is_installed_successfully():
 
 
 def check_container_successfully():
-    print_hatohol_is_installed_successfully()
-    print_zabbix_server_is_installed_successfully("env_zabbix_server22")
-    print_zabbix_server_is_installed_successfully("env_zabbix_server20")
-    print_zabbix_agent_is_installed_successfully("env_zabbix_agent22")
-    print_zabbix_agent_is_installed_successfully("env_zabbix_agent20")
-    print_nagios_server3_is_installed_successfully()
-    print_nagios_server4_is_installed_successfully()
-    print_nagios_nrpe_is_installed_successfully()
-    print_redmine_is_installed_successfully()
-    print_fluentd_is_installed_successfully()
+    print_installation_result_of_hatohol()
+    print_installation_result_of_zabbix_server("env_zabbix_server22")
+    print_installation_result_of_zabbix_server("env_zabbix_server20")
+    print_installation_result_of_zabbix_agent("env_zabbix_agent22")
+    print_installation_result_of_zabbix_agent("env_zabbix_agent20")
+    print_installation_result_of_nagios_server3()
+    print_installation_result_of_nagios_server4()
+    print_installation_result_of_nagios_nrpe()
+    print_installation_result_of_redmine()
+    print_installation_result_of_fluentd()
 
 
 if __name__ == '__main__':
