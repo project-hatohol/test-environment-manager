@@ -3,6 +3,7 @@ import os
 import sys
 import yaml
 import lxc
+sys.path.append("../common")
 import utils
 
 NAME_BASE_CONTAINER = "base_container"
