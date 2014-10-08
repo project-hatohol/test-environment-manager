@@ -7,8 +7,6 @@ sys.path.append("../common")
 import definevalue
 from utils import *
 
-NAME_BASE_CONTAINER = "base_container"
-
 def get_config_info_from(yaml_file_path):
     yaml_file = open(yaml_file_path).read()
     return yaml.load(yaml_file)
@@ -18,12 +16,13 @@ def get_container_name_and_base_container_name(config_info_name):
     list_of_container_name = config_info_name.keys()
     return_list = []
     for container_name in list_of_container_name:
-        if not NAME_BASE_CONTAINER in config_info_name[container_name]:
+        key_of_base_name = definevalue.KEY_OF_BASE_CONTAINER
+        if not key_of_base_name in config_info_name[container_name]:
             continue
         else:
             return_list.append([container_name,
                                 config_info_name[container_name]
-                                [NAME_BASE_CONTAINER]])
+                                [key_of_container_name]])
 
     return return_list
 
