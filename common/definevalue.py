@@ -8,3 +8,5 @@ CONTAINER_NAMES = ["env_base", "env_zabbix_server22", "env_zabbix_server20",
 
 KEY_OF_BASE_CONTAINER = "base_container"
 TIMEOUT_VALUE = 30
+
+EXIT_FAILURE = 1
