@@ -9,7 +9,7 @@ def exit_if_argument_is_not_given(number_of_argument):
         sys.exit(definevalue.EXIT_FAILURE)
 
 
-def finish_if_user_run_as_general_user():
+def exit_if_user_run_this_as_general_user():
     if not os.geteuid() == 0:
         print("Error: You need root permission to use this script.")
         sys.exit(definevalue.EXIT_FAILURE)

@@ -56,7 +56,7 @@ def start_clone_containers_from(yaml_file_path):
 
 if __name__ == '__main__':
     argvs = sys.argv
-    finish_if_user_run_as_general_user()
+    exit_if_user_run_this_as_general_user()
     exit_if_argument_is_not_given(len(argvs))
 
     start_clone_containers_from(argvs[1])
