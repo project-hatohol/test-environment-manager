@@ -12,7 +12,7 @@ def get_dictionary_from_yaml_file(file_path):
     return yaml.load(yaml_file)
 
 
-def get_container_name_and_base_container(dictionary_name):
+def get_container_name_and_base_container_name(dictionary_name):
     list_of_container_name = dictionary_name.keys()
     return_list = []
     for container_name in list_of_container_name:
