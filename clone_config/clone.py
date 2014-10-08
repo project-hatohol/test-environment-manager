@@ -12,15 +12,15 @@ def get_config_info_from_yaml_file(file_path):
     return yaml.load(yaml_file)
 
 
-def get_container_name_and_base_container_name(dictionary_name):
-    list_of_container_name = dictionary_name.keys()
+def get_container_name_and_base_container_name(config_info_name):
+    list_of_container_name = config_info_name.keys()
     return_list = []
     for container_name in list_of_container_name:
-        if not NAME_BASE_CONTAINER in dictionary_name[container_name]:
+        if not NAME_BASE_CONTAINER in config_info_name[container_name]:
             continue
         else:
             return_list.append([container_name,
-                                dictionary_name[container_name]
+                                config_info_name[container_name]
                                 [NAME_BASE_CONTAINER]])
 
     return return_list
