@@ -69,9 +69,7 @@ def print_installation_result():
 
 
 if __name__ == '__main__':
-    if not os.geteuid() == 0:
-        print('You need root permission to use this script.')
-        sys.exit(1)
+    finish_if_user_run_as_general_user()
 
     if list_containers_and_abort_if_one_does_not_exist(definevalue.CONTAINER_NAMES):
         print_installation_result()
