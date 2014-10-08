@@ -46,27 +46,23 @@ def convert_machine_nums_to_ids(machine_num_list):
 
 
 def enum_id_list(input_argument):
-    id_list = []
+    id_list = set()
     for select_id in input_argument:
         if "-" in select_id:
             (min, max) = select_id.split("-")
-            id_list.extend(range(int(min), int(max)+1))
+            id_list = add_list(int(min), int(max), id_list)
+
         else:
-            id_list.append(int(select_id))
-
-    new_id_list = delete_duplicative_id(id_list)
-
-    return new_id_list
+            id_list.add(int(select_id))
 
 
-def delete_duplicative_id(id_list):
-    new_id_list = []
-    for designate_id in id_list:
-        if not designate_id in new_id_list:
-            new_id_list.append(designate_id)
-    
-    return new_id_list
-            
+    return id_list
+
+
+def add_list(min, max, id_list):
+    [id_list.add(id) for id in range(min, max + 1)]
+
+    return id_list
 
 def create_group_dict(container_dir_path, container_list):
     dict = {}
