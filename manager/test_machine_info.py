@@ -11,7 +11,7 @@ def _get_output(func_name, **kwargs):
 
     sys.stdout = os.fdopen(write_fd, "w")
     # A print function is blocked when it outputs many characters
-    # more than pipe size setting of you.
+    # more than size of pipe.
     func_name(**kwargs)
     sys.stdout.close()
     sys.stdout = sys.__stdout__
