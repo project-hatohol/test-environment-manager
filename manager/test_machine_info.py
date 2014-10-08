@@ -10,7 +10,8 @@ def _get_output(func_name, **kwargs):
     (read_fd, write_fd) = os.pipe()
 
     sys.stdout = os.fdopen(write_fd, "w")
-    func_name(**kwargs) # A print function is blocked when it output to many.
+    # A print function is blocked when it outputs many characters.
+    func_name(**kwargs)
     sys.stdout.close()
     sys.stdout = sys.__stdout__
 
