@@ -69,7 +69,7 @@ def print_installation_result():
 
 
 if __name__ == '__main__':
-    finish_if_user_run_as_general_user()
+    exit_if_user_run_this_as_general_user()
 
     if list_containers_and_abort_if_one_does_not_exist(definevalue.CONTAINER_NAMES):
         print_installation_result()

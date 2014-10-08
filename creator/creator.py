@@ -321,6 +321,6 @@ def create_containers():
 
 
 if __name__ == '__main__':
-    finish_if_user_run_as_general_user()
+    exit_if_user_run_this_as_general_user()
 
     create_containers()
