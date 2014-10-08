@@ -32,6 +32,16 @@ def clone_container(container_name, base_container_name):
                                 flags=lxc.LXC_CLONE_SNAPSHOT)
 
 
+def clone_containers_from(list_for_clone_container):
+    for (container_name, base_container_name) in list_for_clone_container:
+        if lxc.Container(container_name).defined:
+            print("\"%s\" already exists" % container_name)
+            continue
+        else:
+            result = clone_container(container_name, base_container_name)
+            print("Result of \"%s\": %r" % (container_name, result))
+
+
 if __name__ == '__main__':
     argvs = sys.argv
     utils.finish_if_user_run_as_general_user()
