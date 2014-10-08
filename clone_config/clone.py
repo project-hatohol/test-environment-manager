@@ -26,6 +26,12 @@ def get_container_name_and_base_container_name(config_info_name):
     return return_list
 
 
+def clone_container(container_name, base_container_name):
+    base_container = lxc.Container(base_container_name)
+    return base_container.clone(container_name, bdevtype="aufs",
+                                flags=lxc.LXC_CLONE_SNAPSHOT)
+
+
 if __name__ == '__main__':
     argvs = sys.argv
     utils.finish_if_user_run_as_general_user()
