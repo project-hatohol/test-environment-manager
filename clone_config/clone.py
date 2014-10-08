@@ -3,6 +3,7 @@ import os
 import sys
 import yaml
 import lxc
+import utils
 
 NAME_BASE_CONTAINER = "base_container"
 
@@ -26,6 +27,6 @@ def get_container_name_and_base_container(dictionary_name):
 
 
 if __name__ == '__main__':
-    if not os.geteuid() == 0:
-        print("You need root permission to use this script.")
-        sys.exit(1)
+    argvs = sys.argv
+    utils.finish_if_user_run_as_general_user()
+    utils.finish_if_argument_is_not_given(len(argvs))
