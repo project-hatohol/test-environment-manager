@@ -28,8 +28,9 @@ def get_container_name_and_base_container_name(config_info_name):
 
 def clone_container(container_name, base_container_name):
     base_container = lxc.Container(base_container_name)
-    return base_container.clone(container_name, bdevtype="aufs",
+    container = base_container.clone(container_name, bdevtype="aufs",
                                 flags=lxc.LXC_CLONE_SNAPSHOT)
+    return container.defined
 
 
 def clone_containers_from(list_for_clone_container):
