@@ -4,7 +4,7 @@ import sys
 import yaml
 import lxc
 sys.path.append("../common")
-import utils
+from utils import *
 
 NAME_BASE_CONTAINER = "base_container"
 
@@ -53,7 +53,7 @@ def start_clone_containers_from(yaml_file_path):
 
 if __name__ == '__main__':
     argvs = sys.argv
-    utils.finish_if_user_run_as_general_user()
-    utils.finish_if_argument_is_not_given(len(argvs))
+    finish_if_user_run_as_general_user()
+    finish_if_argument_is_not_given(len(argvs))
 
     start_clone_containers_from(argvs[1])
