@@ -7,7 +7,7 @@ import utils
 
 NAME_BASE_CONTAINER = "base_container"
 
-def get_dictionary_from_yaml_file(file_path):
+def get_config_info_from_yaml_file(file_path):
     yaml_file = open(file_path).read()
     return yaml.load(yaml_file)
 
