@@ -6,13 +6,13 @@ import definevalue
 def exit_if_argument_is_not_given(number_of_argument):
     if (number_of_argument == 1):
         print("Error: argument is not given")
-        sys.exit(definevalue.EXIT_FAILURE)
+        sys.exit(os.EX_USAGE)
 
 
 def exit_if_user_run_this_as_general_user():
     if not os.geteuid() == 0:
         print("Error: You need root permission to use this script.")
-        sys.exit(definevalue.EXIT_FAILURE)
+        sys.exit(os.EX_NOPERM)
 
 
 def print_success_message(name):
