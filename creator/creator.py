@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-import lxc
 import os
 import sys
+import lxc
+sys.path.append("../common")
 import definevalue
 from utils import *
 
@@ -320,8 +321,6 @@ def create_containers():
 
 
 if __name__ == '__main__':
-    if not os.geteuid() == 0:
-        print("You need root permission to use this script.")
-        sys.exit(1)
+    exit_if_user_run_this_as_general_user()
 
     create_containers()

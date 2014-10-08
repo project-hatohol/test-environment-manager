@@ -1,0 +1,4 @@
+hoge:
+        base_container: env_fluentd
+fuga:
+        base_container: env_redmine
