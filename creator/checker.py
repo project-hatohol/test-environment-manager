@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-import lxc
 import os
-import sys
 import os.path
+import sys
+import lxc
+sys.path.append("../common")
 import definevalue
 from utils import *
 
