@@ -8,8 +8,8 @@ import definevalue
 from utils import *
 
 def get_config_info_from(yaml_file_path):
-    yaml_file = open(yaml_file_path).read()
-    return yaml.load(yaml_file)
+    yaml_data = open(yaml_file_path).read()
+    return yaml.load(yaml_data)
 
 
 def get_container_name_and_base_container_name(config_info_name):
