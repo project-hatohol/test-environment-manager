@@ -42,7 +42,16 @@ def clone_containers_from(list_for_clone_container):
             print("Result of \"%s\": %r" % (container_name, result))
 
 
+def start_clone_containers_from(yaml_file_path):
+    config_info = get_config_info_from(yaml_file_path)
+    list_of_clone_containers = \
+        get_container_name_and_base_container_name(config_info)
+    clone_containers_from(list_of_clone_containers)
+
+
 if __name__ == '__main__':
     argvs = sys.argv
     utils.finish_if_user_run_as_general_user()
     utils.finish_if_argument_is_not_given(len(argvs))
+
+    start_clone_containers_from(argvs[1])
