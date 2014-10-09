@@ -37,7 +37,7 @@ def clone_container(container_name, base_container_name):
 def clone_containers(list_for_clone_container):
     for (container_name, base_container_name) in list_for_clone_container:
         if lxc.Container(base_container_name).defined:
-            print("Base container \"%s\" does not exist")
+            print("Base container \"%s\" does not exist" % base_container_name)
             continue
         if lxc.Container(container_name).defined:
             print("\"%s\" already exists" % container_name)
