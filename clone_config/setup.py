@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
+import subprocess
 import yaml
 import lxc
 sys.path.append("../common")
