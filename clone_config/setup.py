@@ -70,6 +70,11 @@ def setup_container(container_name, run_function_name):
     container.attach_wait(run_function_name)
 
 
+def setup_containers(list_of_setup_containers):
+    for (container_name, setup_function) in list_of_setup_containers:
+        setup_container(container_name, setup_function)
+
+
 if __name__ == '__main__':
     argvs = sys.argv
     exit_if_user_run_this_as_general_user()
