@@ -22,7 +22,7 @@ def get_container_name_and_base_container_name(config_info_name):
             continue
         else:
             return_list.append([container_name,
-                                key_of_container_name[key_of_container_name]])
+                                key_of_container_name[key_of_base_name]])
 
     return return_list
 
