@@ -6,6 +6,7 @@ import lxc
 sys.path.append("../common")
 import definevalue
 from utils import *
+import clone
 
 def run_setup_zabbix_server():
     print("Not implemented yet: run_setup_zabbix_server")
@@ -75,7 +76,16 @@ def setup_containers(list_of_setup_containers):
         setup_container(container_name, setup_function)
 
 
+def start_setup(yaml_file_path):
+    config_info = clone.get_config_info(yaml_file_path)
+    list_of_setup_containers = \
+        get_container_name_and_function_to_setup(config_info)
+    setup_containers(list_of_setup_containers)
+
+
 if __name__ == '__main__':
     argvs = sys.argv
     exit_if_user_run_this_as_general_user()
     exit_if_argument_is_not_given(len(argvs))
+
+    start_setup(argvs[1])
