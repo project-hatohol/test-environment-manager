@@ -70,6 +70,8 @@ def setup_container(container_name, run_function_name):
 
     container.attach_wait(run_function_name)
 
+    shutdown_container(container)
+
 
 def setup_containers(list_of_setup_containers):
     for (container_name, setup_function) in list_of_setup_containers:
