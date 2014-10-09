@@ -39,7 +39,12 @@ def run_setup_redmine():
 
 
 def run_setup_fluentd():
-    print("Not implemented yet: run_setup_fluentd")
+    CONFIG_FILE_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/clone_config-settings/clone_config/assets/td-agent.conf"
+    TD_AGENT_FILE_PATH = "/etc/td-agent/td-agent.conf"
+    CMD = ["wget", "-P", "/etc/td-agent/", CONFIG_FILE_URL]
+
+    os.remove(TD_AGENT_FILE_PATH)
+    subprocess.call(CMD)
 
 
 SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
