@@ -63,12 +63,13 @@ def get_container_name_and_function_to_setup(config_info_name):
     return return_list
 
 
-def setup_container(container_name, run_function_name):
+def setup_container(container_name, run_function_names):
     container = lxc.Container(container_name)
     container.start()
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
-    container.attach_wait(run_function_name)
+    for run_function_name in run_function_names:
+        container.attach_wait(run_function_name)
 
     shutdown_container(container)
 
