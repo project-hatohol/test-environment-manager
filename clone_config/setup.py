@@ -43,6 +43,7 @@ SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
                    "redmine": run_setup_redmine,
                    "fluentd": run_setup_fluentd}
 
+# TODO: Add a parameter for setup function as a part of sequence.
 def get_container_name_and_function_to_setup(config_info_name):
     list_of_container_name = config_info_name.keys()
     list_of_setup_function = SETUP_FUNCTIONS.keys()
