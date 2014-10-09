@@ -3,35 +3,43 @@ zabbix-server22-sample:
 
         zabbix-server:
         zabbix-agent:
+
 zabbix-server20-sample:
         base_container: env_zabbix_server20
 
         zabbix-server:
         zabbix-agent:
+
 zabbix-agent22-sample:
         base_container: env_zabbix_agent22
 
         zabbix-agent:
+
 zabbix-agent20-sample:
         base_container: env_zabbix_agent22
 
         zabbix-agent:
+
 nagios-server3-sample:
         base_container: env_nagios_server3
 
         nagios3:
+
 nagios-server4-sample:
         base_container: env_nagios_server4
 
         nagios4:
+
 nagios-nrpe-sample:
         base_container: env_nagios_nrpe
 
         nrpe:
+
 redmine-sample:
         base_container: env_redmine
 
         redmine:
+
 fluentd-sample:
         base_container: env_fluentd
 
