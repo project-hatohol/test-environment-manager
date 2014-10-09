@@ -26,7 +26,12 @@ def run_setup_nagios_server4():
 
 
 def run_setup_nagios_nrpe():
-    print("Not implemented yet: run_setup_nagios_nrpe")
+    CONFIG_FILE_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/clone_config-settings/clone_config/assets/nrpe.cfg"
+    NRPE_FILE_PATH = "/etc/nagios/nrpe.cfg"
+    CMD = ["wget", "-P", "/etc/nagios/", CONFIG_FILE_URL]
+
+    os.remove(NRPE_FILE_PATH)
+    subprocess.call(CMD)
 
 
 def run_setup_redmine():
