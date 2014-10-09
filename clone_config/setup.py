@@ -64,6 +64,7 @@ def get_container_name_and_function_to_setup(config_info_name):
 
 
 def setup_container(container_name, run_function_names):
+    print("Start setup process: %s" % container_name)
     container = lxc.Container(container_name)
     container.start()
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
