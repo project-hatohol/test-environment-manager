@@ -57,7 +57,7 @@ def get_container_name_and_function_to_setup(config_info_name):
             if not key_in_info in list_of_setup_function:
                 continue
             else:
-                setup_functions.append(key_in_info)
+                setup_functions.append(SETUP_FUNCTIONS[key_in_info])
             return_list.append([container_name, setup_functions])
 
     return return_list
