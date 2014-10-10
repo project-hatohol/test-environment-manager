@@ -55,8 +55,8 @@ redmine-sample:
         base_container: env_redmine
 
         redmine:
-                project_name:
-                project_id:
+                project_name: hatohol
+                project_id: hatohol
 
 fluentd-sample:
         base_container: env_fluentd
