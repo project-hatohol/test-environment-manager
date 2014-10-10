@@ -9,20 +9,50 @@ import definevalue
 from utils import *
 import clone
 
+def prepare_setup_zabbix_server(argument):
+    print("Not implemented yet: prepare_setup_zabbix_server")
+    run_argument = []
+    return run_argument
+
+
 def run_setup_zabbix_server(argument):
     print("Not implemented yet: run_setup_zabbix_server")
+
+
+def prepare_setup_zabbix_agent(argument):
+    print("Not implemented yet: prepare_setup_zabbix_agent")
+    run_argument = []
+    return run_argument
 
 
 def run_setup_zabbix_agent(argument):
     print("Not implemented yet: run_setup_zabbix_agent")
 
 
+def prepare_setup_nagios_server3(argument):
+    print("Not implemented yet: prepare_setup_nagios_server3")
+    run_argument = []
+    return run_argument
+
+
 def run_setup_nagios_server3(argument):
     print("Not implemented yet: run_setup_nagios_server3")
 
 
+def prepare_setup_nagios_server4(argument):
+    print("Not implemented yet: prepare_setup_nagios_server4")
+    run_argument = []
+    return run_argument
+
+
 def run_setup_nagios_server4(argument):
     print("Not implemented yet: run_setup_nagios_server4")
+
+
+def prepare_setup_nagios_nrpe(argument):
+    print("Not implemented yet: prepare_setup_nagios_nrpe")
+    run_argument = []
+    return run_argument
 
 
 def run_setup_nagios_nrpe(argument):
@@ -34,8 +64,20 @@ def run_setup_nagios_nrpe(argument):
     subprocess.call(CMD)
 
 
+def prepare_setup_redmine(argument):
+    print("Not implemented yet: prepare_setup_redmine")
+    run_argument = []
+    return run_argument
+
+
 def run_setup_redmine(argument):
     print("Not implemented yet: run_setup_redmine")
+
+
+def prepare_setup_fluentd(argument):
+    print("Not implemented yet: prepare_setup_fluentd")
+    run_argument = []
+    return run_argument
 
 
 def run_setup_fluentd(argument):
@@ -54,6 +96,14 @@ SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
                    "nrpe": run_setup_nagios_nrpe,
                    "redmine": run_setup_redmine,
                    "fluentd": run_setup_fluentd}
+
+PREPARE_FUNCTIONS = {run_setup_zabbix_server: prepare_setup_zabbix_server,
+                     run_setup_zabbix_agent: prepare_setup_zabbix_agent,
+                     run_setup_nagios_server3: prepare_setup_nagios_server3,
+                     run_setup_nagios_server4: prepare_setup_nagios_server4,
+                     run_setup_nagios_nrpe: prepare_setup_nagios_nrpe,
+                     run_setup_redmine: prepare_setup_redmine,
+                     run_setup_fluentd: prepare_setup_fluentd}
 
 
 def get_function_and_arguments(info_of_container_name, list_of_key_in_info):
@@ -92,7 +142,8 @@ def setup_container(container_name, run_function_names):
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     for (run_function_name, argument) in run_function_names:
-        container.attach_wait(run_function_name, argument)
+        run_argument = PREPARE_FUNCTIONS[run_function_name](argument)
+        container.attach_wait(run_function_name, run_argument)
 
     shutdown_container(container)
 
