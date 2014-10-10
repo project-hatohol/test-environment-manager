@@ -10,12 +10,26 @@ from utils import *
 import clone
 
 def prepare_setup_zabbix_server(argument):
-    print("Not implemented yet: prepare_setup_zabbix_server")
+    zabbix_conf = open("assets/zabbix.conf").read()
+    zabbix_conf_php = open("assets/zabbix.conf.php").read()
+    argument.append(zabbix_conf)
+    argument.append(zabbix_conf_php)
     return argument
 
 
 def run_setup_zabbix_server(argument):
-    print("Not implemented yet: run_setup_zabbix_server")
+    ZABBIX_CONF_PATH = "/etc/httpd/conf.d/zabbix.conf"
+    ZABBIX_CONF_PHP_PATH = "/etc/zabbix/web/zabbix.conf.php"
+    os.remove(ZABBIX_CONF_PATH)
+    if os.path.exists(ZABBIX_CONF_PHP_PATH):
+        os.remove(ZABBIX_CONF_PHP_PATH)
+
+    zabbix_conf = open(ZABBIX_CONF_PATH, "w")
+    zabbix_conf_php = open(ZABBIX_CONF_PHP_PATH, "w")
+    zabbix_conf.write(argument[1])
+    zabbix_conf_php.write(argument[2])
+    zabbix_conf.close()
+    zabbix_conf_php.close()
 
 
 def prepare_setup_zabbix_agent(argument):
