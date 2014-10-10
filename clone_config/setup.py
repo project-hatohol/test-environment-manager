@@ -55,25 +55,32 @@ SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
                    "redmine": run_setup_redmine,
                    "fluentd": run_setup_fluentd}
 
-# TODO: Split to function.
+
+def get_function_and_arguments(info_of_container_name, list_of_key_in_info):
+    list_of_setup_function = SETUP_FUNCTIONS.keys()
+    return_list = []
+    for key_in_info in list_of_key_in_info:
+        if not key_in_info in list_of_setup_function:
+            continue
+        else:
+            info_of_function = info_of_container_name[key_in_info]
+            function_argument = []
+            if info_of_function is not None:
+                function_argument.append(info_of_function)
+            return_list.append([SETUP_FUNCTIONS[key_in_info], function_argument])
+
+    return return_list
+
+
 def get_container_name_and_function_to_setup(config_info_name):
     list_of_container_name = config_info_name.keys()
-    list_of_setup_function = SETUP_FUNCTIONS.keys()
     return_list = []
     for container_name in list_of_container_name:
         info_of_container_name = config_info_name[container_name]
         list_of_key_in_info = info_of_container_name.keys()
-        setup_functions = []
-        for key_in_info in list_of_key_in_info:
-            if not key_in_info in list_of_setup_function:
-                continue
-            else:
-                function_argument = []
-                info_of_function = info_of_container_name[key_in_info]
-                if info_of_function is not None:
-                    function_argument.append(info_of_function)
-                setup_functions.append([SETUP_FUNCTIONS[key_in_info], function_argument])
-            return_list.append([container_name, setup_functions])
+        setup_functions = get_function_and_arguments(info_of_container_name,
+                                                     list_of_key_in_info)
+        return_list.append([container_name, setup_functions])
 
     return return_list
 
