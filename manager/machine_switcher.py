@@ -50,19 +50,13 @@ def enum_id_list(input_argument):
     for select_id in input_argument:
         if "-" in select_id:
             (min, max) = select_id.split("-")
-            id_list = add_list(int(min), int(max), id_list)
+            id_list.update(range(int(min), int(max) + 1))
 
         else:
             id_list.add(int(select_id))
 
-
     return id_list
 
-
-def add_list(min, max, id_list):
-    [id_list.add(id) for id in range(min, max + 1)]
-
-    return id_list
 
 def create_group_dict(container_dir_path, container_list):
     dict = {}
