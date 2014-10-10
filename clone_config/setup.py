@@ -46,17 +46,18 @@ def run_setup_nagios_server4(argument):
 
 
 def prepare_setup_nagios_nrpe(argument):
-    print("Not implemented yet: prepare_setup_nagios_nrpe")
+    nrpe_cfg = open("assets/nrpe.cfg").read()
+    argument.append(nrpe_cfg)
     return argument
 
 
 def run_setup_nagios_nrpe(argument):
-    CONFIG_FILE_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/clone_config-settings/clone_config/assets/nrpe.cfg"
     NRPE_FILE_PATH = "/etc/nagios/nrpe.cfg"
-    CMD = ["wget", "-P", "/etc/nagios/", CONFIG_FILE_URL]
-
     os.remove(NRPE_FILE_PATH)
-    subprocess.call(CMD)
+
+    nrpe_cfg = open(NRPE_FILE_PATH, "w")
+    nrpe_cfg.write(argument[0])
+    nrpe_cfg.close()
 
 
 def prepare_setup_redmine(argument):
@@ -69,17 +70,18 @@ def run_setup_redmine(argument):
 
 
 def prepare_setup_fluentd(argument):
-    print("Not implemented yet: prepare_setup_fluentd")
+    td_agent_conf = open("assets/td-agent.conf").read()
+    argument.append(td_agent_conf)
     return argument
 
 
 def run_setup_fluentd(argument):
-    CONFIG_FILE_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/clone_config-settings/clone_config/assets/td-agent.conf"
     TD_AGENT_FILE_PATH = "/etc/td-agent/td-agent.conf"
-    CMD = ["wget", "-P", "/etc/td-agent/", CONFIG_FILE_URL]
-
     os.remove(TD_AGENT_FILE_PATH)
-    subprocess.call(CMD)
+
+    td_agent_conf = open(TD_AGENT_FILE_PATH, "w")
+    td_agent_conf.write(argument[0])
+    td_agent_conf.close()
 
 
 SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
