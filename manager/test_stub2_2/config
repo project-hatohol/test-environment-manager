@@ -1,0 +1,39 @@
+test
+# Template used to create this container: /usr/share/lxc/templates/lxc-centos
+# Parameters passed to the template:
+lxc.start.auto = 1
+# For additional config options, please look at lxc.conf(5)
+lxc.network.type = veth
+lxc.network.flags = up
+lxc.network.link = lxcbr0
+lxc.network.ipv4 = 10.0.3.22/24
+lxc.network.ipv4.gateway = 10.0.3.1
+lxc.network.ipv4.gateway = 10.0.4.1
+lxc.rootfs = /var/lib/lxc/machine1_1/rootfs
+
+# Include common configuration
+lxc.include = /usr/share/lxc/config/centos.common.conf
+
+lxc.arch = x86_64
+lxc.utsname = machine2_2
+
+lxc.autodev = 0
+lxc.aa_profile = unconfined
+lxc.cgroup.devices.allow = b 7:* rwm
+lxc.cgroup.devices.allow = c 10:237 rwm
+
+# When using LXC with apparmor, uncomment the next line to run unconfined:
+#lxc.aa_profile = unconfined
+
+# example simple networking setup, uncomment to enable
+#lxc.network.type = veth
+#lxc.network.flags = up
+#lxc.network.link = lxcbr0
+#lxc.network.name = eth0
+# Additional example for veth network type
+#    static MAC address,
+#lxc.network.hwaddr = 00:16:3e:77:52:20
+#    persistent veth device name on host side
+#        Note: This may potentially collide with other containers of same name!
+#lxc.network.veth.pair = v-centos-e0
+
