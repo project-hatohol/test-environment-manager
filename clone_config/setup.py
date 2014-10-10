@@ -61,12 +61,22 @@ def run_setup_nagios_nrpe(argument):
 
 
 def prepare_setup_redmine(argument):
-    print("Not implemented yet: prepare_setup_redmine")
+    read_file = open("my_setting")
+    setting_lines = read_file.readlines()
+    read_file.close()
+
+    argument.append(setting_lines)
+
     return argument
 
 
 def run_setup_redmine(argument):
-    print("Not implemented yet: run_setup_redmine")
+    setup_argument = 1
+    setting_file = open("my_setting", "w")
+    setting_file.writelines(argument[setup_argument])
+    setting_file.close()
+
+    subprocess.call("mysql -uroot db_redmine < my_setting", shell = True)
 
 
 def prepare_setup_fluentd(argument):
