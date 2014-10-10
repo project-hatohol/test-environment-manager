@@ -2,33 +2,49 @@ zabbix-server22-sample:
         base_container: env_zabbix_server22
 
         zabbix-server:
+                target: [{host: test1, ip: 192.168.0.11}, {host: test2, ip: 192.168.0.12}]
         zabbix-agent:
+                server_ipaddress: 10.0.3.11
+                host_name: Zabbix Server22
 
 zabbix-server20-sample:
         base_container: env_zabbix_server20
 
         zabbix-server:
+                target: [{host: test1, ip: 192.168.0.11}, {host: test2, ip: 192.168.0.12}]
         zabbix-agent:
+                server_ipaddress: 10.0.3.11
+                host_name: Zabbix Server20
 
 zabbix-agent22-sample:
         base_container: env_zabbix_agent22
 
         zabbix-agent:
+                server_ipaddress: 10.0.3.11
+                host_name: Zabbix agent22
 
 zabbix-agent20-sample:
         base_container: env_zabbix_agent22
 
         zabbix-agent:
+                server_ipaddress: 10.0.3.11
+                host_name: Zabbix agent20
 
 nagios-server3-sample:
         base_container: env_nagios_server3
 
         nagios3:
+                username: admin
+                password: hatohol
+                target: [{host: test1, ip: 192.168.0.11}, {host: test2, ip: 192.168.0.12}]
 
 nagios-server4-sample:
         base_container: env_nagios_server4
 
         nagios4:
+                username: admin
+                password: hatohol
+                target: [{host: test1, ip: 192.168.0.11}, {host: test2, ip: 192.168.0.12}]
 
 nagios-nrpe-sample:
         base_container: env_nagios_nrpe
@@ -39,6 +55,8 @@ redmine-sample:
         base_container: env_redmine
 
         redmine:
+                project_name:
+                project_id:
 
 fluentd-sample:
         base_container: env_fluentd
