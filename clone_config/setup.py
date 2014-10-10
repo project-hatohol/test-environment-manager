@@ -33,12 +33,35 @@ def run_setup_zabbix_server(argument):
 
 
 def prepare_setup_zabbix_agent(argument):
-    print("Not implemented yet: prepare_setup_zabbix_agent")
+    zabbix_agentd_conf = open("assets/zabbix_agentd.conf").read()
+    argument.append(zabbix_agentd_conf)
     return argument
 
 
 def run_setup_zabbix_agent(argument):
-    print("Not implemented yet: run_setup_zabbix_agent")
+    CONF_FILE_PATH = "/etc/zabbix/zabbix_agentd.conf"
+    os.remove(CONF_FILE_PATH)
+
+    server_ip_and_host_name = argument[0]
+    output_data = argument[1]
+
+    zabbix_agentd_conf = open(CONF_FILE_PATH, "w")
+    SERVER_DEFAULT = "Server=127.0.0.1"
+    SERVER_ACTIVE_DEFAULT = "ServerActive=127.0.0.1"
+    HOST_NAME_DEFAULT = "Hostname=Zabbix server"
+    output_data = \
+        output_data.replace("Server=127.0.0.1",
+                            "Server=" +
+                            server_ip_and_host_name["server_ipaddress"])
+    output_data = \
+        output_data.replace("ServerActive=127.0.0.1",
+                            "ServerActive=" +
+                            server_ip_and_host_name["server_ipaddress"])
+    output_data = \
+        output_data.replace("Hostname=Zabbix server",
+                            "Hostname=" +
+                            server_ip_and_host_name["host_name"])
+    zabbix_agentd_conf.write(output_data)
 
 
 def prepare_setup_nagios_server3(argument):
