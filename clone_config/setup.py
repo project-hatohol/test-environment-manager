@@ -11,8 +11,7 @@ import clone
 
 def prepare_setup_zabbix_server(argument):
     print("Not implemented yet: prepare_setup_zabbix_server")
-    run_argument = []
-    return run_argument
+    return argument
 
 
 def run_setup_zabbix_server(argument):
@@ -21,8 +20,7 @@ def run_setup_zabbix_server(argument):
 
 def prepare_setup_zabbix_agent(argument):
     print("Not implemented yet: prepare_setup_zabbix_agent")
-    run_argument = []
-    return run_argument
+    return argument
 
 
 def run_setup_zabbix_agent(argument):
@@ -31,8 +29,7 @@ def run_setup_zabbix_agent(argument):
 
 def prepare_setup_nagios_server3(argument):
     print("Not implemented yet: prepare_setup_nagios_server3")
-    run_argument = []
-    return run_argument
+    return argument
 
 
 def run_setup_nagios_server3(argument):
@@ -41,8 +38,7 @@ def run_setup_nagios_server3(argument):
 
 def prepare_setup_nagios_server4(argument):
     print("Not implemented yet: prepare_setup_nagios_server4")
-    run_argument = []
-    return run_argument
+    return argument
 
 
 def run_setup_nagios_server4(argument):
@@ -51,8 +47,7 @@ def run_setup_nagios_server4(argument):
 
 def prepare_setup_nagios_nrpe(argument):
     print("Not implemented yet: prepare_setup_nagios_nrpe")
-    run_argument = []
-    return run_argument
+    return argument
 
 
 def run_setup_nagios_nrpe(argument):
@@ -66,8 +61,7 @@ def run_setup_nagios_nrpe(argument):
 
 def prepare_setup_redmine(argument):
     print("Not implemented yet: prepare_setup_redmine")
-    run_argument = []
-    return run_argument
+    return argument
 
 
 def run_setup_redmine(argument):
@@ -76,8 +70,7 @@ def run_setup_redmine(argument):
 
 def prepare_setup_fluentd(argument):
     print("Not implemented yet: prepare_setup_fluentd")
-    run_argument = []
-    return run_argument
+    return argument
 
 
 def run_setup_fluentd(argument):
