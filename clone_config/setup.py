@@ -9,23 +9,23 @@ import definevalue
 from utils import *
 import clone
 
-def run_setup_zabbix_server():
+def run_setup_zabbix_server(argument):
     print("Not implemented yet: run_setup_zabbix_server")
 
 
-def run_setup_zabbix_agent():
+def run_setup_zabbix_agent(argument):
     print("Not implemented yet: run_setup_zabbix_agent")
 
 
-def run_setup_nagios_server3():
+def run_setup_nagios_server3(argument):
     print("Not implemented yet: run_setup_nagios_server3")
 
 
-def run_setup_nagios_server4():
+def run_setup_nagios_server4(argument):
     print("Not implemented yet: run_setup_nagios_server4")
 
 
-def run_setup_nagios_nrpe():
+def run_setup_nagios_nrpe(argument):
     CONFIG_FILE_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/clone_config-settings/clone_config/assets/nrpe.cfg"
     NRPE_FILE_PATH = "/etc/nagios/nrpe.cfg"
     CMD = ["wget", "-P", "/etc/nagios/", CONFIG_FILE_URL]
@@ -34,11 +34,11 @@ def run_setup_nagios_nrpe():
     subprocess.call(CMD)
 
 
-def run_setup_redmine():
+def run_setup_redmine(argument):
     print("Not implemented yet: run_setup_redmine")
 
 
-def run_setup_fluentd():
+def run_setup_fluentd(argument):
     CONFIG_FILE_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/clone_config-settings/clone_config/assets/td-agent.conf"
     TD_AGENT_FILE_PATH = "/etc/td-agent/td-agent.conf"
     CMD = ["wget", "-P", "/etc/td-agent/", CONFIG_FILE_URL]
@@ -91,8 +91,8 @@ def setup_container(container_name, run_function_names):
     container.start()
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
-    for run_function_name in run_function_names:
-        container.attach_wait(run_function_name)
+    for (run_function_name, argument) in run_function_names:
+        container.attach_wait(run_function_name, argument)
 
     shutdown_container(container)
 
