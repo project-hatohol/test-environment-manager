@@ -49,18 +49,14 @@ def run_setup_zabbix_agent(argument):
     SERVER_DEFAULT = "Server=127.0.0.1"
     SERVER_ACTIVE_DEFAULT = "ServerActive=127.0.0.1"
     HOST_NAME_DEFAULT = "Hostname=Zabbix server"
-    output_data = \
-        output_data.replace("Server=127.0.0.1",
-                            "Server=" +
-                            server_ip_and_host_name["server_ipaddress"])
-    output_data = \
-        output_data.replace("ServerActive=127.0.0.1",
-                            "ServerActive=" +
-                            server_ip_and_host_name["server_ipaddress"])
-    output_data = \
-        output_data.replace("Hostname=Zabbix server",
-                            "Hostname=" +
-                            server_ip_and_host_name["host_name"])
+    replace_sequence = [[SERVER_ACTIVE_DEFAULT,"Server=" +
+                         server_ip_and_host_name["server_ipaddress"]],
+                        [SERVER_ACTIVE_DEFAULT, "ServerActive=" +
+                         server_ip_and_host_name["server_ipaddress"]],
+                        [HOST_NAME_DEFAULT, "Hostname=" +
+                         server_ip_and_host_name["host_name"]]]
+    for (replaced_value, replace_value) in replace_sequence:
+        output_data = output_data.replace(replaced_value, replace_value)
     zabbix_agentd_conf.write(output_data)
 
 
