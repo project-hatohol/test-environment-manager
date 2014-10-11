@@ -9,7 +9,7 @@ import os
 class _TestMachineSwitcher(unittest.TestCase):
     _container_list = test_stub.test_container_list()
     _container_obj_list = test_stub.test_obj_list()
-    _test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/"
+    _test_container_dir_path = os.path.dirname(os.path.abspath(__file__)) + '/'
     _test_id = 0
 
     def _assert_container_state(self, container_id):
@@ -34,13 +34,13 @@ class _TestMachineSwitcher(unittest.TestCase):
     def test_change_state_to_start(self):
         machine_switcher.change_state_to_start(self._container_obj_list[self._test_id],
                                                self._container_list[self._test_id])
-        self.assertEquals("RUNNING", self._container_obj_list[self._test_id].state)
+        self.assertEquals('RUNNING', self._container_obj_list[self._test_id].state)
 
 
     def test_change_state_to_stop(self):
         machine_switcher.change_state_to_stop(self._container_obj_list[self._test_id],
                                                self._container_list[self._test_id])
-        self.assertEquals("STOPPED", self._container_obj_list[self._test_id].state)
+        self.assertEquals('STOPPED', self._container_obj_list[self._test_id].state)
 
 
     def test_toggle_state_for_group(self):
@@ -72,7 +72,7 @@ class _TestMachineSwitcher(unittest.TestCase):
 
 
     def test_enum_id_list(self):
-        test_argument = ["0-3",  "5"]
+        test_argument = ['0-3',  '5']
         enum_ids = machine_switcher.enum_id_list(test_argument)
         self.assertEquals([0, 1, 2, 3, 5], enum_ids)
 
@@ -85,7 +85,7 @@ class _TestMachineSwitcher(unittest.TestCase):
 
     def test_get_container_dir_path(self):
         container_dir_path = machine_switcher.get_container_dir_path()
-        self.assertEquals("/var/lib/lxc/", container_dir_path)
+        self.assertEquals('/var/lib/lxc/', container_dir_path)
 
 
 if __name__ == '__main__':
