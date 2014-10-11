@@ -7,11 +7,6 @@ sys.path.append("../common")
 import definevalue
 from utils import *
 
-def get_config_info(yaml_file_path):
-    yaml_data = open(yaml_file_path).read()
-    return yaml.load(yaml_data)
-
-
 def get_container_name_and_base_container_name(config_info_name):
     list_of_container_name = config_info_name.keys()
     return_list = []

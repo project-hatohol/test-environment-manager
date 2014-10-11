@@ -39,3 +39,8 @@ def shutdown_container(container):
     print_new_line()
     if not container.shutdown(definevalue.TIMEOUT_VALUE):
         container.stop()
+
+
+def get_config_info(yaml_file_path):
+    yaml_data = open(yaml_file_path).read()
+    return yaml.load(yaml_data)

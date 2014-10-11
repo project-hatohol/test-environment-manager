@@ -196,7 +196,7 @@ def setup_containers(list_of_setup_containers):
 
 
 def start_setup(yaml_file_path):
-    config_info = clone.get_config_info(yaml_file_path)
+    config_info = get_config_info(yaml_file_path)
     list_of_setup_containers = \
         get_container_name_and_function_to_setup(config_info)
     setup_containers(list_of_setup_containers)
