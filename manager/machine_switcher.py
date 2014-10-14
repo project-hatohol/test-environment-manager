@@ -6,7 +6,7 @@ import os.path
 import machine_info
 
 def toggle_state(obj, name):
-    if obj.state == "STOPPED":
+    if obj.state == 'STOPPED':
         change_state_to_start(obj, name)
     else:
         change_state_to_stop(obj, name)
@@ -14,15 +14,15 @@ def toggle_state(obj, name):
 
 def change_state_to_start(obj, name):
     succeed_start = obj.start()
-    print(name + " | " + "Start " + str(succeed_start))
+    print(name + ' | ' + 'Start ' + str(succeed_start))
 
 
 def change_state_to_stop(obj, name):
     succeed_shutdown = obj.shutdown()
-    print(name + " | " + "Shutdown " + str(succeed_shutdown))
+    print(name + ' | ' + 'Shutdown ' + str(succeed_shutdown))
     if not succeed_shutdown:
         succeed_stop = obj.stop()
-        print(name + " | " + "Stop " + str(succeed_stop))
+        print(name + ' | ' + 'Stop ' + str(succeed_stop))
 
 
 def toggle_state_for_group(group_id_list, container_dir_path,
@@ -48,8 +48,8 @@ def convert_machine_nums_to_ids(machine_num_list):
 def enum_id_list(input_argument):
     id_list = set()
     for select_id in input_argument:
-        if "-" in select_id:
-            (min, max) = select_id.split("-")
+        if '-' in select_id:
+            (min, max) = select_id.split('-')
             id_list.update(range(int(min), int(max) + 1))
 
         else:
@@ -61,8 +61,8 @@ def enum_id_list(input_argument):
 def create_group_dict(container_dir_path, container_list):
     dict = {}
     for machine_id in range(len(container_list)):
-        container_path = container_dir_path + container_list[machine_id] + "/"
-        group_id = int(machine_info.read_file(container_path, "group")[0].rstrip())
+        container_path = container_dir_path + container_list[machine_id] + '/'
+        group_id = int(machine_info.read_file(container_path, 'group')[0].rstrip())
         
         if group_id not in dict:
             dict[group_id] = [machine_id]
@@ -73,7 +73,7 @@ def create_group_dict(container_dir_path, container_list):
 
 
 def get_container_dir_path():
-    container_dir_path = "/var/lib/lxc/"
+    container_dir_path = '/var/lib/lxc/'
 
     return container_dir_path
 
@@ -83,13 +83,13 @@ if __name__ == '__main__':
     container_obj_list = lxc.list_containers(as_object=True)
     input_argument = sys.argv[2:]
 
-    if sys.argv[1] == "m":   
+    if sys.argv[1] == 'm':   
         machine_num_list = enum_id_list(input_argument)
         machine_id_list = convert_machine_nums_to_ids(machine_num_list)
         toggle_state_for_each_machine(machine_id_list,
                                       container_obj_list, container_list)
 
-    elif sys.argv[1] == "g":
+    elif sys.argv[1] == 'g':
         container_dir_path = get_container_dir_path()
         group_id_list = enum_id_list(input_argument)
         toggle_state_for_group(enum_id_list(input_argument),
@@ -97,5 +97,5 @@ if __name__ == '__main__':
                                container_list, container_obj_list)
 
     else:
-        print("You must input the first argument as 'm' or 'g'.")
+        print('You must input the first argument as \'m\' or \'g\'.')
 
