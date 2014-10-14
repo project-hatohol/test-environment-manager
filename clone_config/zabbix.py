@@ -18,9 +18,7 @@ def send_data_and_get_response(send_content):
 def get_authtoken_of_zabbix_server():
     SEND_CONTENT = {"method": "user.login",
                     "id": 1,
-                    "params": {
-                        "password": "zabbix",
-                        "user":"Admin"},
+                    "params": {"password": "zabbix", "user":"Admin"},
                     "jsonrpc": "2.0"}
     response_json = send_data_and_get_response(SEND_CONTENT)
 
@@ -30,12 +28,8 @@ def get_authtoken_of_zabbix_server():
 def get_linux_servers_group_id(auth_token):
     SEND_CONTENT = {"method": "hostgroup.get",
                     "id": 1,
-                    "params": {
-                        "output": "shorten",
-                        "filter": {
-                            "name": ["Linux servers"]
-                        }
-                    },
+                    "params": {"output": "shorten",
+                               "filter": {"name": ["Linux servers"]}},
                     "auth": auth_token,
                     "jsonrpc": "2.0"}
     response_json = send_data_and_get_response(SEND_CONTENT)
@@ -46,12 +40,8 @@ def get_linux_servers_group_id(auth_token):
 def get_template_os_linux_id(auth_token):
     SEND_CONTENT = {"method": "template.get",
                     "id":1,
-                    "params": {
-                        "output": "shorten",
-                        "filter": {
-                            "name": ["Template OS Linux"]
-                        }
-                    },
+                    "params": {"output": "shorten",
+                               "filter": {"name": ["Template OS Linux"]}},
                     "auth": auth_token,
                     "jsonrpc": "2.0"}
     response_json = send_data_and_get_response(SEND_CONTENT)
@@ -64,29 +54,14 @@ def add_monitored_hosts(list_of_monitored_host, group_id,
     for target_info in list_of_monitored_host:
         SEND_CONTENT = {"method": "host.create",
                         "id": 1,
-                        "params": {
-                            "host": target_info["host"],
-                            "interfaces": [
-                                {
-                                    "type": 1,
-                                    "main": 1,
-                                    "useip": 1,
-                                    "ip": target_info["ip"],
-                                    "dns": "",
-                                    "port": "10050"
-                                }
-                            ],
-                            "groups": [
-                                {
-                                    "groupid": group_id
-                                }
-                            ],
-                            "templates": [
-                                {
-                                    "templateid": template_id
-                                }
-                            ],
-                        },
+                        "params": {"host": target_info["host"],
+                                   "interfaces": [{"type": 1, "main": 1,
+                                                   "useip": 1,
+                                                   "ip": target_info["ip"],
+                                                   "dns": "",
+                                                   "port": "10050"}],
+                                   "groups": [{"groupid": group_id}],
+                                   "templates": [{"templateid": template_id}]},
                         "auth": auth_token,
                         "jsonrpc": "2.0"}
         response_json = send_data_and_get_response(SEND_CONTENT)
@@ -102,14 +77,8 @@ def add_monitored_hosts(list_of_monitored_host, group_id,
 def get_zabbix_server_id(auth_token):
     SEND_CONTENT = {"method": "host.get",
                     "id": 1,
-                    "params": {
-                        "output": "shorten",
-                        "filter": {
-                            "host": [
-                                "Zabbix server"
-                            ]
-                        }
-                    },
+                    "params": {"output": "shorten",
+                               "filter": {"host": ["Zabbix server"]}},
                     "auth": auth_token,
                     "jsonrpc": "2.0"}
     response_json = send_data_and_get_response(SEND_CONTENT)
@@ -120,10 +89,7 @@ def get_zabbix_server_id(auth_token):
 def enable_zabbix_server(server_id, auth_token):
     SEND_CONTENT = {"method": "host.update",
                     "id": 1,
-                    "params": {
-                        "hostid": server_id,
-                        "status": 0
-                    },
+                    "params": {"hostid": server_id, "status": 0},
                     "auth": auth_token,
                     "jsonrpc": "2.0"}
     response_json = send_data_and_get_response(SEND_CONTENT)
