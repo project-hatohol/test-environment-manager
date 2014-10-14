@@ -25,3 +25,19 @@ def get_authtoken_of_zabbix_server():
     response_json = send_data_and_get_response(SEND_CONTENT)
 
     return response_json["result"]
+
+
+def get_linux_servers_group_id(auth_token):
+    SEND_CONTENT = {"method": "hostgroup.get",
+                    "id": 1,
+                    "params": {
+                        "output": "shorten",
+                        "filter": {
+                            "name": ["Linux servers"]
+                        }
+                    },
+                    "auth": auth_token,
+                    "jsonrpc": "2.0"}
+    response_json = send_data_and_get_response(SEND_CONTENT)
+
+    return response_json["result"][0]["groupid"]
