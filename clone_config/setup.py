@@ -10,9 +10,9 @@ from utils import *
 import clone
 
 def prepare_setup_zabbix_server(argument):
-    zabbix_conf = open("assets/zabbix.conf").read()
+    zabbix_conf_httpd = open("assets/zabbix.conf").read()
     zabbix_conf_php = open("assets/zabbix.conf.php").read()
-    argument.append(zabbix_conf)
+    argument.append(zabbix_conf_httpd)
     argument.append(zabbix_conf_php)
     return argument
 
