@@ -25,20 +25,16 @@ def install_config_files_of_zabbix(zabbix_conf_server_file,
     ZABBIX_CONF_SERVER_PATH = "/etc/zabbix/zabbix_server.conf"
     ZABBIX_CONF_HTTPD_PATH = "/etc/httpd/conf.d/zabbix.conf"
     ZABBIX_CONF_PHP_PATH = "/etc/zabbix/web/zabbix.conf.php"
-    os.remove(ZABBIX_CONF_SERVER_PATH)
-    os.remove(ZABBIX_CONF_HTTPD_PATH)
-    if os.path.exists(ZABBIX_CONF_PHP_PATH):
-        os.remove(ZABBIX_CONF_PHP_PATH)
+    INSTALL_FILES = [[ZABBIX_CONF_SERVER_PATH, zabbix_conf_server_file],
+                     [ZABBIX_CONF_HTTPD_PATH, zabbix_conf_httpd_file],
+                     [ZABBIX_CONF_PHP_PATH, zabbix_conf_php_file]]
+    for (path, content) in INSTALL_FILES:
+        if os.path.exists(path):
+            os.remove(path)
 
-    zabbix_conf_server = open(ZABBIX_CONF_SERVER_PATH, "w")
-    zabbix_conf_httpd = open(ZABBIX_CONF_HTTPD_PATH, "w")
-    zabbix_conf_php = open(ZABBIX_CONF_PHP_PATH, "w")
-    zabbix_conf_server.write(zabbix_conf_server_file)
-    zabbix_conf_httpd.write(zabbix_conf_httpd_file)
-    zabbix_conf_php.write(zabbix_conf_php_file)
-    zabbix_conf_server.close()
-    zabbix_conf_httpd.close()
-    zabbix_conf_php.close()
+        install_file = open(path, "w")
+        install_file.write(content)
+        install_file.close()
 
 
 def run_setup_zabbix_server(argument):
