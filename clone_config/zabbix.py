@@ -115,3 +115,15 @@ def get_zabbix_server_id(auth_token):
     response_json = send_data_and_get_response(SEND_CONTENT)
 
     return response_json["result"][0]["hostid"]
+
+
+def enable_zabbix_server(server_id, auth_token):
+    SEND_CONTENT = {"method": "host.update",
+                    "id": 1,
+                    "params": {
+                        "hostid": server_id,
+                        "status": 0
+                    },
+                    "auth": auth_token,
+                    "jsonrpc": "2.0"}
+    response_json = send_data_and_get_response(SEND_CONTENT)
