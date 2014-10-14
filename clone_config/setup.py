@@ -8,6 +8,7 @@ sys.path.append("../common")
 import definevalue
 from utils import *
 import clone
+import zabbix
 
 def prepare_setup_zabbix_server(argument):
     zabbix_conf_server = open("assets/zabbix_server.conf").read()
@@ -42,8 +43,22 @@ def install_config_files_of_zabbix(zabbix_conf_server_file,
         subprocess.call(run_command)
 
 
+def start_zabbix_api_functions(list_of_monitored_host):
+    auth_token = zabbix.get_authtoken_of_zabbix_server()
+
+    zabbix_server_id = zabbix.get_zabbix_server_id(auth_token)
+    zabbix.enable_zabbix_server(zabbix_server_id, auth_token)
+
+    group_id = zabbix.get_linux_servers_group_id(auth_token)
+    template_id = zabbix.get_template_os_linux_id(auth_token)
+    zabbix.add_monitored_hosts(list_of_monitored_host,
+                               group_id, template_id, auth_token)
+
+
 def run_setup_zabbix_server(argument):
     install_config_files_of_zabbix(argument[1], argument[2], argument[3])
+    start_zabbix_api_functions(argument[0]["target"])
+
 
 def prepare_setup_zabbix_agent(argument):
     zabbix_agentd_conf = open("assets/zabbix_agentd.conf").read()
