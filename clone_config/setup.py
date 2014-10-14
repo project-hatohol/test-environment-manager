@@ -102,22 +102,43 @@ def run_setup_nagios_nrpe(argument):
 
 
 def prepare_setup_redmine(argument):
-    read_file = open("my_setting")
-    setting_lines = read_file.readlines()
-    read_file.close()
+    file_list = ["database.yml", "configuration.yml", "my_setting"]
 
-    argument.append(setting_lines)
+    for file_name in file_list:
+        read_file = open(file_name)
+        lines = read_file.readlines()
+        read_file.close()
+
+        argument.append(lines)
 
     return argument
 
 
 def run_setup_redmine(argument):
-    setup_argument = 1
+    os.chdir("/var/lib/redmine")
+
+    dbyml_file = open("/var/lib/redmine/config/database.yml", "w")
+    dbyml_file.writelines(argument[1])
+    dbyml_file.close()
+
+    confyml_file = open("/var/lib/redmine/config/configuration.yml", "w")
+    confyml_file.writelines(argument[2])
+    confyml_file.close()
+
+    subprocess.call("bundle install --without development test", shell = True)
+    subprocess.call("bundle exec rake generate_secret_token", shell = True)
+    subprocess.call("RAILS_ENV=production bundle exec rake db:migrate", shell = True)
+
+    cmd = ["passenger-install-apache2-module", "--snippet"]
+    subprocess.Popen(cmd,stdout = open("/etc/httpd/conf.d/passenger.conf", "w"))
+
     setting_file = open("my_setting", "w")
-    setting_file.writelines(argument[setup_argument])
+    setting_file.writelines(argument[3])
     setting_file.close()
 
     subprocess.call("mysql -uroot db_redmine < my_setting", shell = True)
+    subprocess.call("chown -R apache /var/lib/redmine", shell = True)
+    subprocess.call("chgrp -R apache /var/lib/redmine", shell = True)
 
 
 def prepare_setup_fluentd(argument):
