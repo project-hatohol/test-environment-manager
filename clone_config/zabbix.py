@@ -57,3 +57,43 @@ def get_template_os_linux_id(auth_token):
     response_json = send_data_and_get_response(SEND_CONTENT)
 
     return response_json["result"][0]["templateid"]
+
+
+def add_monitored_hosts(list_of_monitored_host, group_id,
+                        template_id, auth_token):
+    for target_info in list_of_monitored_host:
+        SEND_CONTENT = {"method": "host.create",
+                        "id": 1,
+                        "params": {
+                            "host": target_info["host"],
+                            "interfaces": [
+                                {
+                                    "type": 1,
+                                    "main": 1,
+                                    "useip": 1,
+                                    "ip": target_info["ip"],
+                                    "dns": "",
+                                    "port": "10050"
+                                }
+                            ],
+                            "groups": [
+                                {
+                                    "groupid": group_id
+                                }
+                            ],
+                            "templates": [
+                                {
+                                    "templateid": template_id
+                                }
+                            ],
+                        },
+                        "auth": auth_token,
+                        "jsonrpc": "2.0"}
+        response_json = send_data_and_get_response(SEND_CONTENT)
+
+        if "error" in response_json:
+            print("The host is already added. %s: %s"
+                  % (target_info["host"], target_info["ip"]))
+        else:
+            print("The host is added successfuly. %s: %s"
+                  % (target_info["host"], target_info["ip"]))
