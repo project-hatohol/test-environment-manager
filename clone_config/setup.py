@@ -36,6 +36,11 @@ def install_config_files_of_zabbix(zabbix_conf_server_file,
         install_file.write(content)
         install_file.close()
 
+    CMDS = [["service", "httpd", "restart"],
+            ["service", "zabbix-server", "restart"]]
+    for run_command in CMDS:
+        subprocess.call(run_command)
+
 
 def run_setup_zabbix_server(argument):
     install_config_files_of_zabbix(argument[1], argument[2], argument[3])
