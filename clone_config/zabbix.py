@@ -97,3 +97,21 @@ def add_monitored_hosts(list_of_monitored_host, group_id,
         else:
             print("The host is added successfuly. %s: %s"
                   % (target_info["host"], target_info["ip"]))
+
+
+def get_zabbix_server_id(auth_token):
+    SEND_CONTENT = {"method": "host.get",
+                    "id": 1,
+                    "params": {
+                        "output": "shorten",
+                        "filter": {
+                            "host": [
+                                "Zabbix server"
+                            ]
+                        }
+                    },
+                    "auth": auth_token,
+                    "jsonrpc": "2.0"}
+    response_json = send_data_and_get_response(SEND_CONTENT)
+
+    return response_json["result"][0]["hostid"]
