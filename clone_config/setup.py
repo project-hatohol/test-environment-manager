@@ -55,8 +55,8 @@ def run_setup_zabbix_agent(argument):
     replace_sequence = [[SERVER_OLD, SERVER_NEW],
                         [SERVER_ACTIVE_OLD, SERVER_ACTIVE_NEW],
                         [HOST_NAME_OLD, HOST_NAME_NEW]]
-    for (replaced_value, replace_value) in replace_sequence:
-        output_data = output_data.replace(replaced_value, replace_value)
+    for (old, new) in replace_sequence:
+        output_data = output_data.replace(old, new)
     zabbix_agentd_conf.write(output_data)
 
 
