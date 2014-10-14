@@ -97,5 +97,5 @@ if __name__ == '__main__':
                                container_list, container_obj_list)
 
     else:
-        print('You must input the first argument as \m\ or \g\.')
+        print('You must input the first argument as \'m\' or \'g\'.')
 
