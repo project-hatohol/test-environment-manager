@@ -10,27 +10,39 @@ from utils import *
 import clone
 
 def prepare_setup_zabbix_server(argument):
+    zabbix_conf_server = open("assets/zabbix_server.conf").read()
     zabbix_conf_httpd = open("assets/zabbix.conf").read()
     zabbix_conf_php = open("assets/zabbix.conf.php").read()
+    argument.append(zabbix_conf_server)
     argument.append(zabbix_conf_httpd)
     argument.append(zabbix_conf_php)
     return argument
 
 
-def run_setup_zabbix_server(argument):
-    ZABBIX_CONF_PATH = "/etc/httpd/conf.d/zabbix.conf"
+def install_config_files_of_zabbix(zabbix_conf_server_file,
+                                   zabbix_conf_httpd_file,
+                                   zabbix_conf_php_file):
+    ZABBIX_CONF_SERVER_PATH = "/etc/zabbix/zabbix_server.conf"
+    ZABBIX_CONF_HTTPD_PATH = "/etc/httpd/conf.d/zabbix.conf"
     ZABBIX_CONF_PHP_PATH = "/etc/zabbix/web/zabbix.conf.php"
-    os.remove(ZABBIX_CONF_PATH)
+    os.remove(ZABBIX_CONF_SERVER_PATH)
+    os.remove(ZABBIX_CONF_HTTPD_PATH)
     if os.path.exists(ZABBIX_CONF_PHP_PATH):
         os.remove(ZABBIX_CONF_PHP_PATH)
 
-    zabbix_conf = open(ZABBIX_CONF_PATH, "w")
+    zabbix_conf_server = open(ZABBIX_CONF_SERVER_PATH, "w")
+    zabbix_conf_httpd = open(ZABBIX_CONF_HTTPD_PATH, "w")
     zabbix_conf_php = open(ZABBIX_CONF_PHP_PATH, "w")
-    zabbix_conf.write(argument[1])
-    zabbix_conf_php.write(argument[2])
-    zabbix_conf.close()
+    zabbix_conf_server.write(zabbix_conf_server_file)
+    zabbix_conf_httpd.write(zabbix_conf_httpd_file)
+    zabbix_conf_php.write(zabbix_conf_php_file)
+    zabbix_conf_server.close()
+    zabbix_conf_httpd.close()
     zabbix_conf_php.close()
 
+
+def run_setup_zabbix_server(argument):
+    install_config_files_of_zabbix(argument[1], argument[2], argument[3])
 
 def prepare_setup_zabbix_agent(argument):
     zabbix_agentd_conf = open("assets/zabbix_agentd.conf").read()
