@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
+import shutil
 import subprocess
 import yaml
 import lxc
@@ -94,6 +95,19 @@ def run_setup_zabbix_agent(argument):
     zabbix_agentd_conf.write(output_data)
 
 
+def install_config_file_for_nagios(config_data, config_path, server_dir_path):
+    if os.path.exists(config_path):
+        os.remove(config_path)
+
+    if os.path.exists(server_dir_path):
+        shutil.rmtree(server_dir_path)
+
+    os.makedirs(server_dir_path)
+    install_file = open(config_path, "w")
+    install_file.write(config_data)
+    install_file.close()
+
+
 def prepare_setup_nagios_server3(argument):
     nagios_conf = open("assets/nagios3.cfg").read()
     argument.append(nagios_conf)
@@ -101,7 +115,10 @@ def prepare_setup_nagios_server3(argument):
 
 
 def run_setup_nagios_server3(argument):
-    print("Not implemented yet: run_setup_nagios_server3")
+    config_data = argument[1]
+    CONFIG_PATH = "/etc/nagios/nagios.cfg"
+    SERVER_DIR = "/etc/nagios/servers"
+    install_config_file_for_nagios(config_data, CONFIG_PATH, SERVER_DIR)
 
 
 def prepare_setup_nagios_server4(argument):
@@ -117,7 +134,11 @@ def run_make_install_config_for_nagios4():
 
 
 def run_setup_nagios_server4(argument):
+    config_data = argument[1]
+    CONFIG_PATH = "/usr/local/nagios/etc/nagios.cfg"
+    SERVER_DIR = "/usr/local/nagios/etc/servers"
     run_make_install_config_for_nagios4()
+    install_config_file_for_nagios(config_data, CONFIG_PATH, SERVER_DIR)
 
 
 def prepare_setup_nagios_nrpe(argument):
