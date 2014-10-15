@@ -170,7 +170,7 @@ def get_commands_to_install_nagios_server4():
             ["tar", "zxvf", NAGIOS_NAME],
             ["tar", "zxvf", PLUGIN_NAME],
             ["tar", "zxvf", NDOUTILS_NAME],
-            ["tar", "zxvf", NRPE_NAME]
+            ["tar", "zxvf", NRPE_NAME],
             ["curl", "-O", SCRIPT_URL],
             ["chmod", "+x", SCRIPT_NAME],
             ["./" + SCRIPT_NAME],
