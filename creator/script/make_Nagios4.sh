@@ -3,6 +3,7 @@
 NAGIOS_NAME=nagios-4.0.8
 PLUGIN_NAME=nagios-plugins-2.0
 NDOUTILS_NAME=ndoutils-2.0.0
+NRPE_NAME=nrpe-2.15
 NAGIOS_ETC_PATH=/usr/local/nagios/etc
 
 cd $NAGIOS_NAME
@@ -31,6 +32,11 @@ cp src/ndo2db-4x src/ndomod-4x.o /usr/local/nagios/bin
 mv $NAGIOS_ETC_PATH/ndo2db.cfg-sample $NAGIOS_ETC_PATH/ndo2db.cfg
 mv $NAGIOS_ETC_PATH/ndomod.cfg-sample $NAGIOS_ETC_PATH/ndomod.cfg
 mysql -uroot ndoutils < db/mysql.sql
+
+cd ../$NRPE_NAME
+./configure
+make all
+make install-plugin
 
 chkconfig --add nagios
 chkconfig nagios on

@@ -143,34 +143,38 @@ def get_commands_to_install_nagios_server3():
 
 
 def get_commands_to_install_nagios_server4():
-    NAGIOS_URL = 'http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.0.8.tar.gz'
-    NAGIOS_NAME = 'nagios-4.0.8.tar.gz'
-    PLUGIN_URL = 'http://nagios-plugins.org/download/nagios-plugins-2.0.tar.gz'
-    PLUGIN_NAME = 'nagios-plugins-2.0.tar.gz'
-    NDOUTILS_URL = 'http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz'
-    NDOUTILS_NAME = 'ndoutils-2.0.0.tar.gz'
-    SCRIPT_URL = 'https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh'
-    SCRIPT_NAME = 'make_Nagios4.sh'
-    CMDS = [['yum', 'install', '-y', 'mysql-server', 'mysql-devel',
-             'httpd', 'php', 'tar', 'gcc', 'glibc', 'glibc-common',
-             'gd', 'gd-devel', 'make', 'net-snmp'],
-            ['service', 'mysqld', 'start'],
-            ['chkconfig', 'mysqld', 'on'],
-            ['mysql', '-uroot', '-e',
-             'CREATE DATABASE ndoutils;'],
-            ['mysql', '-uroot', '-e',
-             'GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY \'admin\';'],
-            ['wget', NAGIOS_URL],
-            ['wget', PLUGIN_URL],
-            ['wget', NDOUTILS_URL],
-            ['useradd', 'nagios'],
-            ['tar', 'zxvf', NAGIOS_NAME],
-            ['tar', 'zxvf', PLUGIN_NAME],
-            ['tar', 'zxvf', NDOUTILS_NAME],
-            ['curl', '-O', SCRIPT_URL],
-            ['chmod', '+x', SCRIPT_NAME],
-            ['./' + SCRIPT_NAME],
-            ['rm', SCRIPT_NAME]]
+    NAGIOS_URL = "http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.0.8.tar.gz"
+    NAGIOS_NAME = "nagios-4.0.8.tar.gz"
+    PLUGIN_URL = "http://nagios-plugins.org/download/nagios-plugins-2.0.tar.gz"
+    PLUGIN_NAME = "nagios-plugins-2.0.tar.gz"
+    NDOUTILS_URL = "http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz"
+    NDOUTILS_NAME = "ndoutils-2.0.0.tar.gz"
+    NRPE_URL = "http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz"
+    NRPE_NAME = "nrpe-2.15.tar.gz"
+    SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh"
+    SCRIPT_NAME = "make_Nagios4.sh"
+    CMDS = [["yum", "install", "-y", "mysql-server", "mysql-devel",
+             "httpd", "php", "tar", "gcc", "glibc", "glibc-common",
+             "gd", "gd-devel", "make", "net-snmp"],
+            ["service", "mysqld", "start"],
+            ["chkconfig", "mysqld", "on"],
+            ["mysql", "-uroot", "-e",
+             "CREATE DATABASE ndoutils;"],
+            ["mysql", "-uroot", "-e",
+             "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"],
+            ["wget", NAGIOS_URL],
+            ["wget", PLUGIN_URL],
+            ["wget", NDOUTILS_URL],
+            ["wget", NRPE_URL],
+            ["useradd", "nagios"],
+            ["tar", "zxvf", NAGIOS_NAME],
+            ["tar", "zxvf", PLUGIN_NAME],
+            ["tar", "zxvf", NDOUTILS_NAME],
+            ["tar", "zxvf", NRPE_NAME]
+            ["curl", "-O", SCRIPT_URL],
+            ["chmod", "+x", SCRIPT_NAME],
+            ["./" + SCRIPT_NAME],
+            ["rm", SCRIPT_NAME]]
 
     return CMDS
 
