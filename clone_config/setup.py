@@ -252,41 +252,56 @@ def prepare_setup_redmine(argument):
     return argument
 
 
+def create_setup_file(file_path, argument):
+    file = open(file_path, "w")
+    file.writelines(argument)
+    file.close()
+
+
 def run_setup_redmine(argument):
     os.chdir("/var/lib/redmine")
 
-    dbyml_file = open("/var/lib/redmine/config/database.yml", "w")
-    dbyml_file.writelines(argument[1])
-    dbyml_file.close()
+    file_paths = ["/var/lib/redmine/config/database.yml",
+                  "/var/lib/redmine/config/xonfiguration.yml",
+                  "/var/lib/redmine/my_setting"]
 
-    confyml_file = open("/var/lib/redmine/config/configuration.yml", "w")
-    confyml_file.writelines(argument[2])
-    confyml_file.close()
-
-    subprocess.call("bundle install --without development test", shell = True)
-    subprocess.call("bundle exec rake generate_secret_token", shell = True)
-    subprocess.call("RAILS_ENV=production bundle exec rake db:migrate", shell = True)
-
-    cmd = ["passenger-install-apache2-module", "--snippet"]
-    subprocess.Popen(cmd,stdout = open("/etc/httpd/conf.d/passenger.conf", "w"))
-
-    setting_file = open("my_setting", "w")
-    setting_file.writelines(argument[3])
-    setting_file.close()
-
-    subprocess.call("mysql -uroot db_redmine < my_setting", shell = True)
-    subprocess.call("chown -R apache /var/lib/redmine", shell = True)
-    subprocess.call("chgrp -R apache /var/lib/redmine", shell = True)
-
-    subprocess.call("service httpd restart",shell = True)
-
-    project_data = {"project": {"name": "First project","identifier":"hatohol"}}
+    project_data = {
+                    "project":{
+                      "name": argument[0]["project_name"],
+                      "identifier": argument[0]["project_id"]
+                     }
+                   }
 
     send_data = json.dumps(project_data)
+
+    cmd = [
+           ["bundle install --without development test"],
+           ["bundle", "exec", "rake", "generate_secret_token"],
+           ["RAILS_ENV=production bundle exec rake db:migrate"],
+           ["passenger-install-apache2-module", "--snippet"],
+           ["mysql -uroot db_redmine < my_setting"],
+           ["chown", "-R", "apache", "/var/lib/redmine"],
+           ["chgrp", "-R", "apache", "/var/lib/redmine"],
+           ["service", "httpd", "restart"]
+          ]
+
+    for each_path_and_argument in range(len(file_paths)):
+        create_setup_file(file_paths[each_path_and_argument],
+                          argument[each_path_and_argument + 1])
+
+    subprocess.call(cmd[0], shell = True)
+    subprocess.Popen(cmd[1])
+    subprocess.call(cmd[2], shell = True)
+    subprocess.Popen(cmd[3], stdout = open("/etc/httpd/conf.d/passenger.conf", "w"))
+    subprocess.call(cmd[4], shell = True)
+    subprocess.Popen(cmd[5])
+    subprocess.Popen(cmd[6])
+
     responce = requests.post("http://127.0.0.1/projects.json", data = send_data,
                              headers = {"Content-Type": "application/json"},
                              auth = ("admin", "admin"))
 
+    subprocess.Popen(cmd[7])
 
 def prepare_setup_fluentd(argument):
     td_agent_conf = open("assets/td-agent.conf").read()
