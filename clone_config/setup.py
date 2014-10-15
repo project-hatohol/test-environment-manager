@@ -108,8 +108,14 @@ def prepare_setup_nagios_server4(argument):
     return argument
 
 
+def run_make_install_config_for_nagios4():
+    os.chdir("/nagios-4.0.8")
+    CMD = ["make", "install-config"]
+    subprocess.call(CMD)
+
+
 def run_setup_nagios_server4(argument):
-    print("Not implemented yet: run_setup_nagios_server4")
+    run_make_install_config_for_nagios4()
 
 
 def prepare_setup_nagios_nrpe(argument):
