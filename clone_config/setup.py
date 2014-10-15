@@ -108,6 +108,40 @@ def install_config_file_for_nagios(config_data, config_path, server_dir_path):
     install_file.close()
 
 
+def add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
+                                     server_path):
+    EXTENSION = ".cfg"
+    HOST_NAME_DEFAULT_HOST = "        host_name               host_name"
+    HOST_NAME_PREFIX_HOST = "        host_name               "
+    HOST_NAME_DEFAULT_SERVICE = \
+        "        host_name                       host_name"
+    HOST_NAME_PREFIX_SERVICE = \
+        "        host_name                       "
+    ALIAS_DEFAULT = "alias                   host_name"
+    ALIAS_PREFIX = "alias                   "
+    ADDRESS_DEFAULT = "address                 127.0.0.1"
+    ADDRESS_PREFIX = "address                 "
+
+    for monitored_info in list_of_monitored_host:
+        output_data = host_data
+        ip_address = monitored_info["ip"]
+        host_name = monitored_info["host"]
+        file_name = server_path + host_name + EXTENSION
+
+        replace_points = [[HOST_NAME_DEFAULT_HOST,
+                           HOST_NAME_PREFIX_HOST + host_name],
+                          [ALIAS_DEFAULT, ALIAS_PREFIX + host_name],
+                          [ADDRESS_DEFAULT, ADDRESS_PREFIX + ip_address],
+                          [HOST_NAME_DEFAULT_SERVICE,
+                           HOST_NAME_PREFIX_SERVICE + host_name]]
+        for (old, new) in replace_points:
+            output_data = output_data.replace(old, new)
+
+        host_file = open(file_name, "w")
+        host_file.write(output_data)
+        host_file.close()
+
+
 def prepare_setup_nagios_server3(argument):
     nagios_conf = open("assets/nagios3.cfg").read()
     host_conf = open("assets/host_name.cfg").read()
@@ -117,10 +151,14 @@ def prepare_setup_nagios_server3(argument):
 
 
 def run_setup_nagios_server3(argument):
+    list_of_monitored_host = argument[0]["target"]
     config_data = argument[1]
+    host_data = argument[2]
     CONFIG_PATH = "/etc/nagios/nagios.cfg"
-    SERVER_DIR = "/etc/nagios/servers"
+    SERVER_DIR = "/etc/nagios/servers/"
     install_config_file_for_nagios(config_data, CONFIG_PATH, SERVER_DIR)
+    add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
+                                     SERVER_DIR)
 
 
 def prepare_setup_nagios_server4(argument):
@@ -138,11 +176,15 @@ def run_make_install_config_for_nagios4():
 
 
 def run_setup_nagios_server4(argument):
+    list_of_monitored_host = argument[0]["target"]
     config_data = argument[1]
+    host_data = argument[2]
     CONFIG_PATH = "/usr/local/nagios/etc/nagios.cfg"
-    SERVER_DIR = "/usr/local/nagios/etc/servers"
+    SERVER_DIR = "/usr/local/nagios/etc/servers/"
     run_make_install_config_for_nagios4()
     install_config_file_for_nagios(config_data, CONFIG_PATH, SERVER_DIR)
+    add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
+                                     SERVER_DIR)
 
 
 def prepare_setup_nagios_nrpe(argument):
