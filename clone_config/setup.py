@@ -20,15 +20,15 @@ def prepare_setup_zabbix_server(argument):
     return argument
 
 
-def install_config_files_of_zabbix(zabbix_conf_server_file,
-                                   zabbix_conf_httpd_file,
-                                   zabbix_conf_php_file):
+def install_config_files_of_zabbix(zabbix_conf_server,
+                                   zabbix_conf_httpd,
+                                   zabbix_conf_php):
     ZABBIX_CONF_SERVER_PATH = "/etc/zabbix/zabbix_server.conf"
     ZABBIX_CONF_HTTPD_PATH = "/etc/httpd/conf.d/zabbix.conf"
     ZABBIX_CONF_PHP_PATH = "/etc/zabbix/web/zabbix.conf.php"
-    INSTALL_FILES = [[ZABBIX_CONF_SERVER_PATH, zabbix_conf_server_file],
-                     [ZABBIX_CONF_HTTPD_PATH, zabbix_conf_httpd_file],
-                     [ZABBIX_CONF_PHP_PATH, zabbix_conf_php_file]]
+    INSTALL_FILES = [[ZABBIX_CONF_SERVER_PATH, zabbix_conf_server],
+                     [ZABBIX_CONF_HTTPD_PATH, zabbix_conf_httpd],
+                     [ZABBIX_CONF_PHP_PATH, zabbix_conf_php]]
     for (path, content) in INSTALL_FILES:
         if os.path.exists(path):
             os.remove(path)
