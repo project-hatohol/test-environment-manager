@@ -56,8 +56,14 @@ def start_zabbix_api_functions(list_of_monitored_host):
 
 
 def run_setup_zabbix_server(argument):
-    install_config_files_of_zabbix(argument[1], argument[2], argument[3])
-    start_zabbix_api_functions(argument[0]["target"])
+    list_of_monitored_host = argument[0]["target"]
+    zabbix_conf_server = argument[1]
+    zabbix_conf_httpd = argument[2]
+    zabbix_conf_php = argument[3]
+    install_config_files_of_zabbix(zabbix_conf_server,
+                                   zabbix_conf_httpd,
+                                   zabbix_conf_php)
+    start_zabbix_api_functions(list_of_monitored_host)
 
 
 def prepare_setup_zabbix_agent(argument):
