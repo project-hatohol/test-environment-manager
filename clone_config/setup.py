@@ -99,17 +99,21 @@ def run_setup_zabbix_agent(argument):
     zabbix_agentd_conf.write(output_data)
 
 
-def install_config_file_for_nagios(config_data, config_path, server_dir_path):
-    if os.path.exists(config_path):
-        os.remove(config_path)
+def install_config_file_for_nagios(config_data, commands_data,
+                                   config_path, commands_path,
+                                   server_dir_path):
+    PATH = [[config_data, config_path], [commands_data, commands_path]]
+    for (data, path) in PATH:
+        if os.path.exists(path):
+            os.remove(path)
+        install_file = open(path, "w")
+        install_file.write(data)
+        install_file.close()
 
     if os.path.exists(server_dir_path):
         shutil.rmtree(server_dir_path)
 
     os.makedirs(server_dir_path)
-    install_file = open(config_path, "w")
-    install_file.write(config_data)
-    install_file.close()
 
 
 def add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
@@ -149,8 +153,10 @@ def add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
 def prepare_setup_nagios_server3(argument):
     nagios_conf = open("assets/nagios3.cfg").read()
     host_conf = open("assets/host_name.cfg").read()
+    commands_conf = open("assets/commands3.cfg").read()
     argument.append(nagios_conf)
     argument.append(host_conf)
+    argument.append(commands_conf)
     return argument
 
 
@@ -158,9 +164,13 @@ def run_setup_nagios_server3(argument):
     list_of_monitored_host = argument[0]["target"]
     config_data = argument[1]
     host_data = argument[2]
+    commands_data = argument[3]
     CONFIG_PATH = "/etc/nagios/nagios.cfg"
+    COMMANDS_PATH = "/etc/nagios/objects/commands.cfg"
     SERVER_DIR = "/etc/nagios/servers/"
-    install_config_file_for_nagios(config_data, CONFIG_PATH, SERVER_DIR)
+    install_config_file_for_nagios(config_data, commands_data,
+                                   CONFIG_PATH, COMMANDS_PATH,
+                                   SERVER_DIR)
     add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
                                      SERVER_DIR)
 
@@ -168,8 +178,10 @@ def run_setup_nagios_server3(argument):
 def prepare_setup_nagios_server4(argument):
     nagios_conf = open("assets/nagios4.cfg").read()
     host_conf = open("assets/host_name.cfg").read()
+    commands_conf = open("assets/commands3.cfg").read()
     argument.append(nagios_conf)
     argument.append(host_conf)
+    argument.append(commands_conf)
     return argument
 
 
@@ -184,9 +196,12 @@ def run_setup_nagios_server4(argument):
     config_data = argument[1]
     host_data = argument[2]
     CONFIG_PATH = "/usr/local/nagios/etc/nagios.cfg"
+    COMMANDS_PATH = "/usr/local/nagios/etc/objects/commands.cfg"
     SERVER_DIR = "/usr/local/nagios/etc/servers/"
     run_make_install_config_for_nagios4()
-    install_config_file_for_nagios(config_data, CONFIG_PATH, SERVER_DIR)
+    install_config_file_for_nagios(config_data, commands_data,
+                                   CONFIG_PATH, COMMANDS_PATH,
+                                   SERVER_DIR)
     add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
                                      SERVER_DIR)
 
