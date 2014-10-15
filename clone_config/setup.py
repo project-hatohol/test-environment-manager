@@ -110,7 +110,9 @@ def install_config_file_for_nagios(config_data, config_path, server_dir_path):
 
 def prepare_setup_nagios_server3(argument):
     nagios_conf = open("assets/nagios3.cfg").read()
+    host_conf = open("assets/host_name.cfg").read()
     argument.append(nagios_conf)
+    argument.append(host_conf)
     return argument
 
 
@@ -123,7 +125,9 @@ def run_setup_nagios_server3(argument):
 
 def prepare_setup_nagios_server4(argument):
     nagios_conf = open("assets/nagios4.cfg").read()
+    host_conf = open("assets/host_name.cfg").read()
     argument.append(nagios_conf)
+    argument.append(host_conf)
     return argument
 
 
