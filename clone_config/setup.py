@@ -95,7 +95,8 @@ def run_setup_zabbix_agent(argument):
 
 
 def prepare_setup_nagios_server3(argument):
-    print("Not implemented yet: prepare_setup_nagios_server3")
+    nagios_conf = open("assets/nagios3.cfg").read()
+    argument.append(nagios_conf)
     return argument
 
 
@@ -104,7 +105,8 @@ def run_setup_nagios_server3(argument):
 
 
 def prepare_setup_nagios_server4(argument):
-    print("Not implemented yet: prepare_setup_nagios_server4")
+    nagios_conf = open("assets/nagios4.cfg").read()
+    argument.append(nagios_conf)
     return argument
 
 
