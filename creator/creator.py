@@ -120,23 +120,24 @@ def get_commands_to_install_zabbix_agent20():
 
 
 def get_commands_to_install_nagios_server3():
-    SCRIPT_URL = 'https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh'
-    SCRIPT_NAME = 'import_NDOUtils3.sh'
-    CMDS = [['yum', 'install', '-y', 'httpd', 'mysql-server',
-             'nagios', 'nagios-plugins-all', 'ndoutils-mysql'],
-            ['service', 'mysqld', 'start'],
-            ['chkconfig', 'mysqld', 'on'],
-            ['mysql', '-uroot', '-e',
-             'CREATE DATABASE ndoutils;'],
-            ['mysql', '-uroot', '-e',
-             'GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY \'admin\';'],
-            ['curl', '-O', SCRIPT_URL],
-            ['chmod', '+x', SCRIPT_NAME],
-            ['./' + SCRIPT_NAME],
-            ['rm', SCRIPT_NAME],
-            ['chkconfig', 'ndo2db', 'on'],
-            ['chkconfig', 'nagios', 'on'],
-            ['chkconfig', 'httpd', 'on']]
+    SCRIPT_URL = "https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh"
+    SCRIPT_NAME = "import_NDOUtils3.sh"
+    CMDS = [["yum", "install", "-y", "httpd", "mysql-server",
+             "nagios", "nagios-plugins-all", "ndoutils-mysql",
+             "nrpe", "nagios-plugins-nrpe"],
+            ["service", "mysqld", "start"],
+            ["chkconfig", "mysqld", "on"],
+            ["mysql", "-uroot", "-e",
+             "CREATE DATABASE ndoutils;"],
+            ["mysql", "-uroot", "-e",
+             "GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY 'admin';"],
+            ["curl", "-O", SCRIPT_URL],
+            ["chmod", "+x", SCRIPT_NAME],
+            ["./" + SCRIPT_NAME],
+            ["rm", SCRIPT_NAME],
+            ["chkconfig", "ndo2db", "on"],
+            ["chkconfig", "nagios", "on"],
+            ["chkconfig", "httpd", "on"]]
 
     return CMDS
 
