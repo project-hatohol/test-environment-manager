@@ -16,12 +16,9 @@ import clone
 import zabbix
 
 def prepare_setup_zabbix_server(argument):
-    zabbix_conf_server = open("assets/zabbix_server.conf").read()
-    zabbix_conf_httpd = open("assets/zabbix.conf").read()
-    zabbix_conf_php = open("assets/zabbix.conf.php").read()
-    argument.append(zabbix_conf_server)
-    argument.append(zabbix_conf_httpd)
-    argument.append(zabbix_conf_php)
+    FILES = ["assets/zabbix_server.conf", "assets/zabbix.conf",
+             "assets/zabbix.conf.php"]
+    argument = load_asset_files(argument, FILES)
     return argument
 
 
@@ -72,8 +69,8 @@ def run_setup_zabbix_server(argument):
 
 
 def prepare_setup_zabbix_agent(argument):
-    zabbix_agentd_conf = open("assets/zabbix_agentd.conf").read()
-    argument.append(zabbix_agentd_conf)
+    FILES = ["assets/zabbix_agentd.conf"]
+    argument = load_asset_files(argument, FILES)
     return argument
 
 
@@ -168,14 +165,9 @@ def set_username_and_password_for_nagios(username, password,
 
 
 def prepare_setup_nagios_server3(argument):
-    nagios_conf = open("assets/nagios3.cfg").read()
-    host_conf = open("assets/host_name.cfg").read()
-    commands_conf = open("assets/commands3.cfg").read()
-    cgi_conf = open("assets/cgi3.cfg").read()
-    argument.append(nagios_conf)
-    argument.append(host_conf)
-    argument.append(commands_conf)
-    argument.append(cgi_conf)
+    FILES = ["assets/nagios3.cfg", "assets/host_name.cfg",
+             "assets/commands3.cfg", "assets/cgi3.cfg"]
+    argument = load_asset_files(argument, FILES)
     return argument
 
 
@@ -202,14 +194,9 @@ def run_setup_nagios_server3(argument):
 
 
 def prepare_setup_nagios_server4(argument):
-    nagios_conf = open("assets/nagios4.cfg").read()
-    host_conf = open("assets/host_name.cfg").read()
-    commands_conf = open("assets/commands3.cfg").read()
-    cgi_conf = open("assets/cgi4.cfg").read()
-    argument.append(nagios_conf)
-    argument.append(host_conf)
-    argument.append(commands_conf)
-    argument.append(cgi_conf)
+    FILES = ["assets/nagios4.cfg", "assets/host_name.cfg",
+             "assets/commands3.cfg", "assets/cgi4.cfg"]
+    argument = load_asset_files(argument, FILES)
     return argument
 
 
@@ -243,8 +230,8 @@ def run_setup_nagios_server4(argument):
 
 
 def prepare_setup_nagios_nrpe(argument):
-    nrpe_cfg = open("assets/nrpe.cfg").read()
-    argument.append(nrpe_cfg)
+    FILES = ["assets/nrpe.cfg"]
+    argument = load_asset_files(argument, FILES)
     return argument
 
 
@@ -322,8 +309,8 @@ def run_setup_redmine(argument):
     subprocess.Popen(cmd[7])
 
 def prepare_setup_fluentd(argument):
-    td_agent_conf = open("assets/td-agent.conf").read()
-    argument.append(td_agent_conf)
+    FILES = ["assets/td-agent.conf"]
+    argument = load_asset_files(argument, FILES)
     return argument
 
 
