@@ -45,3 +45,11 @@ def shutdown_container(container):
 def get_config_info(yaml_file_path):
     yaml_data = open(yaml_file_path).read()
     return yaml.load(yaml_data)
+
+
+def load_asset_files(argument, list_of_files):
+    for file_path in list_of_files:
+        file_data = open(file_path).read()
+        argument.append(file_data)
+
+    return argument
