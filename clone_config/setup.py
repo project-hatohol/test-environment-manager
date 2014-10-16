@@ -163,9 +163,11 @@ def prepare_setup_nagios_server3(argument):
     nagios_conf = open("assets/nagios3.cfg").read()
     host_conf = open("assets/host_name.cfg").read()
     commands_conf = open("assets/commands3.cfg").read()
+    cgi_conf = open("assets/cgi3.cfg").read()
     argument.append(nagios_conf)
     argument.append(host_conf)
     argument.append(commands_conf)
+    argument.append(cgi_conf)
     return argument
 
 
@@ -176,6 +178,7 @@ def run_setup_nagios_server3(argument):
     config_data = argument[1]
     host_data = argument[2]
     commands_data = argument[3]
+    cgi_data = argument[4]
     CONFIG_PATH = "/etc/nagios/nagios.cfg"
     COMMANDS_PATH = "/etc/nagios/objects/commands.cfg"
     SERVER_DIR = "/etc/nagios/servers/"
@@ -192,9 +195,11 @@ def prepare_setup_nagios_server4(argument):
     nagios_conf = open("assets/nagios4.cfg").read()
     host_conf = open("assets/host_name.cfg").read()
     commands_conf = open("assets/commands3.cfg").read()
+    cgi_conf = open("assets/cgi4.cfg").read()
     argument.append(nagios_conf)
     argument.append(host_conf)
     argument.append(commands_conf)
+    argument.append(cgi_conf)
     return argument
 
 
@@ -211,6 +216,7 @@ def run_setup_nagios_server4(argument):
     config_data = argument[1]
     host_data = argument[2]
     commands_data = argument[3]
+    cgi_data = argument[4]
     CONFIG_PATH = "/usr/local/nagios/etc/nagios.cfg"
     COMMANDS_PATH = "/usr/local/nagios/etc/objects/commands.cfg"
     SERVER_DIR = "/usr/local/nagios/etc/servers/"
