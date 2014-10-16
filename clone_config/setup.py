@@ -214,11 +214,11 @@ def prepare_setup_nagios_server4(argument):
 
 
 def run_setup_nagios_server4(argument):
-    LIST_OF_PATH = {"CONFIG": "/usr/local/nagios/etc/nagios.cfg"
-                    "COMMANDS": "/usr/local/nagios/etc/objects/commands.cfg"
-                    "SERVER_DIR": "/usr/local/nagios/etc/servers/"
-                    "PASSWORD": "/usr/local/nagios/etc/htpasswd.users"
-                    "CGI": "/usr/local/nagios/etc/cgi.cfg"
+    LIST_OF_PATH = {"CONFIG": "/usr/local/nagios/etc/nagios.cfg",
+                    "COMMANDS": "/usr/local/nagios/etc/objects/commands.cfg",
+                    "SERVER_DIR": "/usr/local/nagios/etc/servers/",
+                    "PASSWORD": "/usr/local/nagios/etc/htpasswd.users",
+                    "CGI": "/usr/local/nagios/etc/cgi.cfg",
                     "NDO2DB": "/usr/local/nagios/etc/ndo2db.cfg"}
     run_setup_for_nagios_server(argument, LIST_OF_PATH)
 
