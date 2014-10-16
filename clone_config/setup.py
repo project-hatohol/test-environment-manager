@@ -350,6 +350,17 @@ def get_function_and_arguments(info_of_container_name, list_of_key_in_info):
     return return_list
 
 
+def get_container_info(info_of_container, list_of_key_in_info):
+    list_of_setup_function = SETUP_FUNCTIONS.keys()
+    return_info = {}
+    for key_in_info in list_of_key_in_info:
+        if (not key_in_info in list_of_setup_function and
+                not key_in_info in "base_container"):
+            return_info[key_in_info] = info_of_container[key_in_info]
+
+    return return_info
+
+
 def get_container_name_and_function_to_setup(config_info):
     list_of_container_name = config_info.keys()
     return_list = []
