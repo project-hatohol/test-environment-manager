@@ -361,15 +361,15 @@ def get_container_info(info_of_container, list_of_key_in_info):
     return return_info
 
 
-def get_container_name_and_function_to_setup(config_info):
+def get_container_name_and_info(config_info, get_function_name):
     list_of_container_name = config_info.keys()
     return_list = []
     for container_name in list_of_container_name:
         info_of_container_name = config_info[container_name]
         list_of_key_in_info = info_of_container_name.keys()
-        setup_functions = get_function_and_arguments(info_of_container_name,
-                                                     list_of_key_in_info)
-        return_list.append([container_name, setup_functions])
+        append_content = get_function_name(info_of_container_name,
+                                           list_of_key_in_info)
+        return_list.append([container_name, append_content])
 
     return return_list
 
@@ -395,7 +395,7 @@ def setup_containers(list_of_setup_containers):
 def start_setup(yaml_file_path):
     config_info = get_config_info(yaml_file_path)
     list_of_setup_containers = \
-        get_container_name_and_function_to_setup(config_info)
+        get_container_name_and_info(config_info, get_function_and_arguments)
     setup_containers(list_of_setup_containers)
 
 
