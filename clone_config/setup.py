@@ -200,12 +200,6 @@ def prepare_setup_nagios_server4(argument):
     return argument
 
 
-def run_make_install_config_for_nagios4():
-    os.chdir("/nagios-4.0.8")
-    CMD = ["make", "install-config"]
-    subprocess.call(CMD)
-
-
 def run_setup_nagios_server4(argument):
     list_of_monitored_host = argument[0]["target"]
     username = argument[0]["username"]
@@ -219,7 +213,6 @@ def run_setup_nagios_server4(argument):
     SERVER_DIR = "/usr/local/nagios/etc/servers/"
     PASSWORD_PATH = "/usr/local/nagios/etc/htpasswd.users"
     CGI_PATH = "/usr/local/nagios/etc/cgi.cfg"
-    run_make_install_config_for_nagios4()
     install_config_file_for_nagios(config_data, commands_data,
                                    CONFIG_PATH, COMMANDS_PATH,
                                    SERVER_DIR)

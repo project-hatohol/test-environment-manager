@@ -10,6 +10,7 @@ cd $NAGIOS_NAME
 ./configure --with-command-group=nagios
 make all
 make fullinstall
+make install-config
 
 cp -R contrib/eventhandlers/ /usr/local/nagios/libexec/
 chown -R nagios:nagios /usr/local/nagios/libexec/eventhandlers
