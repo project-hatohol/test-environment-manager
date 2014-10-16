@@ -151,9 +151,17 @@ def add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
 
 
 def set_username_and_password_for_nagios(username, password,
+                                         config_data, config_file_path,
                                          password_file_path):
-    if os.path.exists(password_file_path):
-        os.remove(password_file_path)
+    FILES = [config_file_path, password_file_path]
+    for file_path in FILES:
+        if os.path.exists(password_file_path):
+            os.remove(password_file_path)
+
+    DEFAULT_USERNAME = "nagiosadmin"
+    config_data = config_data.replace(DEFAULT_USERNAME, username)
+    config_file = open(config_file_path, "w")
+    config_file.write(config_data)
 
     cmd = ["htpasswd", "-bc", password_file_path, username, password]
     subprocess.call(cmd)
@@ -183,12 +191,14 @@ def run_setup_nagios_server3(argument):
     COMMANDS_PATH = "/etc/nagios/objects/commands.cfg"
     SERVER_DIR = "/etc/nagios/servers/"
     PASSWORD_PATH = "/etc/nagios/passwd"
+    CGI_PATH = "/etc/nagios/cgi.cfg"
     install_config_file_for_nagios(config_data, commands_data,
                                    CONFIG_PATH, COMMANDS_PATH,
                                    SERVER_DIR)
     add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
                                      SERVER_DIR)
-    set_username_and_password_for_nagios(username, password, PASSWORD_PATH)
+    set_username_and_password_for_nagios(username, password, cgi_data,
+                                         CGI_PATH, PASSWORD_PATH)
 
 
 def prepare_setup_nagios_server4(argument):
@@ -221,13 +231,15 @@ def run_setup_nagios_server4(argument):
     COMMANDS_PATH = "/usr/local/nagios/etc/objects/commands.cfg"
     SERVER_DIR = "/usr/local/nagios/etc/servers/"
     PASSWORD_PATH = "/usr/local/nagios/etc/htpasswd.users"
+    CGI_PATH = "/usr/local/nagios/etc/cgi.cfg"
     run_make_install_config_for_nagios4()
     install_config_file_for_nagios(config_data, commands_data,
                                    CONFIG_PATH, COMMANDS_PATH,
                                    SERVER_DIR)
     add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
                                      SERVER_DIR)
-    set_username_and_password_for_nagios(username, password, PASSWORD_PATH)
+    set_username_and_password_for_nagios(username, password, cgi_data,
+                                         CGI_PATH, PASSWORD_PATH)
 
 
 def prepare_setup_nagios_nrpe(argument):
