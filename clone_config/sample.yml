@@ -1,5 +1,8 @@
 zabbix-server22-sample:
         base_container: env_zabbix_server22
+        container_path: /var/lib/lxc/
+        auto_start: 0
+        monitor_group: 1
 
         zabbix-server:
                 target: [{host: test1, ip: 192.168.0.11}, {host: test2, ip: 192.168.0.12}]
@@ -9,6 +12,9 @@ zabbix-server22-sample:
 
 zabbix-server20-sample:
         base_container: env_zabbix_server20
+        container_path: /var/lib/lxc/
+        auto_start: 0
+        monitor_group: 2
 
         zabbix-server:
                 target: [{host: test1, ip: 192.168.0.11}, {host: test2, ip: 192.168.0.12}]
@@ -18,6 +24,9 @@ zabbix-server20-sample:
 
 zabbix-agent22-sample:
         base_container: env_zabbix_agent22
+        container_path: /var/lib/lxc/
+        auto_start: 1
+        monitor_group: 1
 
         zabbix-agent:
                 server_ipaddress: 10.0.3.11
@@ -25,6 +34,9 @@ zabbix-agent22-sample:
 
 zabbix-agent20-sample:
         base_container: env_zabbix_agent22
+        container_path: /var/lib/lxc/
+        auto_start: 1
+        monitor_group: 2
 
         zabbix-agent:
                 server_ipaddress: 10.0.3.11
@@ -32,6 +44,9 @@ zabbix-agent20-sample:
 
 nagios-server3-sample:
         base_container: env_nagios_server3
+        container_path: /var/lib/lxc/
+        auto_start: 1
+        monitor_group: 3
 
         nagios3:
                 username: admin
@@ -40,6 +55,9 @@ nagios-server3-sample:
 
 nagios-server4-sample:
         base_container: env_nagios_server4
+        container_path: /var/lib/lxc/
+        auto_start: 1
+        monitor_group: 4
 
         nagios4:
                 username: admin
@@ -48,11 +66,16 @@ nagios-server4-sample:
 
 nagios-nrpe-sample:
         base_container: env_nagios_nrpe
+        container_path: /var/lib/lxc/
+        auto_start: 1
+        monitor_group: 3
 
         nrpe:
 
 redmine-sample:
         base_container: env_redmine
+        container_path: /var/lib/lxc/
+        auto_start: 1
 
         redmine:
                 project_name: hatohol
@@ -60,5 +83,7 @@ redmine-sample:
 
 fluentd-sample:
         base_container: env_fluentd
+        container_path: /var/lib/lxc/
+        auto_start: 1
 
         fluentd:
