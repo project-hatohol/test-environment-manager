@@ -7,12 +7,12 @@ sys.path.append("../common")
 import definevalue
 from utils import *
 
-def get_container_name_and_base_container_name(config_info_name):
-    list_of_container_name = config_info_name.keys()
+def get_container_name_and_base_container_name(config_info):
+    list_of_container_name = config_info.keys()
     return_list = []
     for container_name in list_of_container_name:
         key_of_base_name = definevalue.KEY_OF_BASE_CONTAINER
-        key_of_container_name = config_info_name[container_name]
+        key_of_container_name = config_info[container_name]
         if not key_of_base_name in key_of_container_name:
             continue
         else:
