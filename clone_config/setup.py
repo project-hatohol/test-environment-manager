@@ -350,11 +350,11 @@ def get_function_and_arguments(info_of_container_name, list_of_key_in_info):
     return return_list
 
 
-def get_container_name_and_function_to_setup(config_info_name):
-    list_of_container_name = config_info_name.keys()
+def get_container_name_and_function_to_setup(config_info):
+    list_of_container_name = config_info.keys()
     return_list = []
     for container_name in list_of_container_name:
-        info_of_container_name = config_info_name[container_name]
+        info_of_container_name = config_info[container_name]
         list_of_key_in_info = info_of_container_name.keys()
         setup_functions = get_function_and_arguments(info_of_container_name,
                                                      list_of_key_in_info)
