@@ -165,6 +165,28 @@ def set_username_and_password_for_nagios(username, password,
     subprocess.call(cmd)
 
 
+def run_setup_for_nagios_server(argument, list_of_path):
+    list_of_monitored_host = argument[0]["target"]
+    username = argument[0]["username"]
+    password = argument[0]["password"]
+    config_data = argument[1]
+    host_data = argument[2]
+    commands_data = argument[3]
+    cgi_data = argument[4]
+    ndo2db_data = argument[5]
+
+    install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
+                                   list_of_path["CONFIG"],
+                                   list_of_path["COMMANDS"],
+                                   list_of_path["NDO2DB"],
+                                   list_of_path["SERVER_DIR"])
+    add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
+                                     list_of_path["SERVER_DIR"])
+    set_username_and_password_for_nagios(username, password, cgi_data,
+                                         list_of_path["CGI"],
+                                         list_of_path["PASSWORD"])
+
+
 def prepare_setup_nagios_server3(argument):
     FILES = ["assets/nagios3.cfg", "assets/host_name.cfg",
              "assets/commands3.cfg", "assets/cgi3.cfg",
@@ -174,27 +196,13 @@ def prepare_setup_nagios_server3(argument):
 
 
 def run_setup_nagios_server3(argument):
-    list_of_monitored_host = argument[0]["target"]
-    username = argument[0]["username"]
-    password = argument[0]["password"]
-    config_data = argument[1]
-    host_data = argument[2]
-    commands_data = argument[3]
-    cgi_data = argument[4]
-    ndo2db_data = argument[5]
-    CONFIG_PATH = "/etc/nagios/nagios.cfg"
-    COMMANDS_PATH = "/etc/nagios/objects/commands.cfg"
-    SERVER_DIR = "/etc/nagios/servers/"
-    PASSWORD_PATH = "/etc/nagios/passwd"
-    CGI_PATH = "/etc/nagios/cgi.cfg"
-    NDO2DB_PATH = "/etc/nagios/ndo2db.cfg"
-    install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
-                                   CONFIG_PATH, COMMANDS_PATH, NDO2DB_PATH,
-                                   SERVER_DIR)
-    add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
-                                     SERVER_DIR)
-    set_username_and_password_for_nagios(username, password, cgi_data,
-                                         CGI_PATH, PASSWORD_PATH)
+    LIST_OF_PATH = {"CONFIG": "/etc/nagios/nagios.cfg",
+                    "COMMANDS": "/etc/nagios/objects/commands.cfg",
+                    "SERVER_DIR": "/etc/nagios/servers/",
+                    "PASSWORD": "/etc/nagios/passwd",
+                    "CGI": "/etc/nagios/cgi.cfg",
+                    "NDO2DB": "/etc/nagios/ndo2db.cfg"}
+    run_setup_for_nagios_server(argument, LIST_OF_PATH)
 
 
 def prepare_setup_nagios_server4(argument):
@@ -206,27 +214,13 @@ def prepare_setup_nagios_server4(argument):
 
 
 def run_setup_nagios_server4(argument):
-    list_of_monitored_host = argument[0]["target"]
-    username = argument[0]["username"]
-    password = argument[0]["password"]
-    config_data = argument[1]
-    host_data = argument[2]
-    commands_data = argument[3]
-    cgi_data = argument[4]
-    ndo2db_data = argument[5]
-    CONFIG_PATH = "/usr/local/nagios/etc/nagios.cfg"
-    COMMANDS_PATH = "/usr/local/nagios/etc/objects/commands.cfg"
-    SERVER_DIR = "/usr/local/nagios/etc/servers/"
-    PASSWORD_PATH = "/usr/local/nagios/etc/htpasswd.users"
-    CGI_PATH = "/usr/local/nagios/etc/cgi.cfg"
-    NDO2DB_PATH = "/usr/local/nagios/etc/ndo2db.cfg"
-    install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
-                                   CONFIG_PATH, COMMANDS_PATH, NDO2DB_PATH,
-                                   SERVER_DIR)
-    add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
-                                     SERVER_DIR)
-    set_username_and_password_for_nagios(username, password, cgi_data,
-                                         CGI_PATH, PASSWORD_PATH)
+    LIST_OF_PATH = {"CONFIG": "/usr/local/nagios/etc/nagios.cfg"
+                    "COMMANDS": "/usr/local/nagios/etc/objects/commands.cfg"
+                    "SERVER_DIR": "/usr/local/nagios/etc/servers/"
+                    "PASSWORD": "/usr/local/nagios/etc/htpasswd.users"
+                    "CGI": "/usr/local/nagios/etc/cgi.cfg"
+                    "NDO2DB": "/usr/local/nagios/etc/ndo2db.cfg"}
+    run_setup_for_nagios_server(argument, LIST_OF_PATH)
 
 
 def prepare_setup_nagios_nrpe(argument):
