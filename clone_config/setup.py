@@ -96,10 +96,11 @@ def run_setup_zabbix_agent(argument):
     zabbix_agentd_conf.write(output_data)
 
 
-def install_config_file_for_nagios(config_data, commands_data,
-                                   config_path, commands_path,
+def install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
+                                   config_path, commands_path, ndo2db_path,
                                    server_dir_path):
-    PATH = [[config_data, config_path], [commands_data, commands_path]]
+    PATH = [[config_data, config_path], [commands_data, commands_path],
+            [ndo2db_data, ndo2db_path]]
     for (data, path) in PATH:
         if os.path.exists(path):
             os.remove(path)
@@ -166,7 +167,8 @@ def set_username_and_password_for_nagios(username, password,
 
 def prepare_setup_nagios_server3(argument):
     FILES = ["assets/nagios3.cfg", "assets/host_name.cfg",
-             "assets/commands3.cfg", "assets/cgi3.cfg"]
+             "assets/commands3.cfg", "assets/cgi3.cfg",
+             "assets/ndo2db3.cfg"]
     argument = load_asset_files(argument, FILES)
     return argument
 
@@ -179,13 +181,15 @@ def run_setup_nagios_server3(argument):
     host_data = argument[2]
     commands_data = argument[3]
     cgi_data = argument[4]
+    ndo2db_data = argument[5]
     CONFIG_PATH = "/etc/nagios/nagios.cfg"
     COMMANDS_PATH = "/etc/nagios/objects/commands.cfg"
     SERVER_DIR = "/etc/nagios/servers/"
     PASSWORD_PATH = "/etc/nagios/passwd"
     CGI_PATH = "/etc/nagios/cgi.cfg"
-    install_config_file_for_nagios(config_data, commands_data,
-                                   CONFIG_PATH, COMMANDS_PATH,
+    NDO2DB_PATH = "/etc/nagios/ndo2db.cfg"
+    install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
+                                   CONFIG_PATH, COMMANDS_PATH, NDO2DB_PATH,
                                    SERVER_DIR)
     add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
                                      SERVER_DIR)
@@ -195,7 +199,8 @@ def run_setup_nagios_server3(argument):
 
 def prepare_setup_nagios_server4(argument):
     FILES = ["assets/nagios4.cfg", "assets/host_name.cfg",
-             "assets/commands3.cfg", "assets/cgi4.cfg"]
+             "assets/commands3.cfg", "assets/cgi4.cfg",
+             "assets/ndo2db4.cfg"]
     argument = load_asset_files(argument, FILES)
     return argument
 
@@ -208,13 +213,15 @@ def run_setup_nagios_server4(argument):
     host_data = argument[2]
     commands_data = argument[3]
     cgi_data = argument[4]
+    ndo2db_data = argument[5]
     CONFIG_PATH = "/usr/local/nagios/etc/nagios.cfg"
     COMMANDS_PATH = "/usr/local/nagios/etc/objects/commands.cfg"
     SERVER_DIR = "/usr/local/nagios/etc/servers/"
     PASSWORD_PATH = "/usr/local/nagios/etc/htpasswd.users"
     CGI_PATH = "/usr/local/nagios/etc/cgi.cfg"
-    install_config_file_for_nagios(config_data, commands_data,
-                                   CONFIG_PATH, COMMANDS_PATH,
+    NDO2DB_PATH = "/usr/local/nagios/etc/ndo2db.cfg"
+    install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
+                                   CONFIG_PATH, COMMANDS_PATH, NDO2DB_PATH,
                                    SERVER_DIR)
     add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
                                      SERVER_DIR)
