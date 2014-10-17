@@ -261,7 +261,7 @@ def run_setup_redmine(argument):
     os.chdir("/var/lib/redmine")
 
     file_paths = ["/var/lib/redmine/config/database.yml",
-                  "/var/lib/redmine/config/xonfiguration.yml",
+                  "/var/lib/redmine/config/configuration.yml",
                   "/var/lib/redmine/my_setting"]
 
     project_data = {
