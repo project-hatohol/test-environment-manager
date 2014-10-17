@@ -1,6 +1,7 @@
 zabbix-server22-sample:
         base_container: env_zabbix_server22
         container_path: /var/lib/lxc/zabbix-server22-sample
+        ip_address: 10.0.3.101
         auto_start: 0
         monitor_group: 1
 
@@ -13,6 +14,7 @@ zabbix-server22-sample:
 zabbix-server20-sample:
         base_container: env_zabbix_server20
         container_path: /var/lib/lxc/zabbix-server20-sample
+        ip_address: 10.0.3.102
         auto_start: 0
         monitor_group: 2
 
@@ -25,6 +27,7 @@ zabbix-server20-sample:
 zabbix-agent22-sample:
         base_container: env_zabbix_agent22
         container_path: /var/lib/lxc/zabbix-agent22-sample
+        ip_address: 10.0.3.103
         auto_start: 1
         monitor_group: 1
 
@@ -35,6 +38,7 @@ zabbix-agent22-sample:
 zabbix-agent20-sample:
         base_container: env_zabbix_agent22
         container_path: /var/lib/lxc/zabbix-agent20-sample
+        ip_address: 10.0.3.104
         auto_start: 1
         monitor_group: 2
 
@@ -45,6 +49,7 @@ zabbix-agent20-sample:
 nagios-server3-sample:
         base_container: env_nagios_server3
         container_path: /var/lib/lxc/nagios-server3-sample
+        ip_address: 10.0.3.105
         auto_start: 1
         monitor_group: 3
 
@@ -56,6 +61,7 @@ nagios-server3-sample:
 nagios-server4-sample:
         base_container: env_nagios_server4
         container_path: /var/lib/lxc/nagios-server4-sample
+        ip_address: 10.0.3.106
         auto_start: 1
         monitor_group: 4
 
@@ -67,6 +73,7 @@ nagios-server4-sample:
 nagios-nrpe-sample:
         base_container: env_nagios_nrpe
         container_path: /var/lib/lxc/nagios-nrpe-sample
+        ip_address: 10.0.3.107
         auto_start: 1
         monitor_group: 3
 
@@ -75,6 +82,7 @@ nagios-nrpe-sample:
 redmine-sample:
         base_container: env_redmine
         container_path: /var/lib/lxc/redmine-sample
+        ip_address: 10.0.3.108
         auto_start: 1
 
         redmine:
@@ -84,6 +92,7 @@ redmine-sample:
 fluentd-sample:
         base_container: env_fluentd
         container_path: /var/lib/lxc/fluentd-sample
+        ip_address: 10.0.3.109
         auto_start: 1
 
         fluentd:
