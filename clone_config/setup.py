@@ -392,6 +392,14 @@ def setup_containers(list_of_setup_containers):
         setup_container(container_name, setup_function)
 
 
+def install_monitor_group_file(container_info):
+    if "monitor_group" in container_info:
+        group_file_path = container_info["container_path"] + "/group"
+        group_file = open(group_file_path, "w")
+        group_file.write(str(container_info["monitor_group"]))
+        group_file.close()
+
+
 def start_setup(yaml_file_path):
     config_info = get_config_info(yaml_file_path)
     list_of_setup_containers = \
