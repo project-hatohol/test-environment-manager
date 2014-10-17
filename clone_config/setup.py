@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env pyconfiguration.ymlthon3
 import os
 import sys
 import shutil
@@ -274,7 +274,7 @@ def run_setup_redmine(argument):
     send_data = json.dumps(project_data)
 
     cmd = [
-           ["bundle install --without development test"],
+           ["bundle", "install"],
            ["bundle", "exec", "rake", "generate_secret_token"],
            ["RAILS_ENV=production bundle exec rake db:migrate"],
            ["passenger-install-apache2-module", "--snippet"],
@@ -288,7 +288,7 @@ def run_setup_redmine(argument):
         create_setup_file(file_paths[each_path_and_argument],
                           argument[each_path_and_argument + 1])
 
-    subprocess.call(cmd[0], shell = True)
+    subprocess.Popen(cmd[0])
     subprocess.Popen(cmd[1])
     subprocess.call(cmd[2], shell = True)
     subprocess.Popen(cmd[3], stdout = open("/etc/httpd/conf.d/passenger.conf", "w"))
