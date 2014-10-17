@@ -413,6 +413,12 @@ def install_container_config_file(container_info):
     config_file.close()
 
 
+def install_container_config(container_name, container_info):
+    print("Start install config files: %s" % container_name)
+    install_monitor_group_file(container_info)
+    install_container_config_file(container_info)
+
+
 def start_setup(yaml_file_path):
     config_info = get_config_info(yaml_file_path)
     list_of_setup_containers = \
