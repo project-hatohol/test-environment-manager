@@ -400,6 +400,19 @@ def install_monitor_group_file(container_info):
         group_file.close()
 
 
+# TODO: When already the value defined, the value will be replaced.
+def install_container_config_file(container_info):
+    CONTENTS = ["lxc.network.ipv4 = " + container_info["ip_address"] + "\n",
+                "lxc.start.auto = " + str(container_info["auto_start"]) + "\n"]
+
+    config_file_path = container_info["container_path"] + "/config"
+    config_file = open(config_file_path, "a")
+    for content in CONTENTS:
+        config_file.write(content)
+
+    config_file.close()
+
+
 def start_setup(yaml_file_path):
     config_info = get_config_info(yaml_file_path)
     list_of_setup_containers = \
