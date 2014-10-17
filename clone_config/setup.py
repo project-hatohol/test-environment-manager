@@ -419,6 +419,11 @@ def install_container_config(container_name, container_info):
     install_container_config_file(container_info)
 
 
+def install_containers_config(list_of_container_info):
+    for (container_name, container_info) in list_of_container_info:
+        install_container_config(container_name, container_info)
+
+
 def start_setup(yaml_file_path):
     config_info = get_config_info(yaml_file_path)
     list_of_setup_containers = \
@@ -426,6 +431,7 @@ def start_setup(yaml_file_path):
     list_of_container_info = \
         get_container_name_and_info(config_info, get_container_info)
     setup_containers(list_of_setup_containers)
+    install_containers_config(list_of_container_info)
 
 
 if __name__ == '__main__':
