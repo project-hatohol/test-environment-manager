@@ -275,12 +275,8 @@ def run_setup_redmine(argument):
                   "/var/lib/redmine/my_setting",
                   "/var/lib/redmine/setting_command.sh"]
 
-    project_data = {
-                    "project":{
-                      "name": argument[0]["project_name"],
-                      "identifier": argument[0]["project_id"]
-                    }
-                   }
+    project_data = {"project": {"name": argument[0]["project_name"],
+                      "identifier": argument[0]["project_id"]}}
 
     send_data = json.dumps(project_data)
 
