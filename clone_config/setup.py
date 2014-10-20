@@ -239,7 +239,8 @@ def run_setup_nagios_nrpe(argument):
 
 
 def prepare_setup_redmine(argument):
-    file_list = ["database.yml", "configuration.yml", "my_setting", "setting_command.sh"]
+    file_list = ["database.yml", "configuration.yml", "my_setting",
+                 "setting_command.sh"]
 
     for file_name in file_list:
         read_file = open(file_name)
@@ -255,6 +256,15 @@ def create_setup_file(file_path, argument):
     file = open(file_path, "w")
     file.writelines(argument)
     file.close()
+
+
+def print_request_responce(request_result):
+    if request_result.status_code == 201:
+        print("Successed to create a new project")
+
+    else:
+        print("Failed to create a new project.")
+        print(request_result.text + "\n")
 
 
 def run_setup_redmine(argument):
@@ -280,9 +290,11 @@ def run_setup_redmine(argument):
 
     subprocess.call(["sh","setting_command.sh"])
 
-    requests.post("http://127.0.0.1/projects.json", data = send_data,
-                             headers = {"Content-Type": "application/json"},
-                             auth = ("admin", "admin"))
+    request_result = requests.post("http://127.0.0.1/projects.json",
+                                   data = send_data,
+                                   headers = {"Content-Type": "application/json"},
+                                   auth = ("admin", "admin"))
+    print_request_responce(request_result)
 
     subprocess.call(["service", "httpd", "restart"])
 
