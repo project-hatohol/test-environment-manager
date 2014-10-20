@@ -427,11 +427,31 @@ def install_container_config_file(container_info):
     os.rename(config_file_path_tmp, config_file_path)
 
 
+def install_ifcfg_eth0_file(argument):
+    ifcfg_eth0_data = argument[0]
+    IFCFG_ETH0_PATH = "/etc/sysconfig/network-scripts/ifcfg-eth0"
+
+    os.remove(IFCFG_ETH0_PATH)
+    open(IFCFG_ETH0_PATH, "w").write(ifcfg_eth0_data)
+
+
+def prepare_install_ifcfg_eth0_file(container_name):
+    ifcfg_eth0_file = open("assets/ifcfg-eth0").read()
+    argument = [ifcfg_eth0_file]
+
+    container = lxc.Container(container_name)
+    container.start()
+    container.attach_wait(install_ifcfg_eth0_file, argument)
+    shutdown_container(container)
+
+
 def install_container_config(container_name, container_info):
     print("Install config files: %s" % container_name)
     if "monitor_group" in container_info:
         install_monitor_group_file(container_info)
     install_container_config_file(container_info)
+
+    prepare_install_ifcfg_eth0_file(container_name)
 
 
 def install_containers_config(list_of_container_info):
