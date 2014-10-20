@@ -387,11 +387,10 @@ def setup_containers(list_of_setup_containers):
 
 
 def install_monitor_group_file(container_info):
-    if "monitor_group" in container_info:
-        group_file_path = container_info["container_path"] + "/group"
-        group_file = open(group_file_path, "w")
-        group_file.write(str(container_info["monitor_group"]))
-        group_file.close()
+    group_file_path = container_info["container_path"] + "/group"
+    group_file = open(group_file_path, "w")
+    group_file.write(str(container_info["monitor_group"]))
+    group_file.close()
 
 
 # TODO: When already the value defined, the value will be replaced.
@@ -409,7 +408,8 @@ def install_container_config_file(container_info):
 
 def install_container_config(container_name, container_info):
     print("Start install config files: %s" % container_name)
-    install_monitor_group_file(container_info)
+    if "monitor_group" in container_info:
+        install_monitor_group_file(container_info)
     install_container_config_file(container_info)
 
 
