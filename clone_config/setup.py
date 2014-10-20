@@ -463,10 +463,10 @@ def start_setup(yaml_file_path):
     config_info = get_config_info(yaml_file_path)
     list_of_setup_containers = \
         get_container_name_and_info(config_info, get_function_and_arguments)
-    #list_of_container_info = \
-    #    get_container_name_and_info(config_info, get_container_info)
+    list_of_container_info = \
+        get_container_name_and_info(config_info, get_container_info)
     setup_containers(list_of_setup_containers)
-    #install_containers_config(list_of_container_info)
+    install_containers_config(list_of_container_info)
 
 
 if __name__ == '__main__':
