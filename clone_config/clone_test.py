@@ -23,5 +23,6 @@ def check_containers_ware_generated(container_list):
 
 
 if __name__ == '__main__':
+    utils.exit_if_user_run_this_as_general_user()
     sample_yaml_path = sys.argv[1]
     check_containers_ware_generated(get_container_list(sample_yaml_path))
