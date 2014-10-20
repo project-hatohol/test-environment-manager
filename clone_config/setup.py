@@ -428,7 +428,7 @@ def install_container_config_file(container_info):
 
 
 def install_container_config(container_name, container_info):
-    print("Start install config files: %s" % container_name)
+    print("Install config files: %s" % container_name)
     if "monitor_group" in container_info:
         install_monitor_group_file(container_info)
     install_container_config_file(container_info)
