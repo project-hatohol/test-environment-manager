@@ -239,7 +239,7 @@ def run_setup_nagios_nrpe(argument):
 
 
 def prepare_setup_redmine(argument):
-    file_list = ["database.yml", "configuration.yml", "my_setting"]
+    file_list = ["database.yml", "configuration.yml", "my_setting", "setting_command.sh"]
 
     for file_name in file_list:
         read_file = open(file_name)
@@ -262,45 +262,30 @@ def run_setup_redmine(argument):
 
     file_paths = ["/var/lib/redmine/config/database.yml",
                   "/var/lib/redmine/config/configuration.yml",
-                  "/var/lib/redmine/my_setting"]
+                  "/var/lib/redmine/my_setting",
+                  "/var/lib/redmine/setting_command.sh"]
 
     project_data = {
                     "project":{
                       "name": argument[0]["project_name"],
                       "identifier": argument[0]["project_id"]
-                     }
+                    }
                    }
 
     send_data = json.dumps(project_data)
-
-    cmd = [
-           ["bundle", "install"],
-           ["bundle", "exec", "rake", "generate_secret_token"],
-           ["RAILS_ENV=production bundle exec rake db:migrate"],
-           ["passenger-install-apache2-module", "--snippet"],
-           ["mysql -uroot db_redmine < my_setting"],
-           ["chown", "-R", "apache", "/var/lib/redmine"],
-           ["chgrp", "-R", "apache", "/var/lib/redmine"],
-           ["service", "httpd", "restart"]
-          ]
 
     for each_path_and_argument in range(len(file_paths)):
         create_setup_file(file_paths[each_path_and_argument],
                           argument[each_path_and_argument + 1])
 
-    subprocess.Popen(cmd[0])
-    subprocess.Popen(cmd[1])
-    subprocess.call(cmd[2], shell = True)
-    subprocess.Popen(cmd[3], stdout = open("/etc/httpd/conf.d/passenger.conf", "w"))
-    subprocess.call(cmd[4], shell = True)
-    subprocess.Popen(cmd[5])
-    subprocess.Popen(cmd[6])
+    subprocess.call(["sh","setting_command.sh"])
 
-    responce = requests.post("http://127.0.0.1/projects.json", data = send_data,
+    requests.post("http://127.0.0.1/projects.json", data = send_data,
                              headers = {"Content-Type": "application/json"},
                              auth = ("admin", "admin"))
 
-    subprocess.Popen(cmd[7])
+    subprocess.call(["service", "httpd", "restart"])
+
 
 def prepare_setup_fluentd(argument):
     FILES = ["assets/td-agent.conf"]
