@@ -243,7 +243,7 @@ def prepare_setup_redmine(argument):
                  "setting_command.sh"]
 
     for file_name in file_list:
-        read_file = open(file_name)
+        read_file = open("assets/" + file_name)
         lines = read_file.readlines()
         read_file.close()
 
@@ -275,8 +275,9 @@ def run_setup_redmine(argument):
                   "/var/lib/redmine/my_setting",
                   "/var/lib/redmine/setting_command.sh"]
 
-    project_data = {"project": {"name": argument[0]["project_name"],
-                      "identifier": argument[0]["project_id"]}}
+    project_info = argument[0]
+    project_data = {"project": {"name": project_info["project_name"],
+                      "identifier": project_info["project_id"]}}
 
     send_data = json.dumps(project_data)
 
