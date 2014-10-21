@@ -7,6 +7,7 @@ import json
 sys.path.append("../common")
 import definevalue
 
+
 def send_data_and_get_response(send_content):
     send_data = json.dumps(send_content)
     response = requests.post(definevalue.ZABBIX_SERVER_ADDRESS,
@@ -18,7 +19,7 @@ def send_data_and_get_response(send_content):
 def get_authtoken_of_zabbix_server():
     SEND_CONTENT = {"method": "user.login",
                     "id": 1,
-                    "params": {"password": "zabbix", "user":"Admin"},
+                    "params": {"password": "zabbix", "user": "Admin"},
                     "jsonrpc": "2.0"}
     response_json = send_data_and_get_response(SEND_CONTENT)
 
@@ -39,7 +40,7 @@ def get_linux_servers_group_id(auth_token):
 
 def get_template_os_linux_id(auth_token):
     SEND_CONTENT = {"method": "template.get",
-                    "id":1,
+                    "id": 1,
                     "params": {"output": "shorten",
                                "filter": {"name": ["Template OS Linux"]}},
                     "auth": auth_token,
