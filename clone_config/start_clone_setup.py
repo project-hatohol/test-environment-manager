@@ -11,4 +11,4 @@ if __name__ == '__main__':
     exit_if_argument_is_not_given(len(argvs))
 
     clone.start_clone_containers(argvs[1])
-    setup.start_setup(argvs[1])
+    setup.start_setup_containers(argvs[1])
