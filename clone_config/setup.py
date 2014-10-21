@@ -29,9 +29,9 @@ def install_config_files_of_zabbix(zabbix_conf_server,
     ZABBIX_CONF_SERVER_PATH = "/etc/zabbix/zabbix_server.conf"
     ZABBIX_CONF_HTTPD_PATH = "/etc/httpd/conf.d/zabbix.conf"
     ZABBIX_CONF_PHP_PATH = "/etc/zabbix/web/zabbix.conf.php"
-    INSTALL_FILES = [[ZABBIX_CONF_SERVER_PATH, zabbix_conf_server],
-                     [ZABBIX_CONF_HTTPD_PATH, zabbix_conf_httpd],
-                     [ZABBIX_CONF_PHP_PATH, zabbix_conf_php]]
+    iNSTALL_FILES = [[definevalue.ZBX_SRV_PATH["CONFIG"], zabbix_conf_server],
+                     [definevalue.ZBX_SRV_PATH["HTTPD"], zabbix_conf_httpd],
+                     [definevalue.ZBX_SRV_PATH["PHP"], zabbix_conf_php]]
     for (path, content) in INSTALL_FILES:
         remove_file_if_exists(path)
 
@@ -73,8 +73,7 @@ def prepare_setup_zabbix_agent(argument):
 
 
 def run_setup_zabbix_agent(argument):
-    CONF_FILE_PATH = "/etc/zabbix/zabbix_agentd.conf"
-    remove_file_if_exists(CONF_FILE_PATH)
+    remove_file_if_exists(definevalue.ZBX_AGT_PAHT["CONFIG"])
 
     server_ip_and_host_name = argument[0]
     output_data = argument[1]
@@ -90,7 +89,7 @@ def run_setup_zabbix_agent(argument):
                         [HOST_NAME_OLD, HOST_NAME_NEW]]
     for (old, new) in replace_sequence:
         output_data = output_data.replace(old, new)
-    write_data_to_file(output_data, CONF_FILE_PATH)
+    write_data_to_file(output_data, definevalue.ZBX_AGT_PAHT["CONFIG"])
 
 
 def install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
@@ -186,13 +185,7 @@ def prepare_setup_nagios_server3(argument):
 
 
 def run_setup_nagios_server3(argument):
-    LIST_OF_PATH = {"CONFIG": "/etc/nagios/nagios.cfg",
-                    "COMMANDS": "/etc/nagios/objects/commands.cfg",
-                    "SERVER_DIR": "/etc/nagios/servers/",
-                    "PASSWORD": "/etc/nagios/passwd",
-                    "CGI": "/etc/nagios/cgi.cfg",
-                    "NDO2DB": "/etc/nagios/ndo2db.cfg"}
-    run_setup_for_nagios_server(argument, LIST_OF_PATH)
+    run_setup_for_nagios_server(argument, definevalue.NAGIOS3_PATH)
 
 
 def prepare_setup_nagios_server4(argument):
@@ -204,13 +197,7 @@ def prepare_setup_nagios_server4(argument):
 
 
 def run_setup_nagios_server4(argument):
-    LIST_OF_PATH = {"CONFIG": "/usr/local/nagios/etc/nagios.cfg",
-                    "COMMANDS": "/usr/local/nagios/etc/objects/commands.cfg",
-                    "SERVER_DIR": "/usr/local/nagios/etc/servers/",
-                    "PASSWORD": "/usr/local/nagios/etc/htpasswd.users",
-                    "CGI": "/usr/local/nagios/etc/cgi.cfg",
-                    "NDO2DB": "/usr/local/nagios/etc/ndo2db.cfg"}
-    run_setup_for_nagios_server(argument, LIST_OF_PATH)
+    run_setup_for_nagios_server(argument, definevalue.NAGIOS4_PATH)
 
 
 def prepare_setup_nagios_nrpe(argument):
@@ -220,11 +207,10 @@ def prepare_setup_nagios_nrpe(argument):
 
 
 def run_setup_nagios_nrpe(argument):
-    NRPE_FILE_PATH = "/etc/nagios/nrpe.cfg"
     nrpe_cfg_file = argument[0]
-    remove_file_if_exists(NRPE_FILE_PATH)
+    remove_file_if_exists(definevalue.NRPE_PATH["CONFIG"])
 
-    write_data_to_file(nrpe_cfg_file, NRPE_FILE_PATH)
+    write_data_to_file(nrpe_cfg_file, definevalue.NRPE_PATH["CONFIG"])
 
 
 def prepare_setup_redmine(argument):
@@ -247,10 +233,10 @@ def run_setup_redmine(argument):
     os.chdir("/var/lib/redmine")
 
     file_path_and_data = \
-        [["/var/lib/redmine/config/database.yml", argument[1]],
-         ["/var/lib/redmine/config/configuration.yml", argument[2]],
-         ["/var/lib/redmine/my_setting", argument[3]],
-         ["/var/lib/redmine/setting_command.sh", argument[4]]]
+        [[definevalue.REDMINE_PATH["DATABASE"], argument[1]],
+         [definevalue.REDMINE_PATH["CONFIG"], argument[2]],
+         [definevalue.REDMINE_PATH["MYSQL"], argument[3]],
+         [definevalue.REDMINE_PATH["SHELL"], argument[4]]]
 
     project_info = argument[0]
     project_data = {"project": {"name": project_info["project_name"],
@@ -280,11 +266,11 @@ def prepare_setup_fluentd(argument):
 
 
 def run_setup_fluentd(argument):
-    TD_AGENT_FILE_PATH = "/etc/td-agent/td-agent.conf"
     td_agent_conf_file = argument[0]
     remove_file_if_exists(TD_AGENT_FILE_PATH)
 
-    write_data_to_file(td_agent_conf_file, TD_AGENT_FILE_PATH)
+    write_data_to_file(td_agent_conf_file,
+                       definevalue.TD_AGENT_FILE_PATH["CONFIG"])
 
 
 SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
