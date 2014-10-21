@@ -57,7 +57,7 @@ def read_data_from_file(path, lines=False):
 
 def load_asset_files(argument, list_of_files):
     for file_path in list_of_files:
-        file_data = open(file_path).read()
+        file_data = read_data_from_file(file_path)
         argument.append(file_data)
 
     return argument

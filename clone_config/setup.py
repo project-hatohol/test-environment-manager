@@ -379,7 +379,7 @@ def install_container_config_file(container_info):
     start_auto_setting_value = \
         START_AUTO_SETTING_KEY + str(container_info["auto_start"]) + "\n"
 
-    config_file_old = open(config_file_path, "r").readlines()
+    config_file_old = read_data_from_file(config_file_path, True)
     content_for_new_file = []
     set_ipv4_setting = False
     set_auto_setting = False
