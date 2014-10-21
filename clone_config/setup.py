@@ -29,7 +29,7 @@ def install_config_files_of_zabbix(zabbix_conf_server,
     ZABBIX_CONF_SERVER_PATH = "/etc/zabbix/zabbix_server.conf"
     ZABBIX_CONF_HTTPD_PATH = "/etc/httpd/conf.d/zabbix.conf"
     ZABBIX_CONF_PHP_PATH = "/etc/zabbix/web/zabbix.conf.php"
-    iNSTALL_FILES = [[definevalue.ZBX_SRV_PATH["CONFIG"], zabbix_conf_server],
+    INSTALL_FILES = [[definevalue.ZBX_SRV_PATH["CONFIG"], zabbix_conf_server],
                      [definevalue.ZBX_SRV_PATH["HTTPD"], zabbix_conf_httpd],
                      [definevalue.ZBX_SRV_PATH["PHP"], zabbix_conf_php]]
     for (path, content) in INSTALL_FILES:
@@ -73,7 +73,7 @@ def prepare_setup_zabbix_agent(argument):
 
 
 def run_setup_zabbix_agent(argument):
-    remove_file_if_exists(definevalue.ZBX_AGT_PAHT["CONFIG"])
+    remove_file_if_exists(definevalue.ZBX_AGT_PATH["CONFIG"])
 
     server_ip_and_host_name = argument[0]
     output_data = argument[1]
@@ -89,7 +89,7 @@ def run_setup_zabbix_agent(argument):
                         [HOST_NAME_OLD, HOST_NAME_NEW]]
     for (old, new) in replace_sequence:
         output_data = output_data.replace(old, new)
-    write_data_to_file(output_data, definevalue.ZBX_AGT_PAHT["CONFIG"])
+    write_data_to_file(output_data, definevalue.ZBX_AGT_PATH["CONFIG"])
 
 
 def install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
@@ -267,10 +267,10 @@ def prepare_setup_fluentd(argument):
 
 def run_setup_fluentd(argument):
     td_agent_conf_file = argument[0]
-    remove_file_if_exists(TD_AGENT_FILE_PATH)
+    remove_file_if_exists(definevalue.TD_AGENT_PATH["CONFIG"])
 
     write_data_to_file(td_agent_conf_file,
-                       definevalue.TD_AGENT_FILE_PATH["CONFIG"])
+                       definevalue.TD_AGENT_PATH["CONFIG"])
 
 
 SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
