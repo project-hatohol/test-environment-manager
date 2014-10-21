@@ -33,8 +33,7 @@ def install_config_files_of_zabbix(zabbix_conf_server,
                      [ZABBIX_CONF_HTTPD_PATH, zabbix_conf_httpd],
                      [ZABBIX_CONF_PHP_PATH, zabbix_conf_php]]
     for (path, content) in INSTALL_FILES:
-        if os.path.exists(path):
-            os.remove(path)
+        remove_file_if_exists(path)
 
         write_data_to_file(content, path)
 
@@ -75,7 +74,7 @@ def prepare_setup_zabbix_agent(argument):
 
 def run_setup_zabbix_agent(argument):
     CONF_FILE_PATH = "/etc/zabbix/zabbix_agentd.conf"
-    os.remove(CONF_FILE_PATH)
+    remove_file_if_exists(CONF_FILE_PATH)
 
     server_ip_and_host_name = argument[0]
     output_data = argument[1]
@@ -100,8 +99,7 @@ def install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
     PATH = [[config_data, config_path], [commands_data, commands_path],
             [ndo2db_data, ndo2db_path]]
     for (data, path) in PATH:
-        if os.path.exists(path):
-            os.remove(path)
+        remove_file_if_exists(path)
         write_data_to_file(data, path)
 
     if os.path.exists(server_dir_path):
@@ -147,8 +145,7 @@ def set_username_and_password_for_nagios(username, password,
                                          password_file_path):
     FILES = [config_file_path, password_file_path]
     for file_path in FILES:
-        if os.path.exists(password_file_path):
-            os.remove(password_file_path)
+        remove_file_if_exists(password_file_path)
 
     DEFAULT_USERNAME = "nagiosadmin"
     config_data = config_data.replace(DEFAULT_USERNAME, username)
@@ -225,7 +222,7 @@ def prepare_setup_nagios_nrpe(argument):
 def run_setup_nagios_nrpe(argument):
     NRPE_FILE_PATH = "/etc/nagios/nrpe.cfg"
     nrpe_cfg_file = argument[0]
-    os.remove(NRPE_FILE_PATH)
+    remove_file_if_exists(NRPE_FILE_PATH)
 
     write_data_to_file(nrpe_cfg_file, NRPE_FILE_PATH)
 
@@ -262,6 +259,7 @@ def run_setup_redmine(argument):
     send_data = json.dumps(project_data)
 
     for (path, data) in file_path_and_data:
+        remove_file_if_exists(path)
         write_data_to_file(data, path)
 
     CMDS = [["sh", "setting_command.sh"], ["service", "httpd", "restart"]]
@@ -284,7 +282,7 @@ def prepare_setup_fluentd(argument):
 def run_setup_fluentd(argument):
     TD_AGENT_FILE_PATH = "/etc/td-agent/td-agent.conf"
     td_agent_conf_file = argument[0]
-    os.remove(TD_AGENT_FILE_PATH)
+    remove_file_if_exists(TD_AGENT_FILE_PATH)
 
     write_data_to_file(td_agent_conf_file, TD_AGENT_FILE_PATH)
 
@@ -399,7 +397,7 @@ def install_container_config_file(container_info):
             content_for_new_file.append(content)
 
     write_data_to_file(content_for_new_file, config_file_path_tmp, True)
-    os.remove(config_file_path)
+    remove_file_if_exists(config_file_path)
     os.rename(config_file_path_tmp, config_file_path)
 
 
@@ -407,7 +405,7 @@ def install_ifcfg_eth0_file(argument):
     ifcfg_eth0_data = argument[0]
     IFCFG_ETH0_PATH = "/etc/sysconfig/network-scripts/ifcfg-eth0"
 
-    os.remove(IFCFG_ETH0_PATH)
+    remove_file_if_exists(IFCFG_ETH0_PATH)
     write_data_to_file(ifcfg_eth0_data, IFCFG_ETH0_PATH)
 
 
