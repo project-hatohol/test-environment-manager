@@ -264,15 +264,15 @@ def run_setup_redmine(argument):
     for (path, data) in file_path_and_data:
         write_data_to_file(data, path)
 
-    subprocess.call(["sh", "setting_command.sh"])
+    CMDS = [["sh", "setting_command.sh"], ["service", "httpd", "restart"]]
+    for cmd in CMDS:
+        subprocess.call(cmd)
 
     request_result = requests.post("http://127.0.0.1/projects.json",
                                    data=send_data,
                                    headers={"Content-Type": "application/json"},
                                    auth=("admin", "admin"))
     print_request_responce(request_result)
-
-    subprocess.call(["service", "httpd", "restart"])
 
 
 def prepare_setup_fluentd(argument):
