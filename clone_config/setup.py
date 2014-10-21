@@ -434,7 +434,7 @@ def install_containers_config(list_of_container_info):
         install_container_config(container_name, container_info)
 
 
-def start_setup(yaml_file_path):
+def start_setup_containers(yaml_file_path):
     config_info = get_config_info(yaml_file_path)
     list_of_setup_containers = \
         get_container_name_and_info(config_info, get_function_and_arguments)
@@ -449,4 +449,4 @@ if __name__ == '__main__':
     exit_if_user_run_this_as_general_user()
     exit_if_argument_is_not_given(len(argvs))
 
-    start_setup(argvs[1])
+    start_setup_containers(argvs[1])
