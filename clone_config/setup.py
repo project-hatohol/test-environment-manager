@@ -231,16 +231,9 @@ def run_setup_nagios_nrpe(argument):
 
 
 def prepare_setup_redmine(argument):
-    file_list = ["database.yml", "configuration.yml", "my_setting",
-                 "setting_command.sh"]
-
-    for file_name in file_list:
-        read_file = open("assets/" + file_name)
-        lines = read_file.readlines()
-        read_file.close()
-
-        argument.append(lines)
-
+    FILES = ["assets/database.yml", "assets/configuration.yml",
+             "assets/my_setting", "assets/setting_command.sh"]
+    argument = load_asset_files(argument, FILES)
     return argument
 
 
@@ -269,7 +262,7 @@ def run_setup_redmine(argument):
     send_data = json.dumps(project_data)
 
     for (path, data) in file_path_and_data:
-        write_data_to_file(path, data, True)
+        write_data_to_file(path, data)
 
     subprocess.call(["sh", "setting_command.sh"])
 
