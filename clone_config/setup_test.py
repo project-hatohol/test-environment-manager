@@ -76,10 +76,11 @@ def execute_in_container(container_name, func_name, func_arg):
 
 
 if __name__ == '__main__':
+    argvs = sys.argv
     utils.exit_if_user_run_this_as_general_user()
-    utils.exit_if_argument_is_not_given()
+    utils.exit_if_argument_is_not_given(len(argvs))
 
-    setting_dict = create_setting_dict(sys.argv[1])
+    setting_dict = create_setting_dict(argvs[1])
     path_dict = create_path_dict(setting_dict)
     for key in path_dict.keys():
         for path in path_dict[key].values():
