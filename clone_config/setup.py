@@ -243,10 +243,6 @@ def prepare_setup_redmine(argument):
     return argument
 
 
-def create_setup_file(file_path, argument):
-    write_data_to_file(argument, file_path, True)
-
-
 def print_request_responce(request_result):
     if request_result.status_code == 201:
         print("Successed to create a new project")
@@ -259,10 +255,11 @@ def print_request_responce(request_result):
 def run_setup_redmine(argument):
     os.chdir("/var/lib/redmine")
 
-    file_paths = ["/var/lib/redmine/config/database.yml",
-                  "/var/lib/redmine/config/configuration.yml",
-                  "/var/lib/redmine/my_setting",
-                  "/var/lib/redmine/setting_command.sh"]
+    file_path_and_data = \
+        [["/var/lib/redmine/config/database.yml", argument[1]],
+         ["/var/lib/redmine/config/configuration.yml", argument[2]],
+         ["/var/lib/redmine/my_setting", argument[3]],
+         ["/var/lib/redmine/setting_command.sh", argument[4]]]
 
     project_info = argument[0]
     project_data = {"project": {"name": project_info["project_name"],
@@ -270,9 +267,8 @@ def run_setup_redmine(argument):
 
     send_data = json.dumps(project_data)
 
-    for each_path_and_argument in range(len(file_paths)):
-        create_setup_file(file_paths[each_path_and_argument],
-                          argument[each_path_and_argument + 1])
+    for (path, data) in file_path_and_data:
+        write_data_to_file(path, data, True)
 
     subprocess.call(["sh","setting_command.sh"])
 
