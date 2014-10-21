@@ -42,19 +42,19 @@ def create_path_dict(setting_dict):
 
 def add_path_to_path_dict(setup_func_name, path_dict, container_name):
     if setup_func_name == "zabbix-agent":
-        path_dict[container_name] = definevalue.ZABBIX_CONF_SERVER_PATH
+        path_dict[container_name] = definevalue.ZBX_SRV_PATH
     elif setup_func_name == "zabbix-server":
-        path_dict[container_name] = definevalue.ZABBIX_CONF_AGENT_PATH
+        path_dict[container_name] = definevalue.ZBX_AGT_PATH
     elif setup_func_name == "nrpe":
-        path_dict[container_name] = definevalue.NRPE_FILE_PATH
+        path_dict[container_name] = definevalue.NRPE_PATH
     elif setup_func_name == "redmine":
-        path_dict[container_name] = definevalue.REDMINE_LIST_OF_PATH
+        path_dict[container_name] = definevalue.REDMINE_PATH
     elif setup_func_name == "fluentd":
-        path_dict[container_name] = definevalue.TD_AGENT_FILE_PATH
+        path_dict[container_name] = definevalue.TD_AGENT_PATH
     elif setup_func_name == "nagios3":
-        path_dict[container_name] = definevalue.NAGIOS3_LIST_OF_PATH
+        path_dict[container_name] = definevalue.NAGIOS3_PATH
     elif setup_func_name == "nagios4":
-        path_dict[container_name] = definevalue.NAGIOS4_LIST_OF_PATH
+        path_dict[container_name] = definevalue.NAGIOS4_PATH
 
 
 def find_file(path):
