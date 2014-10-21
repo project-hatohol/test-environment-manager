@@ -53,3 +53,10 @@ def load_asset_files(argument, list_of_files):
         argument.append(file_data)
 
     return argument
+
+def write_data_to_file(data, path, lines=False):
+    with open(path, "w") as file:
+        if lines:
+            file.write(data)
+        else:
+            file.writelines(data)
