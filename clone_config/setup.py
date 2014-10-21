@@ -368,7 +368,7 @@ def install_monitor_group_file(container_info):
 
 
 def install_container_config_file(container_info):
-    config_file_path = container_info["container_path"] + "/config"
+    config_file_path = os.path.join(container_info["container_path"], "config")
     config_file_path_tmp = config_file_path + ".tmp"
     IPV4_SETTING_KEY = "lxc.network.ipv4 = "
     START_AUTO_SETTING_KEY = "lxc.start.auto = "
