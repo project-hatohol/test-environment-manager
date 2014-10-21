@@ -15,6 +15,7 @@ from utils import *
 import clone
 import zabbix
 
+
 def prepare_setup_zabbix_server(argument):
     FILES = ["assets/zabbix_server.conf", "assets/zabbix.conf",
              "assets/zabbix.conf.php"]
@@ -270,12 +271,12 @@ def run_setup_redmine(argument):
     for (path, data) in file_path_and_data:
         write_data_to_file(path, data, True)
 
-    subprocess.call(["sh","setting_command.sh"])
+    subprocess.call(["sh", "setting_command.sh"])
 
     request_result = requests.post("http://127.0.0.1/projects.json",
-                                   data = send_data,
-                                   headers = {"Content-Type": "application/json"},
-                                   auth = ("admin", "admin"))
+                                   data=send_data,
+                                   headers={"Content-Type": "application/json"},
+                                   auth=("admin", "admin"))
     print_request_responce(request_result)
 
     subprocess.call(["service", "httpd", "restart"])
@@ -316,7 +317,7 @@ def get_function_and_arguments(info_of_container_name, list_of_key_in_info):
     list_of_setup_function = SETUP_FUNCTIONS.keys()
     return_list = []
     for key_in_info in list_of_key_in_info:
-        if not key_in_info in list_of_setup_function:
+        if key_in_info not in list_of_setup_function:
             continue
         else:
             info_of_function = info_of_container_name[key_in_info]
@@ -332,8 +333,8 @@ def get_container_info(info_of_container, list_of_key_in_info):
     list_of_setup_function = SETUP_FUNCTIONS.keys()
     return_info = {}
     for key_in_info in list_of_key_in_info:
-        if (not key_in_info in list_of_setup_function and
-                not key_in_info in "base_container"):
+        if (key_in_info not in list_of_setup_function and
+                key_in_info not in "base_container"):
             return_info[key_in_info] = info_of_container[key_in_info]
 
     return return_info
