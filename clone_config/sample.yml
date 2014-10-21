@@ -96,3 +96,15 @@ fluentd-sample:
         auto_start: 0
 
         fluentd:
+
+hatohol-rpm-sample:
+        base_container: env_hatohol_rpm
+        container_path: /var/lib/lxc/hatohol-rpm-sample
+        ip_address: 10.0.3.110
+        auto_start: 0
+
+hatohol-build-sample:
+        base_container: env_hatohol_build
+        container_path: /var/lib/lxc/hatohol-build-sample
+        ip_address: 10.0.3.111
+        auto_start: 0
