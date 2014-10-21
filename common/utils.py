@@ -69,3 +69,8 @@ def write_data_to_file(data, path, lines=False):
             file.write(data)
         else:
             file.writelines(data)
+
+
+def remove_file_if_exists(path):
+    if os.path.exists(path):
+        os.remove(path)
