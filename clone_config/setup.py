@@ -412,8 +412,9 @@ def install_ifcfg_eth0_file(argument):
 
 
 def prepare_install_ifcfg_eth0_file(container_name):
-    ifcfg_eth0_file = open("assets/ifcfg-eth0").read()
-    argument = [ifcfg_eth0_file]
+    FILE = ["assets/ifcfg-eth0"]
+    argument = []
+    argument = load_asset_files(argument, FILE)
 
     container = lxc.Container(container_name)
     container.start()
