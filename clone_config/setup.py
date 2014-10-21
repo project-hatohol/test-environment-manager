@@ -262,7 +262,7 @@ def run_setup_redmine(argument):
     send_data = json.dumps(project_data)
 
     for (path, data) in file_path_and_data:
-        write_data_to_file(path, data)
+        write_data_to_file(data, path)
 
     subprocess.call(["sh", "setting_command.sh"])
 
