@@ -97,6 +97,8 @@ def execute_in_container(container_name, func_name, func_arg):
 
 
 if __name__ == '__main__':
+    utils.exit_if_user_run_this_as_general_user()
+
     setting_dict = create_setting_dict(yaml_path = sys.argv[1])
     path_dict = create_path_dict(setting_dict)
     for key in path_dict.keys():
