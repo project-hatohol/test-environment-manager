@@ -266,7 +266,7 @@ def run_setup_redmine(argument):
 
     project_info = argument[0]
     project_data = {"project": {"name": project_info["project_name"],
-                      "identifier": project_info["project_id"]}}
+                                "identifier": project_info["project_id"]}}
 
     send_data = json.dumps(project_data)
 
