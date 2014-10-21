@@ -12,11 +12,11 @@ TIMEOUT_VALUE = 30
 ZABBIX_SERVER_ADDRESS = "http://127.0.0.1/zabbix/api_jsonrpc.php"
 ZABBIX_API_HEADER = {"content-type": "application/json"}
 
-ZABBIX_CONF_SERVER_PATH = "/etc/zabbix/zabbix_server.conf"
-ZABBIX_CONF_HTTPD_PATH = "/etc/httpd/conf.d/zabbix.conf"
-ZABBIX_CONF_PHP_PATH = "/etc/zabbix/web/zabbix.conf.php"
+ZABBIX_CONF_SERVER_PATH = {"CONFIG": "/etc/zabbix/zabbix_server.conf",
+                           "DAEMON": "/etc/httpd/conf.d/zabbix.conf",
+                           "PHP": "/etc/zabbix/web/zabbix.conf.php"}
 
-ZABBIX_CONF_FILE_PATH = "/etc/zabbix/zabbix_agentd.conf"
+ZABBIX_CONF_AGENT_PATH = {"CONFIG":"/etc/zabbix/zabbix_agentd.conf"}
 
 NAGIOS3_LIST_OF_PATH = {"CONFIG": "/etc/nagios/nagios.cfg",
                         "COMMANDS": "/etc/nagios/objects/commands.cfg",
@@ -32,12 +32,12 @@ NAGIOS4_LIST_OF_PATH = {"CONFIG": "/usr/local/nagios/etc/nagios.cfg",
                         "CGI": "/usr/local/nagios/etc/cgi.cfg",
                         "NDO2DB": "/usr/local/nagios/etc/ndo2db.cfg"}
 
-NRPE_FILE_PATH = "/etc/nagios/nrpe.cfg"
+NRPE_FILE_PATH = {"CONFIG": "/etc/nagios/nrpe.cfg"}
 
-REDMINE_LIST_OF_PATH = ["/var/lib/redmine/config/database.yml",
-                        "/var/lib/redmine/config/configuration.yml",
-                        "/var/lib/redmine/my_setting",
-                        "/var/lib/redmine/setting_command.sh"]
+REDMINE_LIST_OF_PATH = {"DATABASE": "/var/lib/redmine/config/database.yml",
+                        "CONFIG": "/var/lib/redmine/config/configuration.yml",
+                        "MYSQL": "/var/lib/redmine/my_setting",
+                        "SHELL": "/var/lib/redmine/setting_command.sh"}
 
-TD_AGENT_FILE_PATH = "/etc/td-agent/td-agent.conf"
+TD_AGENT_FILE_PATH = {"CONFIG": "/etc/td-agent/td-agent.conf"}
 
