@@ -13,7 +13,7 @@ ZABBIX_SERVER_ADDRESS = "http://127.0.0.1/zabbix/api_jsonrpc.php"
 ZABBIX_API_HEADER = {"content-type": "application/json"}
 
 ZBX_SRV_PATH = {"CONFIG": "/etc/zabbix/zabbix_server.conf",
-                "DAEMON": "/etc/httpd/conf.d/zabbix.conf",
+                "HTTPD": "/etc/httpd/conf.d/zabbix.conf",
                 "PHP": "/etc/zabbix/web/zabbix.conf.php"}
 
 ZBX_AGT_PATH = {"CONFIG":"/etc/zabbix/zabbix_agentd.conf"}
