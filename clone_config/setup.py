@@ -443,6 +443,8 @@ def start_setup_containers(yaml_file_path):
     setup_containers(list_of_setup_containers)
     install_containers_config(list_of_container_info)
 
+    print("Finish setup container process!\n")
+
 
 if __name__ == '__main__':
     argvs = sys.argv

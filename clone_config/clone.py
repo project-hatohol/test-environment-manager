@@ -48,6 +48,8 @@ def start_clone_containers(yaml_file_path):
         get_container_name_and_base_container_name(config_info)
     clone_containers(list_of_clone_containers)
 
+    print("Finish clone container process!\n")
+
 
 if __name__ == '__main__':
     argvs = sys.argv
