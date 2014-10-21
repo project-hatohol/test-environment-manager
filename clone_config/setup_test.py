@@ -33,35 +33,38 @@ def create_setting_dict(yaml_path):
 
 def create_path_dict(setting_dict):
     path_dict = {}
-    for key in setting_dict.keys():
-        for setup_func_name in setting_dict[key]:
-            if setup_func_name == "zabbix-agent":
-                path_dict[key] = definevalue.ZABBIX_CONF_FILE_PATH
-
-            elif setup_func_name == "zabbix-server":
-                path_dict[key] = [definevalue.ZABBIX_CONF_SERVER_PATH,
-                                  definevalue.ZABBIX_CONF_HTTPD_PATH,
-                                  definevalue.ZABBIX_CONF_PHP_PATH]
-            elif setup_func_name == "nrpe":
-                path_dict[key] = definevalue.NRPE_FILE_PATH
-
-            elif setup_func_name == "redmine":
-                path_dict[key] = definevalue.REDMINE_LIST_OF_PATH
-
-            elif setup_func_name == "fluentd":
-                path_dict[key] = definevalue.TD_AGENT_FILE_PATH
-
-            elif setup_func_name == "nagios3":
-                path_dict[key] = definevalue.NAGIOS3_LIST_OF_PATH
-
-            elif setup_func_name == "nagios4":
-                path_dict[key] = definevalue.NAGIOS4_LIST_OF_PATH
-
+    for container_name in setting_dict.keys():
+        for setup_func_name in setting_dict[container_name]:
+            add_path_to_path_dict(setup_func_name, path_dict, container_name)
 
     for key in path_dict.keys():
         path_dict[key] = consolidate_path_type(path_dict[key])
 
     return path_dict
+
+
+def add_path_to_path_dict(setup_func_name, path_dict, container_name):
+    if setup_func_name == "zabbix-agent":
+        path_dict[container_name] = definevalue.ZABBIX_CONF_FILE_PATH
+
+    elif setup_func_name == "zabbix-server":
+        path_dict[container_name] = [definevalue.ZABBIX_CONF_SERVER_PATH,
+                          definevalue.ZABBIX_CONF_HTTPD_PATH,
+                          definevalue.ZABBIX_CONF_PHP_PATH]
+    elif setup_func_name == "nrpe":
+        path_dict[container_name] = definevalue.NRPE_FILE_PATH
+
+    elif setup_func_name == "redmine":
+        path_dict[container_name] = definevalue.REDMINE_LIST_OF_PATH
+
+    elif setup_func_name == "fluentd":
+        path_dict[container_name] = definevalue.TD_AGENT_FILE_PATH
+
+    elif setup_func_name == "nagios3":
+        path_dict[container_name] = definevalue.NAGIOS3_LIST_OF_PATH
+
+    elif setup_func_name == "nagios4":
+        path_dict[container_name] = definevalue.NAGIOS4_LIST_OF_PATH
 
 
 def consolidate_path_type(paths):
