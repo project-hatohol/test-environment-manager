@@ -35,9 +35,7 @@ def install_config_files_of_zabbix(zabbix_conf_server,
         if os.path.exists(path):
             os.remove(path)
 
-        install_file = open(path, "w")
-        install_file.write(content)
-        install_file.close()
+        write_data_to_file(content, path)
 
     CMDS = [["service", "httpd", "restart"],
             ["service", "zabbix-server", "restart"]]
@@ -81,7 +79,6 @@ def run_setup_zabbix_agent(argument):
     server_ip_and_host_name = argument[0]
     output_data = argument[1]
 
-    zabbix_agentd_conf = open(CONF_FILE_PATH, "w")
     SERVER_OLD = "Server=127.0.0.1"
     SERVER_NEW = "Server=" + server_ip_and_host_name["server_ipaddress"]
     SERVER_ACTIVE_OLD = "ServerActive=127.0.0.1"
@@ -93,7 +90,7 @@ def run_setup_zabbix_agent(argument):
                         [HOST_NAME_OLD, HOST_NAME_NEW]]
     for (old, new) in replace_sequence:
         output_data = output_data.replace(old, new)
-    zabbix_agentd_conf.write(output_data)
+    write_data_to_file(output_data, CONF_FILE_PATH)
 
 
 def install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
@@ -104,9 +101,7 @@ def install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
     for (data, path) in PATH:
         if os.path.exists(path):
             os.remove(path)
-        install_file = open(path, "w")
-        install_file.write(data)
-        install_file.close()
+        write_data_to_file(data, path)
 
     if os.path.exists(server_dir_path):
         shutil.rmtree(server_dir_path)
@@ -143,9 +138,7 @@ def add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
         for (old, new) in replace_points:
             output_data = output_data.replace(old, new)
 
-        host_file = open(file_name, "w")
-        host_file.write(output_data)
-        host_file.close()
+        write_data_to_file(output_data, file_name)
 
 
 def set_username_and_password_for_nagios(username, password,
@@ -158,8 +151,7 @@ def set_username_and_password_for_nagios(username, password,
 
     DEFAULT_USERNAME = "nagiosadmin"
     config_data = config_data.replace(DEFAULT_USERNAME, username)
-    config_file = open(config_file_path, "w")
-    config_file.write(config_data)
+    write_data_to_file(config_data, config_file_path)
 
     cmd = ["htpasswd", "-bc", password_file_path, username, password]
     subprocess.call(cmd)
@@ -231,11 +223,10 @@ def prepare_setup_nagios_nrpe(argument):
 
 def run_setup_nagios_nrpe(argument):
     NRPE_FILE_PATH = "/etc/nagios/nrpe.cfg"
+    nrpe_cfg_file = argument[0]
     os.remove(NRPE_FILE_PATH)
 
-    nrpe_cfg = open(NRPE_FILE_PATH, "w")
-    nrpe_cfg.write(argument[0])
-    nrpe_cfg.close()
+    write_data_to_file(nrpe_cfg_file, NRPE_FILE_PATH)
 
 
 def prepare_setup_redmine(argument):
@@ -253,9 +244,7 @@ def prepare_setup_redmine(argument):
 
 
 def create_setup_file(file_path, argument):
-    file = open(file_path, "w")
-    file.writelines(argument)
-    file.close()
+    write_data_to_file(argument, file_path, True)
 
 
 def print_request_responce(request_result):
@@ -304,11 +293,10 @@ def prepare_setup_fluentd(argument):
 
 def run_setup_fluentd(argument):
     TD_AGENT_FILE_PATH = "/etc/td-agent/td-agent.conf"
+    td_agent_conf_file = argument[0]
     os.remove(TD_AGENT_FILE_PATH)
 
-    td_agent_conf = open(TD_AGENT_FILE_PATH, "w")
-    td_agent_conf.write(argument[0])
-    td_agent_conf.close()
+    write_data_to_file(td_agent_conf_file, TD_AGENT_FILE_PATH)
 
 
 SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
@@ -388,9 +376,7 @@ def setup_containers(list_of_setup_containers):
 
 def install_monitor_group_file(container_info):
     group_file_path = container_info["container_path"] + "/group"
-    group_file = open(group_file_path, "w")
-    group_file.write(str(container_info["monitor_group"]))
-    group_file.close()
+    write_data_to_file(str(container_info["monitor_group"]), group_file_path)
 
 
 def install_container_config_file(container_info):
@@ -422,7 +408,7 @@ def install_container_config_file(container_info):
         for content in append_content:
             content_for_new_file.append(content)
 
-    open(config_file_path_tmp, "w").writelines(content_for_new_file)
+    write_data_to_file(content_for_new_file, config_file_path_tmp, True)
     os.remove(config_file_path)
     os.rename(config_file_path_tmp, config_file_path)
 
@@ -432,7 +418,7 @@ def install_ifcfg_eth0_file(argument):
     IFCFG_ETH0_PATH = "/etc/sysconfig/network-scripts/ifcfg-eth0"
 
     os.remove(IFCFG_ETH0_PATH)
-    open(IFCFG_ETH0_PATH, "w").write(ifcfg_eth0_data)
+    write_data_to_file(ifcfg_eth0_data, IFCFG_ETH0_PATH)
 
 
 def prepare_install_ifcfg_eth0_file(container_name):
