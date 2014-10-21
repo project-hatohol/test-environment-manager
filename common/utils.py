@@ -47,6 +47,14 @@ def get_config_info(yaml_file_path):
     return yaml.load(yaml_data)
 
 
+def read_data_from_file(path, lines=False):
+    with open(path) as file:
+        if not lines:
+            return file.read()
+        else:
+            return file.readlines()
+
+
 def load_asset_files(argument, list_of_files):
     for file_path in list_of_files:
         file_data = open(file_path).read()
