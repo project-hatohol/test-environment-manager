@@ -37,20 +37,16 @@ def create_path_dict(setting_dict):
         for setup_func_name in setting_dict[container_name]:
             add_path_to_path_dict(setup_func_name, path_dict, container_name)
 
-    for key in path_dict.keys():
-        path_dict[key] = consolidate_path_type(path_dict[key])
-
     return path_dict
 
 
 def add_path_to_path_dict(setup_func_name, path_dict, container_name):
     if setup_func_name == "zabbix-agent":
-        path_dict[container_name] = definevalue.ZABBIX_CONF_FILE_PATH
+        path_dict[container_name] = definevalue.ZABBIX_CONF_SERVER_PATH
 
     elif setup_func_name == "zabbix-server":
-        path_dict[container_name] = [definevalue.ZABBIX_CONF_SERVER_PATH,
-                          definevalue.ZABBIX_CONF_HTTPD_PATH,
-                          definevalue.ZABBIX_CONF_PHP_PATH]
+        path_dict[container_name] = definevalue.ZABBIX_CONF_AGENT_PATH
+
     elif setup_func_name == "nrpe":
         path_dict[container_name] = definevalue.NRPE_FILE_PATH
 
@@ -65,23 +61,6 @@ def add_path_to_path_dict(setup_func_name, path_dict, container_name):
 
     elif setup_func_name == "nagios4":
         path_dict[container_name] = definevalue.NAGIOS4_LIST_OF_PATH
-
-
-def consolidate_path_type(paths):
-    path_list = []
-
-    if isinstance(paths, str):
-        path_list.append(paths)
-
-    elif isinstance(paths, list):
-        for path in paths:
-            path_list.append(path)
-
-    elif isinstance(paths, dict):
-        for path in paths.values():
-            path_list.append(path)
-
-    return path_list
 
 
 def find_file(path):
@@ -103,5 +82,5 @@ if __name__ == '__main__':
     setting_dict = create_setting_dict(sys.argv[1])
     path_dict = create_path_dict(setting_dict)
     for key in path_dict.keys():
-        for path in path_dict[key]:
+        for path in path_dict[key].values():
             execute_in_container(key, find_file, path)
