@@ -99,5 +99,5 @@ if __name__ == '__main__':
 
     setting_dict = create_setting_dict(argvs[1])
     path_dict = create_path_dict(setting_dict)
-    for container_name in path_dict.keys():
+    for container_name in setting_dict.keys():
         check_file_exists(container_name, path_dict)
