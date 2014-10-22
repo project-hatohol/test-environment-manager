@@ -64,7 +64,7 @@ def execute_in_container(container_name, func_name, func_arg):
     container = lxc.Container(container_name)
     container.start()
 
-    container.attach_wait(find_file, func_arg)
+    container.attach_wait(func_name, func_arg)
     utils.shutdown_container(container)
 
 
