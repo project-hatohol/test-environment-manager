@@ -64,7 +64,6 @@ def find_file(path):
 def execute_in_container(container_name, func_name, func_arg):
     container = lxc.Container(container_name)
     container.start()
-    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
 
     container.attach_wait(find_file, func_arg)
 
