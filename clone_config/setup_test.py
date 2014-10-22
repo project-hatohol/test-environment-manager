@@ -60,11 +60,13 @@ def find_file(path):
     print(path + " : " + str(os.path.exists(path)))
 
 
-def execute_in_container(container_name, func_name, func_arg):
+def check_file_exists(container_name, path_dict):
+    print("%s:" % container_name)
     container = lxc.Container(container_name)
     container.start()
 
-    container.attach_wait(func_name, func_arg)
+    for path in path_dict[container_name].values():
+        container.attach_wait(find_file, path)
     utils.shutdown_container(container)
 
 
@@ -75,6 +77,5 @@ if __name__ == '__main__':
 
     setting_dict = create_setting_dict(argvs[1])
     path_dict = create_path_dict(setting_dict)
-    for key in path_dict.keys():
-        for path in path_dict[key].values():
-            execute_in_container(key, find_file, path)
+    for container_name in path_dict.keys():
+        check_file_exists(container_name, path_dict)
