@@ -4,6 +4,7 @@ import os.path
 import lxc
 import traceback
 import apport
+import subprocess
 sys.path.append("../common")
 import utils
 import definevalue
@@ -60,6 +61,14 @@ def find_file(path):
     print(path + " : " + str(os.path.exists(path)))
 
 
+def find_process(process_name):
+    popen_result = subprocess.Popen(["ps", "ax"], stdout=subprocess.PIPE)
+    stdout = popen_result.stdout.read()
+    result = process_name in stdout
+
+    print("%s: %r" % (process_name, result))
+
+
 def check_file_exists(container_name, path_dict):
     print("%s:" % container_name)
     container = lxc.Container(container_name)
@@ -68,7 +77,6 @@ def check_file_exists(container_name, path_dict):
     for path in path_dict[container_name].values():
         container.attach_wait(find_file, path)
     utils.shutdown_container(container)
-
 
 if __name__ == '__main__':
     argvs = sys.argv
