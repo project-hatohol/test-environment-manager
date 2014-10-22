@@ -41,9 +41,9 @@ def create_path_dict(setting_dict):
 
 def add_path_to_path_dict(setup_func_name, path_dict, container_name):
     if setup_func_name == "zabbix-agent":
-        path_dict[container_name] = definevalue.ZBX_SRV_PATH
-    elif setup_func_name == "zabbix-server":
         path_dict[container_name] = definevalue.ZBX_AGT_PATH
+    elif setup_func_name == "zabbix-server":
+        path_dict[container_name] = definevalue.ZBX_SRV_PATH
     elif setup_func_name == "nrpe":
         path_dict[container_name] = definevalue.NRPE_PATH
     elif setup_func_name == "redmine":
