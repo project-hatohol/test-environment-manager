@@ -40,19 +40,19 @@ def create_path_dict(setting_dict):
 
 
 def add_path_to_path_dict(setup_func_name, path_dict, container_name):
-    if setup_func_name == "zabbix-agent":
+    if setup_func_name in "zabbix-agent":
         path_dict[container_name] = definevalue.ZBX_AGT_PATH
-    elif setup_func_name == "zabbix-server":
+    elif setup_func_name in "zabbix-server":
         path_dict[container_name] = definevalue.ZBX_SRV_PATH
-    elif setup_func_name == "nrpe":
+    elif setup_func_name in "nrpe":
         path_dict[container_name] = definevalue.NRPE_PATH
-    elif setup_func_name == "redmine":
+    elif setup_func_name in "redmine":
         path_dict[container_name] = definevalue.REDMINE_PATH
-    elif setup_func_name == "fluentd":
+    elif setup_func_name in "fluentd":
         path_dict[container_name] = definevalue.TD_AGENT_PATH
-    elif setup_func_name == "nagios3":
+    elif setup_func_name in "nagios3":
         path_dict[container_name] = definevalue.NAGIOS3_PATH
-    elif setup_func_name == "nagios4":
+    elif setup_func_name in "nagios4":
         path_dict[container_name] = definevalue.NAGIOS4_PATH
 
 
