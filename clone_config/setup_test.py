@@ -66,6 +66,7 @@ def execute_in_container(container_name, func_name, func_arg):
     container.start()
 
     container.attach_wait(find_file, func_arg)
+    utils.shutdown_container(container)
 
 
 if __name__ == '__main__':
