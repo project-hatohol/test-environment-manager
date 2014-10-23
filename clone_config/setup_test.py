@@ -147,6 +147,16 @@ def check_process_exists(container_name, process_dict):
     utils.shutdown_container(container)
 
 
+def check_zabbix_hosts_exists(container_name, zabbix_hosts_dict):
+    print("%s:" % container_name)
+    container = lxc.Container(container_name)
+    container.start()
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container.attach_wait(find_zabbix_hosts, zabbix_hosts_dict[container_name])
+
+    utils.shutdown_container(container)
+
+
 if __name__ == '__main__':
     argvs = sys.argv
     utils.exit_if_user_run_this_as_general_user()
