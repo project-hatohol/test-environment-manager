@@ -116,8 +116,7 @@ def check_process_exists(container_name, process_dict):
     # when init process is running.
     time.sleep(40)
 
-    for process_name in process_dict:
-        container_attach_wait(find_process, process_name)
+    container.attach_wait(find_process, process_dict[container_name])
 
     utils.shutdown_container(container)
 
