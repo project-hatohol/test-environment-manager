@@ -46,7 +46,7 @@ def install_config_files_of_zabbix(zabbix_conf_server,
 def start_zabbix_api_functions(list_of_monitored_host):
     auth_token = zabbix.get_authtoken_of_zabbix_server()
 
-    zabbix_server_id = zabbix.get_zabbix_server_id(auth_token)
+    zabbix_server_id = zabbix.get_zabbix_server_id(auth_token, "Zabbix server")
     zabbix.enable_zabbix_server(zabbix_server_id, auth_token)
 
     group_id = zabbix.get_linux_servers_group_id(auth_token)
