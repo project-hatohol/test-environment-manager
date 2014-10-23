@@ -349,7 +349,7 @@ def setup_containers(list_of_setup_containers):
 
 
 def install_monitor_group_file(container_info):
-    group_file_path = container_info["container_path"] + "/group"
+    group_file_path = os.path.join(container_info["container_path"], "group")
     write_data_to_file(str(container_info["monitor_group"]), group_file_path)
 
 
