@@ -58,6 +58,32 @@ def add_path_to_path_dict(setup_func_name, path_dict, container_name):
         path_dict[container_name] = definevalue.NAGIOS4_PATH
 
 
+def add_process_name_to_path_dict(setup_func_name, process_dict, container_name):
+    if setup_func_name in "zabbix-agent":
+        process_dict[container_name] = ["zabbix_agentd"]
+    elif setup_func_name in "zabbix-server":
+        process_dict[container_name] = ["httpd", "zabbix_server", "zabbix_agentd"]
+    elif setup_func_name in "nrpe":
+        process_dict[container_name] = ["nrpe"]
+    elif setup_func_name in "redmine":
+        process_dict[container_name] = ["Passenger"]
+    elif setup_func_name in "fluentd":
+        process_dict[container_name] = ["td-agent"]
+    elif setup_func_name in "nagios3":
+        process_dict[container_name] = ["httpd", "nagios", "ndo2db"]
+    elif setup_func_name in "nagios4":
+        process_dict[container_name] = ["httpd", "nagios", "ndo2db"]
+
+
+def create_process_dict(setting_dict):
+    process_dict = {}
+    for container_name in setting_dict.keys():
+        for setup_func_name in setting_dict[container_name]:
+            add_process_name_to_path_dict(setup_func_name, process_dict,
+                                          container_name)
+
+    return process_dict
+
 def find_file(path):
     print(path + " : " + str(os.path.exists(path)))
 
@@ -99,5 +125,6 @@ if __name__ == '__main__':
 
     setting_dict = create_setting_dict(argvs[1])
     path_dict = create_path_dict(setting_dict)
+    process_dict = create_process_dict(setting_dict)
     for container_name in setting_dict.keys():
         check_file_exists(container_name, path_dict)
