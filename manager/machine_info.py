@@ -46,14 +46,13 @@ def get_group_info(info_dict, container_path):
 def get_config_info(info_dict, container_path):
     conf_lines = read_file(container_path, 'config')
     for line in conf_lines:
-        if line.find('lxc.network.ipv4') >= 0 and line.find('/') >= 0:
-            (key, address_and_mask) = line.split('=')
-            (address, mask) = address_and_mask.split('/')
-            info_dict['ip'] = address.lstrip()
+        if line.find("lxc.network.ipv4") >= 0:
+            (key, address) = line.split("=")
+            info_dict["ip"] = address.strip()
 
-        elif line.find('lxc.utsname') >= 0:
-            (key, host) = line.split('=')
-            info_dict['host'] = host.strip()
+        elif line.find("lxc.utsname") >= 0:
+            (key, host) = line.split("=")
+            info_dict["host"] = host.strip()
 
 
 def get_info_dict(container_id, container_path):
