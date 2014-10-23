@@ -92,7 +92,7 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'g':
         container_dir_path = get_container_dir_path()
         group_id_list = enum_id_list(input_argument)
-        toggle_state_for_group(enum_id_list(input_argument),
+        toggle_state_for_group(group_id_list,
                                get_container_dir_path(),
                                container_list, container_obj_list)
 
