@@ -9,6 +9,7 @@ import time
 sys.path.append("../common")
 import utils
 import definevalue
+import zabbix
 
 def add_according_key(setting_dict, container_name, setup_element_key):
     setup_functions = ["zabbix-server", "zabbix-agent", "nagios3",
@@ -109,6 +110,22 @@ def find_process(process_names):
         for process_name in process_names:
             result = process_name in output
             print("Process %s: %r" % (process_name, result))
+
+
+def find_zabbix_hosts(list_of_host_name):
+    CMDS = [["service", "httpd", "start"],
+            ["service", "zabbix-server", "start"]]
+    for run_command in CMDS:
+        subprocess.call(run_command)
+
+    auth_token = zabbix.get_authtoken_of_zabbix_server()
+
+    for info in list_of_host_name:
+        host_id = zabbix.get_zabbix_server_id(auth_token, info["host"])
+        if not host_id:
+            print("Host %s: False" % info["host"])
+        else:
+            print("Host %s: True" % info["host"])
 
 
 def check_file_exists(container_name, path_dict):
