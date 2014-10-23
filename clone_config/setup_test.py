@@ -8,6 +8,7 @@ import subprocess
 import time
 import json
 import requests
+import mysql.connector
 sys.path.append("../common")
 import utils
 import definevalue
@@ -154,6 +155,35 @@ def find_zabbix_hosts(list_of_host_name):
             print("Host %s: False" % info["host"])
         else:
             print("Host %s: True" % info["host"])
+
+
+def find_nagios_hosts(list_of_host_name):
+    CMDS = [["service", "mysqld", "start"],
+            ["service", "nagios", "start"],
+            ["service", "ndo2db", "start"]]
+    for run_command in CMDS:
+        subprocess.call(run_command)
+
+    connector = mysql.connector.connect(db="ndoutils",
+                                    user="ndoutils",
+                                    password="admin")
+    cur = connector.cursor()
+    cur.execute("SELECT display_name, address FROM nagios_hosts")
+    rows = cur.fetchall()
+    for host_name_and_ip in list_of_host_name:
+        result = False
+        for row in rows:
+            if (host_name_and_ip["host"] == row[0] and
+                    host_name_and_ip["ip"] == row[1]):
+                print("Host %s: True" % host_name_and_ip["host"])
+                result = True
+
+        if not result:
+            print("Host %s: False" % host_name_and_ip["host"])
+
+
+    cur.close()
+    connector.close()
 
 
 def find_redmine_project(info_of_project):
