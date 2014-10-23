@@ -88,12 +88,14 @@ def find_file(path):
     print(path + " : " + str(os.path.exists(path)))
 
 
-def find_process(process_name):
-    popen_result = subprocess.Popen(["ps", "ax"], stdout=subprocess.PIPE)
-    stdout = popen_result.stdout.read()
-    result = process_name in stdout
-
-    print("%s: %r" % (process_name, result))
+def find_process(process_names):
+    with subprocess.Popen(["ps", "ax"],
+                          stdout=subprocess.PIPE,
+                          universal_newlines=True) as proc:
+        output = proc.stdout.read()
+        for process_name in process_names:
+            result = process_name in output
+            print("Process %s: %r" % (process_name, result))
 
 
 def check_file_exists(container_name, path_dict):
