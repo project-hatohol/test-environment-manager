@@ -228,6 +228,16 @@ def check_zabbix_hosts_exists(container_name, zabbix_hosts_dict):
     utils.shutdown_container(container)
 
 
+def check_nagios_hosts_exists(container_name, nagios_hosts_dict):
+    print("%s:" % container_name)
+    container = lxc.Container(container_name)
+    container.start()
+    container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
+    container.attach_wait(find_nagios_hosts, nagios_hosts_dict[container_name])
+
+    utils.shutdown_container(container)
+
+
 def check_redmine_project_exists(container_name, redmine_project_dict):
     print("%s:" % container_name)
     container = lxc.Container(container_name)
