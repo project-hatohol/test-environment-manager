@@ -184,7 +184,8 @@ def get_commands_to_install_nagios_server4():
 
 
 def get_commands_to_install_nagios_nrpe():
-    CMDS = [['yum', 'install', '-y', 'nagios-plugins-all', 'nrpe']]
+    CMDS = [["yum", "install", "-y", "nagios-plugins-all", "nrpe"],
+            ["chkconfig", "nrpe", "on"]]
 
     return CMDS
 
