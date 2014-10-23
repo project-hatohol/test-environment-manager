@@ -21,10 +21,8 @@ def add_according_key(setting_dict, container_name, setup_element_key):
             setting_dict[container_name] = [setup_element_key]
 
 
-def create_setting_dict(yaml_path):
+def create_setting_dict(config_info):
     setting_dict = {}
-    config_info = utils.get_config_info(yaml_path)
-
     for container_name in config_info.keys():
         for setup_element_key in config_info[container_name].keys():
             add_according_key(setting_dict, container_name, setup_element_key)
@@ -126,7 +124,8 @@ if __name__ == '__main__':
     utils.exit_if_user_run_this_as_general_user()
     utils.exit_if_argument_is_not_given(len(argvs))
 
-    setting_dict = create_setting_dict(argvs[1])
+    config_info = utils.get_config_info(argvs[1])
+    setting_dict = create_setting_dict(config_info)
     path_dict = create_path_dict(setting_dict)
     process_dict = create_process_dict(setting_dict)
     for container_name in setting_dict.keys():
