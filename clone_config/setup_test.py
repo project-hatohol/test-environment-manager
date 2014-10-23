@@ -94,6 +94,19 @@ def create_zabbix_hosts_dict(config_info):
     return hosts_dict
 
 
+def create_redmine_project_dict(config_info):
+    project_dict = {}
+    for container_name in config_info.keys():
+        if "redmine" in config_info[container_name].keys():
+            project_dict[container_name] = {}
+            project_dict[container_name]["project_name"] = \
+                config_info[container_name]["redmine"]["project_name"]
+            project_dict[container_name]["project_id"] = \
+                config_info[container_name]["redmine"]["project_id"]
+
+    return project_dict
+
+
 def find_file(path):
     print(path + " : " + str(os.path.exists(path)))
 
