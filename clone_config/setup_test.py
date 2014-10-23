@@ -83,6 +83,16 @@ def create_process_dict(setting_dict):
     return process_dict
 
 
+def create_zabbix_hosts_dict(config_info):
+    hosts_dict = {}
+    for container_name in config_info.keys():
+        if "zabbix-server" in config_info[container_name].keys():
+            hosts_dict[container_name] =\
+                config_info[container_name]["zabbix-server"]["target"]
+
+    return hosts_dict
+
+
 def find_file(path):
     print(path + " : " + str(os.path.exists(path)))
 
@@ -129,6 +139,7 @@ if __name__ == '__main__':
     setting_dict = create_setting_dict(config_info)
     path_dict = create_path_dict(setting_dict)
     process_dict = create_process_dict(setting_dict)
+    zabbix_hosts_dict = create_zabbix_hosts_dict(config_info)
     for container_name in setting_dict.keys():
         check_file_exists(container_name, path_dict)
         check_process_exists(container_name, process_dict)
