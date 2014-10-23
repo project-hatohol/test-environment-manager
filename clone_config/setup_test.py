@@ -112,7 +112,9 @@ def check_process_exists(container_name, process_dict):
     print("%s:" % container_name)
     container = lxc.Container(container_name)
     container.start()
-    time.sleep(10)
+    # If this value isn't provided, find_process function shows processes
+    # when init process is running.
+    time.sleep(40)
 
     for process_name in process_dict:
         container_attach_wait(find_process, process_name)
