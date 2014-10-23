@@ -38,8 +38,10 @@ def get_id_info(info_dict, container_id):
 
 
 def get_group_info(info_dict, container_path):
-    info_dict['group'] = read_file(container_path, 'group')[0].rstrip()
-
+    if os.path.exists(container_path + "group"):
+        info_dict["group"] = read_file(container_path, "group")[0].rstrip()
+    else:
+        info_dict["group"] = "N/A"
 
 def get_config_info(info_dict, container_path):
     conf_lines = read_file(container_path, 'config')
