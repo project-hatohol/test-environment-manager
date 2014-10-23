@@ -84,7 +84,10 @@ def get_zabbix_server_id(auth_token, host_name):
                     "jsonrpc": "2.0"}
     response_json = send_data_and_get_response(SEND_CONTENT)
 
-    return response_json["result"][0]["hostid"]
+    if len(response_json["result"]) == 0:
+        return False
+    else:
+        return response_json["result"][0]["hostid"]
 
 
 def enable_zabbix_server(server_id, auth_token):
