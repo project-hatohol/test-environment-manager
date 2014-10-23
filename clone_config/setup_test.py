@@ -89,6 +89,10 @@ def find_file(path):
 
 
 def find_process(process_names):
+    # If this value isn't provided, find_process function shows processes
+    # when init process is running.
+    time.sleep(40)
+
     with subprocess.Popen(["ps", "ax"],
                           stdout=subprocess.PIPE,
                           universal_newlines=True) as proc:
@@ -112,10 +116,6 @@ def check_process_exists(container_name, process_dict):
     print("%s:" % container_name)
     container = lxc.Container(container_name)
     container.start()
-    # If this value isn't provided, find_process function shows processes
-    # when init process is running.
-    time.sleep(40)
-
     container.attach_wait(find_process, process_dict[container_name])
 
     utils.shutdown_container(container)
