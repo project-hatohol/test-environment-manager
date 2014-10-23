@@ -96,6 +96,19 @@ def create_zabbix_hosts_dict(config_info):
     return hosts_dict
 
 
+def create_nagios_hosts_dict(config_info):
+    hosts_dict = {}
+    for container_name in config_info.keys():
+        if "nagios3" in config_info[container_name].keys():
+            hosts_dict[container_name] =\
+                config_info[container_name]["nagios3"]["target"]
+        elif "nagios4" in config_info[container_name].keys():
+            hosts_dict[container_name] =\
+                config_info[container_name]["nagios4"]["target"]
+
+    return hosts_dict
+
+
 def create_redmine_project_dict(config_info):
     project_dict = {}
     for container_name in config_info.keys():
