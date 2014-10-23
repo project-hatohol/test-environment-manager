@@ -258,6 +258,14 @@ if __name__ == '__main__':
     path_dict = create_path_dict(setting_dict)
     process_dict = create_process_dict(setting_dict)
     zabbix_hosts_dict = create_zabbix_hosts_dict(config_info)
+    nagios_hosts_dict = create_nagios_hosts_dict(config_info)
+    redmine_project_dict = create_redmine_project_dict(config_info)
     for container_name in setting_dict.keys():
         check_file_exists(container_name, path_dict)
         check_process_exists(container_name, process_dict)
+    for container_name in zabbix_hosts_dict:
+        check_zabbix_hosts_exists(container_name, zabbix_hosts_dict)
+    for container_name in redmine_project_dict:
+        check_redmine_project_exists(container_name, redmine_project_dict)
+    for container_name in nagios_hosts_dict:
+        check_nagios_hosts_exists(container_name, nagios_hosts_dict)
