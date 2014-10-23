@@ -6,6 +6,8 @@ import traceback
 import apport
 import subprocess
 import time
+import json
+import requests
 sys.path.append("../common")
 import utils
 import definevalue
@@ -139,6 +141,19 @@ def find_zabbix_hosts(list_of_host_name):
             print("Host %s: False" % info["host"])
         else:
             print("Host %s: True" % info["host"])
+
+
+def find_redmine_project(info_of_project):
+    subprocess.call(["service", "httpd", "start"])
+
+    send_data = json.dumps(info_of_project)
+    request_result = requests.get("http://127.0.0.1/projects.json",
+                                  data=send_data,
+                                  headers={"Content-Type": "application/json"},
+                                  auth=("admin", "admin"))
+
+    return_result = request_result.status_code == 200
+    print("Project: %r" % return_result)
 
 
 def check_file_exists(container_name, path_dict):
