@@ -54,6 +54,10 @@ def get_config_info(info_dict, container_path):
             (key, host) = line.split("=")
             info_dict["host"] = host.strip()
 
+        else:
+            info_dict["ip"] = "not defined"
+            info_dict["host"] = "not defined"
+
 
 def get_info_dict(container_id, container_path):
     info_dict = {}
