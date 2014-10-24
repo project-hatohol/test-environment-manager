@@ -124,11 +124,13 @@ def create_redmine_project_dict(config_info):
 
 
 def find_file(path_dict):
+    print("Check files:")
     for path in path_dict.values():
         print(path + " : " + str(os.path.exists(path)))
 
 
 def find_process(process_names):
+    print("Check processes:")
     # If this value isn't provided, find_process function shows processes
     # when init process is running.
     time.sleep(40)
@@ -143,6 +145,7 @@ def find_process(process_names):
 
 
 def find_zabbix_hosts(list_of_host_name):
+    print("Check Zabbix hosts:")
     CMDS = [["service", "httpd", "start"],
             ["service", "zabbix-server", "start"]]
     for run_command in CMDS:
@@ -159,6 +162,7 @@ def find_zabbix_hosts(list_of_host_name):
 
 
 def find_nagios_hosts(list_of_host_name):
+    print("Check Nagios hosts:")
     CMDS = [["service", "mysqld", "start"],
             ["service", "nagios", "start"],
             ["service", "ndo2db", "start"]]
@@ -188,6 +192,7 @@ def find_nagios_hosts(list_of_host_name):
 
 
 def find_redmine_project(info_of_project):
+    print("Check Redmine projects:")
     subprocess.call(["service", "httpd", "start"])
 
     send_data = json.dumps(info_of_project)
@@ -205,7 +210,7 @@ def start_find_process(container_name, function_name, info_of_check_item):
     container = lxc.Container(container_name)
     container.start()
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
-    container.attach_wait(function_name, info_of_check_item[container_name])
+    container.attach_wait(function_name, info_of_check_item)
 
     utils.shutdown_container(container)
 
@@ -220,14 +225,19 @@ def start_setup_test(yaml_file_path):
     redmine_project_dict = create_redmine_project_dict(config_info)
 
     for container_name in setting_dict.keys():
-        start_find_process(container_name, find_file, path_dict)
-        start_find_process(container_name, find_process, process_dict)
+        start_find_process(container_name, find_file,
+                           path_dict[container_name])
+        start_find_process(container_name, find_process,
+                           process_dict[container_name])
     for container_name in zabbix_hosts_dict:
-        start_find_process(container_name, find_zabbix_hosts, zabbix_hosts_dict)
+        start_find_process(container_name, find_zabbix_hosts,
+                           zabbix_hosts_dict[container_name])
     for container_name in redmine_project_dict:
-        start_find_process(container_name, find_redmine_project, redmine_project_dict)
+        start_find_process(container_name, find_redmine_project,
+                           redmine_project_dict[container_name])
     for container_name in nagios_hosts_dict:
-        start_find_process(container_name, find_nagios_hosts, nagios_hosts_dict)
+        start_find_process(container_name, find_nagios_hosts,
+                           nagios_hosts_dict[container_name])
 
 
 if __name__ == '__main__':
