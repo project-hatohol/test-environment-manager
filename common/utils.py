@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import sys
 import os
-import yaml
 import definevalue
 
 def exit_if_argument_is_not_given(number_of_argument):
@@ -40,37 +39,3 @@ def shutdown_container(container):
     print_new_line()
     if not container.shutdown(definevalue.TIMEOUT_VALUE):
         container.stop()
-
-
-def get_config_info(yaml_file_path):
-    yaml_data = open(yaml_file_path).read()
-    return yaml.load(yaml_data)
-
-
-def read_data_from_file(path, lines=False):
-    with open(path) as file:
-        if not lines:
-            return file.read()
-        else:
-            return file.readlines()
-
-
-def load_asset_files(argument, list_of_files):
-    for file_path in list_of_files:
-        file_data = read_data_from_file(file_path)
-        argument.append(file_data)
-
-    return argument
-
-
-def write_data_to_file(data, path, lines=False):
-    with open(path, "w") as file:
-        if not lines:
-            file.write(data)
-        else:
-            file.writelines(data)
-
-
-def remove_file_if_exists(path):
-    if os.path.exists(path):
-        os.remove(path)
