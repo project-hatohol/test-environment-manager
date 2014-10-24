@@ -9,7 +9,7 @@ import requests
 import json
 import apport
 import encodings.idna
-sys.path.append("../common")
+sys.path.append('../common')
 import definevalue
 from utils import *
 import clone
@@ -17,8 +17,8 @@ import zabbix
 
 
 def prepare_setup_zabbix_server(argument):
-    FILES = ["assets/zabbix_server.conf", "assets/zabbix.conf",
-             "assets/zabbix.conf.php"]
+    FILES = ['assets/zabbix_server.conf', 'assets/zabbix.conf',
+             'assets/zabbix.conf.php']
     argument = load_asset_files(argument, FILES)
     return argument
 
@@ -26,19 +26,19 @@ def prepare_setup_zabbix_server(argument):
 def install_config_files_of_zabbix(zabbix_conf_server,
                                    zabbix_conf_httpd,
                                    zabbix_conf_php):
-    ZABBIX_CONF_SERVER_PATH = "/etc/zabbix/zabbix_server.conf"
-    ZABBIX_CONF_HTTPD_PATH = "/etc/httpd/conf.d/zabbix.conf"
-    ZABBIX_CONF_PHP_PATH = "/etc/zabbix/web/zabbix.conf.php"
-    INSTALL_FILES = [[definevalue.ZBX_SRV_PATH["CONFIG"], zabbix_conf_server],
-                     [definevalue.ZBX_SRV_PATH["HTTPD"], zabbix_conf_httpd],
-                     [definevalue.ZBX_SRV_PATH["PHP"], zabbix_conf_php]]
+    ZABBIX_CONF_SERVER_PATH = '/etc/zabbix/zabbix_server.conf'
+    ZABBIX_CONF_HTTPD_PATH = '/etc/httpd/conf.d/zabbix.conf'
+    ZABBIX_CONF_PHP_PATH = '/etc/zabbix/web/zabbix.conf.php'
+    INSTALL_FILES = [[definevalue.ZBX_SRV_PATH['CONFIG'], zabbix_conf_server],
+                     [definevalue.ZBX_SRV_PATH['HTTPD'], zabbix_conf_httpd],
+                     [definevalue.ZBX_SRV_PATH['PHP'], zabbix_conf_php]]
     for (path, content) in INSTALL_FILES:
         remove_file_if_exists(path)
 
         write_data_to_file(content, path)
 
-    CMDS = [["service", "httpd", "restart"],
-            ["service", "zabbix-server", "restart"]]
+    CMDS = [['service', 'httpd', 'restart'],
+            ['service', 'zabbix-server', 'restart']]
     for run_command in CMDS:
         subprocess.call(run_command)
 
@@ -46,7 +46,7 @@ def install_config_files_of_zabbix(zabbix_conf_server,
 def start_zabbix_api_functions(list_of_monitored_host):
     auth_token = zabbix.get_authtoken_of_zabbix_server()
 
-    zabbix_server_id = zabbix.get_zabbix_server_id(auth_token, "Zabbix server")
+    zabbix_server_id = zabbix.get_zabbix_server_id(auth_token, 'Zabbix server')
     zabbix.enable_zabbix_server(zabbix_server_id, auth_token)
 
     group_id = zabbix.get_linux_servers_group_id(auth_token)
@@ -56,7 +56,7 @@ def start_zabbix_api_functions(list_of_monitored_host):
 
 
 def run_setup_zabbix_server(argument):
-    list_of_monitored_host = argument[0]["target"]
+    list_of_monitored_host = argument[0]['target']
     zabbix_conf_server = argument[1]
     zabbix_conf_httpd = argument[2]
     zabbix_conf_php = argument[3]
@@ -67,29 +67,29 @@ def run_setup_zabbix_server(argument):
 
 
 def prepare_setup_zabbix_agent(argument):
-    FILES = ["assets/zabbix_agentd.conf"]
+    FILES = ['assets/zabbix_agentd.conf']
     argument = load_asset_files(argument, FILES)
     return argument
 
 
 def run_setup_zabbix_agent(argument):
-    remove_file_if_exists(definevalue.ZBX_AGT_PATH["CONFIG"])
+    remove_file_if_exists(definevalue.ZBX_AGT_PATH['CONFIG'])
 
     server_ip_and_host_name = argument[0]
     output_data = argument[1]
 
-    SERVER_OLD = "Server=127.0.0.1"
-    SERVER_NEW = "Server=" + server_ip_and_host_name["server_ipaddress"]
-    SERVER_ACTIVE_OLD = "ServerActive=127.0.0.1"
-    SERVER_ACTIVE_NEW = "Server=" + server_ip_and_host_name["server_ipaddress"]
-    HOST_NAME_OLD = "Hostname=Zabbix server"
-    HOST_NAME_NEW = "Hostname=" + server_ip_and_host_name["host_name"]
+    SERVER_OLD = 'Server=127.0.0.1'
+    SERVER_NEW = 'Server=' + server_ip_and_host_name['server_ipaddress']
+    SERVER_ACTIVE_OLD = 'ServerActive=127.0.0.1'
+    SERVER_ACTIVE_NEW = 'Server=' + server_ip_and_host_name['server_ipaddress']
+    HOST_NAME_OLD = 'Hostname=Zabbix server'
+    HOST_NAME_NEW = 'Hostname=' + server_ip_and_host_name['host_name']
     replace_sequence = [[SERVER_OLD, SERVER_NEW],
                         [SERVER_ACTIVE_OLD, SERVER_ACTIVE_NEW],
                         [HOST_NAME_OLD, HOST_NAME_NEW]]
     for (old, new) in replace_sequence:
         output_data = output_data.replace(old, new)
-    write_data_to_file(output_data, definevalue.ZBX_AGT_PATH["CONFIG"])
+    write_data_to_file(output_data, definevalue.ZBX_AGT_PATH['CONFIG'])
 
 
 def install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
@@ -109,22 +109,22 @@ def install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
 
 def add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
                                      server_path):
-    EXTENSION = ".cfg"
-    HOST_NAME_DEFAULT_HOST = "        host_name               host_name"
-    HOST_NAME_PREFIX_HOST = "        host_name               "
+    EXTENSION = '.cfg'
+    HOST_NAME_DEFAULT_HOST = '        host_name               host_name'
+    HOST_NAME_PREFIX_HOST = '        host_name               '
     HOST_NAME_DEFAULT_SERVICE = \
-        "        host_name                       host_name"
+        '        host_name                       host_name'
     HOST_NAME_PREFIX_SERVICE = \
-        "        host_name                       "
-    ALIAS_DEFAULT = "alias                   host_name"
-    ALIAS_PREFIX = "alias                   "
-    ADDRESS_DEFAULT = "address                 127.0.0.1"
-    ADDRESS_PREFIX = "address                 "
+        '        host_name                       '
+    ALIAS_DEFAULT = 'alias                   host_name'
+    ALIAS_PREFIX = 'alias                   '
+    ADDRESS_DEFAULT = 'address                 127.0.0.1'
+    ADDRESS_PREFIX = 'address                 '
 
     for monitored_info in list_of_monitored_host:
         output_data = host_data
-        ip_address = monitored_info["ip"]
-        host_name = monitored_info["host"]
+        ip_address = monitored_info['ip']
+        host_name = monitored_info['host']
         file_name = server_path + host_name + EXTENSION
 
         replace_points = [[HOST_NAME_DEFAULT_HOST,
@@ -146,18 +146,18 @@ def set_username_and_password_for_nagios(username, password,
     for file_path in FILES:
         remove_file_if_exists(password_file_path)
 
-    DEFAULT_USERNAME = "nagiosadmin"
+    DEFAULT_USERNAME = 'nagiosadmin'
     config_data = config_data.replace(DEFAULT_USERNAME, username)
     write_data_to_file(config_data, config_file_path)
 
-    cmd = ["htpasswd", "-bc", password_file_path, username, password]
+    cmd = ['htpasswd', '-bc', password_file_path, username, password]
     subprocess.call(cmd)
 
 
 def run_setup_for_nagios_server(argument, list_of_path):
-    list_of_monitored_host = argument[0]["target"]
-    username = argument[0]["username"]
-    password = argument[0]["password"]
+    list_of_monitored_host = argument[0]['target']
+    username = argument[0]['username']
+    password = argument[0]['password']
     config_data = argument[1]
     host_data = argument[2]
     commands_data = argument[3]
@@ -165,21 +165,21 @@ def run_setup_for_nagios_server(argument, list_of_path):
     ndo2db_data = argument[5]
 
     install_config_file_for_nagios(config_data, commands_data, ndo2db_data,
-                                   list_of_path["CONFIG"],
-                                   list_of_path["COMMANDS"],
-                                   list_of_path["NDO2DB"],
-                                   list_of_path["SERVER_DIR"])
+                                   list_of_path['CONFIG'],
+                                   list_of_path['COMMANDS'],
+                                   list_of_path['NDO2DB'],
+                                   list_of_path['SERVER_DIR'])
     add_hosts_files_to_nagios_server(list_of_monitored_host, host_data,
-                                     list_of_path["SERVER_DIR"])
+                                     list_of_path['SERVER_DIR'])
     set_username_and_password_for_nagios(username, password, cgi_data,
-                                         list_of_path["CGI"],
-                                         list_of_path["PASSWORD"])
+                                         list_of_path['CGI'],
+                                         list_of_path['PASSWORD'])
 
 
 def prepare_setup_nagios_server3(argument):
-    FILES = ["assets/nagios3.cfg", "assets/host_name.cfg",
-             "assets/commands3.cfg", "assets/cgi3.cfg",
-             "assets/ndo2db3.cfg"]
+    FILES = ['assets/nagios3.cfg', 'assets/host_name.cfg',
+             'assets/commands3.cfg', 'assets/cgi3.cfg',
+             'assets/ndo2db3.cfg']
     argument = load_asset_files(argument, FILES)
     return argument
 
@@ -189,9 +189,9 @@ def run_setup_nagios_server3(argument):
 
 
 def prepare_setup_nagios_server4(argument):
-    FILES = ["assets/nagios4.cfg", "assets/host_name.cfg",
-             "assets/commands3.cfg", "assets/cgi4.cfg",
-             "assets/ndo2db4.cfg"]
+    FILES = ['assets/nagios4.cfg', 'assets/host_name.cfg',
+             'assets/commands3.cfg', 'assets/cgi4.cfg',
+             'assets/ndo2db4.cfg']
     argument = load_asset_files(argument, FILES)
     return argument
 
@@ -201,46 +201,46 @@ def run_setup_nagios_server4(argument):
 
 
 def prepare_setup_nagios_nrpe(argument):
-    FILES = ["assets/nrpe.cfg"]
+    FILES = ['assets/nrpe.cfg']
     argument = load_asset_files(argument, FILES)
     return argument
 
 
 def run_setup_nagios_nrpe(argument):
     nrpe_cfg_file = argument[0]
-    remove_file_if_exists(definevalue.NRPE_PATH["CONFIG"])
+    remove_file_if_exists(definevalue.NRPE_PATH['CONFIG'])
 
-    write_data_to_file(nrpe_cfg_file, definevalue.NRPE_PATH["CONFIG"])
+    write_data_to_file(nrpe_cfg_file, definevalue.NRPE_PATH['CONFIG'])
 
 
 def prepare_setup_redmine(argument):
-    FILES = ["assets/database.yml", "assets/configuration.yml",
-             "assets/my_setting", "assets/setting_command.sh"]
+    FILES = ['assets/database.yml', 'assets/configuration.yml',
+             'assets/my_setting', 'assets/setting_command.sh']
     argument = load_asset_files(argument, FILES)
     return argument
 
 
 def print_request_responce(request_result):
     if request_result.status_code == 201:
-        print("Successed to create a new project")
+        print('Successed to create a new project')
 
     else:
-        print("Failed to create a new project.")
-        print(request_result.text + "\n")
+        print('Failed to create a new project.')
+        print(request_result.text + '\n')
 
 
 def run_setup_redmine(argument):
-    os.chdir("/var/lib/redmine")
+    os.chdir('/var/lib/redmine')
 
     file_path_and_data = \
-        [[definevalue.REDMINE_PATH["DATABASE"], argument[1]],
-         [definevalue.REDMINE_PATH["CONFIG"], argument[2]],
-         [definevalue.REDMINE_PATH["MYSQL"], argument[3]],
-         [definevalue.REDMINE_PATH["SHELL"], argument[4]]]
+        [[definevalue.REDMINE_PATH['DATABASE'], argument[1]],
+         [definevalue.REDMINE_PATH['CONFIG'], argument[2]],
+         [definevalue.REDMINE_PATH['MYSQL'], argument[3]],
+         [definevalue.REDMINE_PATH['SHELL'], argument[4]]]
 
     project_info = argument[0]
-    project_data = {"project": {"name": project_info["project_name"],
-                                "identifier": project_info["project_id"]}}
+    project_data = {'project': {'name': project_info['project_name'],
+                                'identifier': project_info['project_id']}}
 
     send_data = json.dumps(project_data)
 
@@ -248,7 +248,7 @@ def run_setup_redmine(argument):
         remove_file_if_exists(path)
         write_data_to_file(data, path)
 
-    CMDS = [["sh", "setting_command.sh"], ["service", "httpd", "restart"]]
+    CMDS = [['sh', 'setting_command.sh'], ['service', 'httpd', 'restart']]
     for cmd in CMDS:
         subprocess.call(cmd)
 
@@ -260,26 +260,26 @@ def run_setup_redmine(argument):
 
 
 def prepare_setup_fluentd(argument):
-    FILES = ["assets/td-agent.conf"]
+    FILES = ['assets/td-agent.conf']
     argument = load_asset_files(argument, FILES)
     return argument
 
 
 def run_setup_fluentd(argument):
     td_agent_conf_file = argument[0]
-    remove_file_if_exists(definevalue.TD_AGENT_PATH["CONFIG"])
+    remove_file_if_exists(definevalue.TD_AGENT_PATH['CONFIG'])
 
     write_data_to_file(td_agent_conf_file,
-                       definevalue.TD_AGENT_PATH["CONFIG"])
+                       definevalue.TD_AGENT_PATH['CONFIG'])
 
 
-SETUP_FUNCTIONS = {"zabbix-server": run_setup_zabbix_server,
-                   "zabbix-agent": run_setup_zabbix_agent,
-                   "nagios3": run_setup_nagios_server3,
-                   "nagios4": run_setup_nagios_server4,
-                   "nrpe": run_setup_nagios_nrpe,
-                   "redmine": run_setup_redmine,
-                   "fluentd": run_setup_fluentd}
+SETUP_FUNCTIONS = {'zabbix-server': run_setup_zabbix_server,
+                   'zabbix-agent': run_setup_zabbix_agent,
+                   'nagios3': run_setup_nagios_server3,
+                   'nagios4': run_setup_nagios_server4,
+                   'nrpe': run_setup_nagios_nrpe,
+                   'redmine': run_setup_redmine,
+                   'fluentd': run_setup_fluentd}
 
 PREPARE_FUNCTIONS = {run_setup_zabbix_server: prepare_setup_zabbix_server,
                      run_setup_zabbix_agent: prepare_setup_zabbix_agent,
@@ -312,7 +312,7 @@ def get_container_info(info_of_container, list_of_key_in_info):
     return_info = {}
     for key_in_info in list_of_key_in_info:
         if (key_in_info not in list_of_setup_function and
-                key_in_info not in "base_container"):
+                key_in_info not in 'base_container'):
             return_info[key_in_info] = info_of_container[key_in_info]
 
     return return_info
@@ -332,7 +332,7 @@ def get_container_name_and_info(config_info, get_function_name):
 
 
 def setup_container(container_name, run_function_names):
-    print("Start setup process: %s" % container_name)
+    print('Start setup process: %s' % container_name)
     container = lxc.Container(container_name)
     container.start()
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
@@ -350,19 +350,19 @@ def setup_containers(list_of_setup_containers):
 
 
 def install_monitor_group_file(container_info):
-    group_file_path = os.path.join(container_info["container_path"], "group")
-    write_data_to_file(str(container_info["monitor_group"]), group_file_path)
+    group_file_path = os.path.join(container_info['container_path'], 'group')
+    write_data_to_file(str(container_info['monitor_group']), group_file_path)
 
 
 def install_container_config_file(container_info):
-    config_file_path = os.path.join(container_info["container_path"], "config")
-    config_file_path_tmp = config_file_path + ".tmp"
-    IPV4_SETTING_KEY = "lxc.network.ipv4 = "
-    START_AUTO_SETTING_KEY = "lxc.start.auto = "
+    config_file_path = os.path.join(container_info['container_path'], 'config')
+    config_file_path_tmp = config_file_path + '.tmp'
+    IPV4_SETTING_KEY = 'lxc.network.ipv4 = '
+    START_AUTO_SETTING_KEY = 'lxc.start.auto = '
     ipv4_setting_value = \
-        IPV4_SETTING_KEY + container_info["ip_address"] + "\n"
+        IPV4_SETTING_KEY + container_info['ip_address'] + '\n'
     start_auto_setting_value = \
-        START_AUTO_SETTING_KEY + str(container_info["auto_start"]) + "\n"
+        START_AUTO_SETTING_KEY + str(container_info['auto_start']) + '\n'
 
     config_file_old = read_data_from_file(config_file_path, True)
     content_for_new_file = []
@@ -390,14 +390,14 @@ def install_container_config_file(container_info):
 
 def install_ifcfg_eth0_file(argument):
     ifcfg_eth0_data = argument[0]
-    IFCFG_ETH0_PATH = "/etc/sysconfig/network-scripts/ifcfg-eth0"
+    IFCFG_ETH0_PATH = '/etc/sysconfig/network-scripts/ifcfg-eth0'
 
     remove_file_if_exists(IFCFG_ETH0_PATH)
     write_data_to_file(ifcfg_eth0_data, IFCFG_ETH0_PATH)
 
 
 def prepare_install_ifcfg_eth0_file(container_name):
-    FILE = ["assets/ifcfg-eth0"]
+    FILE = ['assets/ifcfg-eth0']
     argument = []
     argument = load_asset_files(argument, FILE)
 
@@ -408,8 +408,8 @@ def prepare_install_ifcfg_eth0_file(container_name):
 
 
 def install_container_config(container_name, container_info):
-    print("Install config files: %s" % container_name)
-    if "monitor_group" in container_info:
+    print('Install config files: %s' % container_name)
+    if 'monitor_group' in container_info:
         install_monitor_group_file(container_info)
     install_container_config_file(container_info)
 
@@ -430,7 +430,7 @@ def start_setup_containers(yaml_file_path):
     setup_containers(list_of_setup_containers)
     install_containers_config(list_of_container_info)
 
-    print("Finish setup container process!\n")
+    print('Finish setup container process!\n')
 
 
 if __name__ == '__main__':

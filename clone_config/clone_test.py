@@ -2,7 +2,7 @@
 import lxc
 import sys
 import os
-sys.path.append("../common")
+sys.path.append('../common')
 import utils
 
 
@@ -17,9 +17,9 @@ def check_containers_ware_generated(container_list):
 
     for container_name in container_list:
         if container_name in all_container_list:
-            print(container_name + " was generated.")
+            print(container_name + ' was generated.')
         else:
-            print(container_name + " was not generated.")
+            print(container_name + ' was not generated.')
 
 
 if __name__ == '__main__':

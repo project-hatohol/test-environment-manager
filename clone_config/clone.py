@@ -3,7 +3,7 @@ import os
 import sys
 import yaml
 import lxc
-sys.path.append("../common")
+sys.path.append('../common')
 import definevalue
 from utils import *
 
@@ -25,7 +25,7 @@ def get_container_name_and_base_container_name(config_info):
 
 def clone_container(container_name, base_container_name):
     base_container = lxc.Container(base_container_name)
-    container = base_container.clone(container_name, bdevtype="aufs",
+    container = base_container.clone(container_name, bdevtype='aufs',
                                      flags=lxc.LXC_CLONE_SNAPSHOT)
     return container.defined
 
@@ -33,14 +33,14 @@ def clone_container(container_name, base_container_name):
 def clone_containers(list_for_clone_container):
     for (container_name, base_container_name) in list_for_clone_container:
         if not lxc.Container(base_container_name).defined:
-            print("Base container \"%s\" does not exist" % base_container_name)
+            print('Base container \'%s\' does not exist' % base_container_name)
             continue
         if lxc.Container(container_name).defined:
-            print("\"%s\" already exists" % container_name)
+            print('\'%s\' already exists' % container_name)
             continue
         else:
             result = clone_container(container_name, base_container_name)
-            print("Result of \"%s\": %r" % (container_name, result))
+            print('Result of \'%s\': %r' % (container_name, result))
 
 
 def start_clone_containers(yaml_file_path):
@@ -49,7 +49,7 @@ def start_clone_containers(yaml_file_path):
         get_container_name_and_base_container_name(config_info)
     clone_containers(list_of_clone_containers)
 
-    print("Finish clone container process!\n")
+    print('Finish clone container process!\n')
 
 
 if __name__ == '__main__':
