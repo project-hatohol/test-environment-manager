@@ -61,11 +61,13 @@ def add_path_to_path_dict(setup_func_name, path_dict, container_name):
         path_dict[container_name] = definevalue.NAGIOS4_PATH
 
 
-def add_process_name_to_path_dict(setup_func_name, process_dict, container_name):
+def add_process_name_to_path_dict(setup_func_name, process_dict,
+                                  container_name):
     if setup_func_name in "zabbix-agent":
         process_dict[container_name] = ["zabbix_agentd"]
     elif setup_func_name in "zabbix-server":
-        process_dict[container_name] = ["httpd", "zabbix_server", "zabbix_agentd"]
+        process_dict[container_name] = \
+            ["httpd", "zabbix_server", "zabbix_agentd"]
     elif setup_func_name in "nrpe":
         process_dict[container_name] = ["nrpe"]
     elif setup_func_name in "redmine":
