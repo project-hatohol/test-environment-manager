@@ -7,6 +7,7 @@ sys.path.append("../common")
 import definevalue
 from utils import *
 
+
 def get_container_name_and_base_container_name(config_info):
     list_of_container_name = config_info.keys()
     return_list = []
