@@ -301,7 +301,8 @@ def get_function_and_arguments(info_of_container_name, list_of_key_in_info):
             function_argument = []
             if info_of_function is not None:
                 function_argument.append(info_of_function)
-            return_list.append([SETUP_FUNCTIONS[key_in_info], function_argument])
+            return_list.append([SETUP_FUNCTIONS[key_in_info],
+                               function_argument])
 
     return return_list
 
