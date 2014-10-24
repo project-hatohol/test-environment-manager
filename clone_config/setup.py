@@ -252,10 +252,10 @@ def run_setup_redmine(argument):
     for cmd in CMDS:
         subprocess.call(cmd)
 
-    request_result = requests.post("http://127.0.0.1/projects.json",
+    request_result = requests.post(definevalue.REDMINE_SERVER_ADDRESS,
                                    data=send_data,
-                                   headers={"Content-Type": "application/json"},
-                                   auth=("admin", "admin"))
+                                   headers=definevalue.REDMINE_API_HEADER,
+                                   auth=definevalue.REDMINE_USERNAME_PASSWORD)
     print_request_responce(request_result)
 
 

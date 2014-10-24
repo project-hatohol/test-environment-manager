@@ -195,10 +195,10 @@ def find_redmine_project(info_of_project):
     subprocess.call(["service", "httpd", "start"])
 
     send_data = json.dumps(info_of_project)
-    request_result = requests.get("http://127.0.0.1/projects.json",
-                                  data=send_data,
-                                  headers={"Content-Type": "application/json"},
-                                  auth=("admin", "admin"))
+    request_result = requests.post(definevalue.REDMINE_SERVER_ADDRESS,
+                                   data=send_data,
+                                   headers=definevalue.REDMINE_API_HEADER,
+                                   auth=definevalue.REDMINE_USERNAME_PASSWORD)
 
     return_result = request_result.status_code == 200
     print("Project: %r" % return_result)

@@ -12,6 +12,10 @@ TIMEOUT_VALUE = 30
 ZABBIX_SERVER_ADDRESS = "http://127.0.0.1/zabbix/api_jsonrpc.php"
 ZABBIX_API_HEADER = {"content-type": "application/json"}
 
+REDMINE_SERVER_ADDRESS = "http://127.0.0.1/projects.json"
+REDMINE_API_HEADER = {"Content-Type": "application/json"}
+REDMINE_USERNAME_PASSWORD = ("admin", "admin")
+
 ZBX_SRV_PATH = {"CONFIG": "/etc/zabbix/zabbix_server.conf",
                 "HTTPD": "/etc/httpd/conf.d/zabbix.conf",
                 "PHP": "/etc/zabbix/web/zabbix.conf.php"}
