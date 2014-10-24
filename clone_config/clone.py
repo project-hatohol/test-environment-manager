@@ -14,7 +14,7 @@ def get_container_name_and_base_container_name(config_info):
     for container_name in list_of_container_name:
         key_of_base_name = definevalue.KEY_OF_BASE_CONTAINER
         key_of_container_name = config_info[container_name]
-        if not key_of_base_name in key_of_container_name:
+        if key_of_base_name not in key_of_container_name:
             continue
         else:
             return_list.append([container_name,
