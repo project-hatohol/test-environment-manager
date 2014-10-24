@@ -1,10 +1,10 @@
 #! /usr/bin/env python3
-
 import lxc
 import sys
 import os
 sys.path.append("../common")
 import utils
+
 
 def get_container_list(yaml_path):
     container_list = utils.get_config_info(yaml_path).keys()
