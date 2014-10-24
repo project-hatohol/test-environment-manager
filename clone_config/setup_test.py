@@ -71,9 +71,7 @@ def add_process_name_to_path_dict(setup_func_name, process_dict, container_name)
         process_dict[container_name] = ["Passenger"]
     elif setup_func_name in "fluentd":
         process_dict[container_name] = ["td-agent"]
-    elif setup_func_name in "nagios3":
-        process_dict[container_name] = ["httpd", "nagios", "ndo2db"]
-    elif setup_func_name in "nagios4":
+    elif setup_func_name in ("nagios3" or "nagios4"):
         process_dict[container_name] = ["httpd", "nagios", "ndo2db"]
 
 
