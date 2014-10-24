@@ -14,6 +14,7 @@ import utils
 import definevalue
 import zabbix
 
+
 def add_according_key(setting_dict, container_name, setup_element_key):
     setup_functions = ["zabbix-server", "zabbix-agent", "nagios3",
                        "nagios4", "nrpe", "redmine", "fluentd"]
