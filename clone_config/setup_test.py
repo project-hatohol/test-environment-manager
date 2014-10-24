@@ -123,8 +123,9 @@ def create_redmine_project_dict(config_info):
     return project_dict
 
 
-def find_file(path):
-    print(path + " : " + str(os.path.exists(path)))
+def find_file(path_dict):
+    for path in path_dict.values():
+        print(path + " : " + str(os.path.exists(path)))
 
 
 def find_process(process_names):
@@ -204,8 +205,7 @@ def check_file_exists(container_name, path_dict):
     container = lxc.Container(container_name)
     container.start()
 
-    for path in path_dict[container_name].values():
-        container.attach_wait(find_file, path)
+    container.attach_wait(find_file, path_dict[container_name])
     utils.shutdown_container(container)
 
 
