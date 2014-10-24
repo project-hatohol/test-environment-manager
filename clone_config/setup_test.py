@@ -167,26 +167,26 @@ def find_nagios_hosts(list_of_host_name):
     for run_command in CMDS:
         subprocess.call(run_command)
 
-    connector = mysql.connector.connect(db="ndoutils",
-                                    user="ndoutils",
-                                    password="admin")
-    cur = connector.cursor()
-    cur.execute("SELECT display_name, address FROM nagios_hosts")
-    rows = cur.fetchall()
-    for host_name_and_ip in list_of_host_name:
-        result = False
-        for row in rows:
-            if (host_name_and_ip["host"] == row[0] and
-                    host_name_and_ip["ip"] == row[1]):
-                print("Host %s: True" % host_name_and_ip["host"])
-                result = True
+    try:
+        connector = mysql.connector.connect(db="ndoutils",
+                                            user="ndoutils",
+                                            password="admin")
+        cur = connector.cursor()
+        cur.execute("SELECT display_name, address FROM nagios_hosts")
+        rows = cur.fetchall()
+        for host_name_and_ip in list_of_host_name:
+            result = False
+            for row in rows:
+                if (host_name_and_ip["host"] == row[0] and
+                        host_name_and_ip["ip"] == row[1]):
+                    print("Host %s: True" % host_name_and_ip["host"])
+                    result = True
 
-        if not result:
-            print("Host %s: False" % host_name_and_ip["host"])
-
-
-    cur.close()
-    connector.close()
+            if not result:
+                print("Host %s: False" % host_name_and_ip["host"])
+    finally:
+        cur.close()
+        connector.close()
 
 
 def find_redmine_project(info_of_project):
