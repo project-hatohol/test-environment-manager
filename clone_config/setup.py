@@ -358,28 +358,37 @@ def install_container_config_file(container_info):
     config_file_path = os.path.join(container_info['container_path'], 'config')
     config_file_path_tmp = config_file_path + '.tmp'
     IPV4_SETTING_KEY = 'lxc.network.ipv4 = '
+    IPV4_GATEWAY_SETTING_KEY = 'lxc.network.ipv4.gateway = '
     START_AUTO_SETTING_KEY = 'lxc.start.auto = '
     ipv4_setting_value = \
         IPV4_SETTING_KEY + container_info['ip_address'] + '\n'
+    ipv4_gateway_setting_value = \
+        IPV4_GATEWAY_SETTING_KEY + container_info['gateway'] + '\n'
     start_auto_setting_value = \
         START_AUTO_SETTING_KEY + str(container_info['auto_start']) + '\n'
 
     config_file_old = read_data_from_file(config_file_path, True)
     content_for_new_file = []
     set_ipv4_setting = False
+    set_ipv4_gateway_setting = False
     set_auto_setting = False
     for line in config_file_old:
         if IPV4_SETTING_KEY in line:
             content_for_new_file.append(ipv4_setting_value)
             set_ipv4_setting = True
+        elif IPV4_GATEWAY_SETTING_KEY in line:
+            content_for_new_file.append(ipv4_gateway_setting_value)
+            set_ipv4_gateway_setting = True
         elif START_AUTO_SETTING_KEY in line:
             content_for_new_file.append(start_auto_setting_value)
             set_auto_setting = True
         else:
             content_for_new_file.append(line)
 
-    if not (set_ipv4_setting and set_auto_setting):
-        append_content = [ipv4_setting_value, start_auto_setting_value]
+    if not (set_ipv4_setting and set_ipv4_gateway_setting
+            and set_auto_setting):
+        append_content = [ipv4_setting_value, ipv4_gateway_setting_value,
+                          start_auto_setting_value]
         for content in append_content:
             content_for_new_file.append(content)
 
