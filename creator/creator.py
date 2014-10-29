@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-import lxc
 import os
 import sys
+import lxc
+sys.path.append('../common')
 import definevalue
 from utils import *
 
@@ -122,11 +123,14 @@ def get_commands_to_install_nagios_server3():
     SCRIPT_URL = 'https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_NDOUtils3.sh'
     SCRIPT_NAME = 'import_NDOUtils3.sh'
     CMDS = [['yum', 'install', '-y', 'httpd', 'mysql-server',
-             'nagios', 'nagios-plugins-all', 'ndoutils-mysql'],
+             'nagios', 'nagios-plugins-all', 'ndoutils-mysql',
+             'nrpe', 'nagios-plugins-nrpe'],
             ['service', 'mysqld', 'start'],
             ['chkconfig', 'mysqld', 'on'],
             ['mysql', '-uroot', '-e',
              'CREATE DATABASE ndoutils;'],
+            ['mysql', '-uroot', '-e',
+             'GRANT all on ndoutils.* TO ndoutils@localhost IDENTIFIED BY \'admin\';'],
             ['mysql', '-uroot', '-e',
              'GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY \'admin\';'],
             ['curl', '-O', SCRIPT_URL],
@@ -147,7 +151,9 @@ def get_commands_to_install_nagios_server4():
     PLUGIN_NAME = 'nagios-plugins-2.0.tar.gz'
     NDOUTILS_URL = 'http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz'
     NDOUTILS_NAME = 'ndoutils-2.0.0.tar.gz'
-    SCRIPT_URL = 'https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/make_Nagios4.sh'
+    NRPE_URL = 'http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz'
+    NRPE_NAME = 'nrpe-2.15.tar.gz'
+    SCRIPT_URL = 'https://raw.githubusercontent.com/project-hatohol/test-environment-manager/clone_config-settings/creator/script/make_Nagios4.sh'
     SCRIPT_NAME = 'make_Nagios4.sh'
     CMDS = [['yum', 'install', '-y', 'mysql-server', 'mysql-devel',
              'httpd', 'php', 'tar', 'gcc', 'glibc', 'glibc-common',
@@ -157,14 +163,18 @@ def get_commands_to_install_nagios_server4():
             ['mysql', '-uroot', '-e',
              'CREATE DATABASE ndoutils;'],
             ['mysql', '-uroot', '-e',
+             'GRANT all on ndoutils.* TO ndoutils@localhost IDENTIFIED BY \'admin\';'],
+            ['mysql', '-uroot', '-e',
              'GRANT all on ndoutils.* TO ndoutils@\'%\' IDENTIFIED BY \'admin\';'],
             ['wget', NAGIOS_URL],
             ['wget', PLUGIN_URL],
             ['wget', NDOUTILS_URL],
+            ['wget', NRPE_URL],
             ['useradd', 'nagios'],
             ['tar', 'zxvf', NAGIOS_NAME],
             ['tar', 'zxvf', PLUGIN_NAME],
             ['tar', 'zxvf', NDOUTILS_NAME],
+            ['tar', 'zxvf', NRPE_NAME],
             ['curl', '-O', SCRIPT_URL],
             ['chmod', '+x', SCRIPT_NAME],
             ['./' + SCRIPT_NAME],
@@ -174,7 +184,8 @@ def get_commands_to_install_nagios_server4():
 
 
 def get_commands_to_install_nagios_nrpe():
-    CMDS = [['yum', 'install', '-y', 'nagios-plugins-all', 'nrpe']]
+    CMDS = [['yum', 'install', '-y', 'nagios-plugins-all', 'nrpe'],
+            ['chkconfig', 'nrpe', 'on']]
 
     return CMDS
 
@@ -320,8 +331,6 @@ def create_containers():
 
 
 if __name__ == '__main__':
-    if not os.geteuid() == 0:
-        print('You need root permission to use this script.')
-        sys.exit(1)
+    exit_if_user_run_this_as_general_user()
 
     create_containers()
