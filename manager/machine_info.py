@@ -46,7 +46,7 @@ def get_group_info(info_dict, container_path):
 def get_config_info(info_dict, container_path):
     conf_lines = read_file(container_path, 'config')
     for line in conf_lines:
-        if line.find("lxc.network.ipv4") >= 0 and line.find("gateway") < 0:
+        if line.find("lxc.network.ipv4") >= 0 and line.find("gateway") == -1:
             (key, address) = line.split("=")
             info_dict["ip"] = address.strip()
 
