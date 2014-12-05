@@ -29,7 +29,7 @@ def create_base(container, container_name):
     EPEL_URL = 'http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm'
     CMDS = [['yum', 'upgrade', '-y'],
             ['yum', 'groupinstall', '-y', 'Development Tools'],
-            ['yum', 'install', '-y', 'wget'],
+            ['yum', 'install', '-y', 'wget', 'tar'],
             ['rpm', '-ivh', EPEL_URL]]
 
     container.start()
@@ -156,7 +156,7 @@ def get_commands_to_install_nagios_server4():
     SCRIPT_URL = 'https://raw.githubusercontent.com/project-hatohol/test-environment-manager/clone_config-settings/creator/script/make_Nagios4.sh'
     SCRIPT_NAME = 'make_Nagios4.sh'
     CMDS = [['yum', 'install', '-y', 'mysql-server', 'mysql-devel',
-             'httpd', 'php', 'tar', 'gcc', 'glibc', 'glibc-common',
+             'httpd', 'php', 'gcc', 'glibc', 'glibc-common',
              'gd', 'gd-devel', 'make', 'net-snmp'],
             ['service', 'mysqld', 'start'],
             ['chkconfig', 'mysqld', 'on'],
