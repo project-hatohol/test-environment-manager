@@ -212,8 +212,7 @@ def get_commands_to_install_packages_for_building_hatohol():
 def get_commands_to_install_hatohol():
     REPO_URL = 'https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo'
     CMDS = [['wget', '-P', '/etc/yum.repos.d', REPO_URL],
-            ['yum', 'install', '-y', 'hatohol', 'hatohol-client',
-             'python-argparse'],
+            ['yum', 'install', '-y', 'hatohol-server', 'hatohol-web'],
             ['chkconfig', 'mysqld', 'on'],
             ['service', 'mysqld', 'start'],
             ['hatohol-db-initiator', 'hatohol', 'root', ''],
