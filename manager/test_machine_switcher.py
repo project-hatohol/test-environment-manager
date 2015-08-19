@@ -74,7 +74,8 @@ class _TestMachineSwitcher(unittest.TestCase):
     def test_enum_id_list(self):
         test_argument = ['0-3',  '5']
         enum_ids = machine_switcher.enum_id_list(test_argument)
-        self.assertEquals([0, 1, 2, 3, 5], enum_ids)
+        exact_id_list = {0, 1, 2, 3, 5}
+        self.assertEquals(exact_id_list, enum_ids)
 
 
     def test_create_group_dict(self):
