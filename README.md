@@ -1,11 +1,27 @@
-# test-environment-manager
+test-environment-manager
+==============
 
-## Description
+Hatohol test environment manager is tool to create an environment for testing Hatohol.
 
-## Usage
 
-TODO
+## How to install
 
+	# apt-get install lxc python3-yaml yum
+	$ git clone https://github.com/project-hatohol/test-environment-manager.git
+	# creator/creator.py
+
+## How to create containers
+
+	$ cd clone_config
+
+Edit sample.yml
+
+	# start_clone_setup.py sample.yml
+
+
+## How to start
+Refer to the pdf in manager.
+	
 ## Authors
 
 * Project Hatohol
@@ -22,3 +38,5 @@ The repository for test-environment-manager is on
 ## Thanks
 
 * ...
+
+

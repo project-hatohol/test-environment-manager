@@ -4,6 +4,7 @@ zabbix-server22-sample:
         ip_address: 10.0.3.101
         auto_start: 0
         monitor_group: 1
+        gateway: 10.0.3.1
 
         zabbix-server:
                 target: [{host: test1, ip: 192.168.0.11}, {host: test2, ip: 192.168.0.12}]
@@ -17,6 +18,7 @@ zabbix-server20-sample:
         ip_address: 10.0.3.102
         auto_start: 0
         monitor_group: 2
+        gateway: 10.0.3.1
 
         zabbix-server:
                 target: [{host: test1, ip: 192.168.0.11}, {host: test2, ip: 192.168.0.12}]
@@ -30,6 +32,7 @@ zabbix-agent22-sample:
         ip_address: 10.0.3.103
         auto_start: 0
         monitor_group: 1
+        gateway: 10.0.3.1
 
         zabbix-agent:
                 server_ipaddress: 10.0.3.11
@@ -41,6 +44,7 @@ zabbix-agent20-sample:
         ip_address: 10.0.3.104
         auto_start: 0
         monitor_group: 2
+        gateway: 10.0.3.1
 
         zabbix-agent:
                 server_ipaddress: 10.0.3.11
@@ -52,6 +56,7 @@ nagios-server3-sample:
         ip_address: 10.0.3.105
         auto_start: 0
         monitor_group: 3
+        gateway: 10.0.3.1
 
         nagios3:
                 username: admin
@@ -64,6 +69,7 @@ nagios-server4-sample:
         ip_address: 10.0.3.106
         auto_start: 0
         monitor_group: 4
+        gateway: 10.0.3.1
 
         nagios4:
                 username: admin
@@ -76,6 +82,7 @@ nagios-nrpe-sample:
         ip_address: 10.0.3.107
         auto_start: 0
         monitor_group: 3
+        gateway: 10.0.0.1
 
         nrpe:
 
@@ -84,6 +91,7 @@ redmine-sample:
         container_path: /var/lib/lxc/redmine-sample
         ip_address: 10.0.3.108
         auto_start: 0
+        gateway: 10.0.3.1
 
         redmine:
                 project_name: hatohol
@@ -94,6 +102,7 @@ fluentd-sample:
         container_path: /var/lib/lxc/fluentd-sample
         ip_address: 10.0.3.109
         auto_start: 0
+        gateway: 10.0.3.1
 
         fluentd:
 
@@ -102,9 +111,11 @@ hatohol-rpm-sample:
         container_path: /var/lib/lxc/hatohol-rpm-sample
         ip_address: 10.0.3.110
         auto_start: 0
+        gateway: 10.0.3.1
 
 hatohol-build-sample:
         base_container: env_hatohol_build
         container_path: /var/lib/lxc/hatohol-build-sample
         ip_address: 10.0.3.111
         auto_start: 0
+        gateway: 10.0.3.1
