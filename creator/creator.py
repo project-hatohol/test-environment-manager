@@ -29,7 +29,7 @@ def create_base(container, container_name):
     CMDS = [['yum', 'upgrade', '-y'],
             ['yum', 'groupinstall', '-y', 'Development Tools'],
             ['yum', 'install', '-y', 'wget', 'tar'],
-            ['yum', 'install', '-y', 'epel-release'],
+            ['yum', 'install', '-y', 'epel-release']]
 
     container.start()
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
