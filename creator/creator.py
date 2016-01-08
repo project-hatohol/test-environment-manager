@@ -191,7 +191,7 @@ def get_commands_to_install_nagios_nrpe():
 
 
 def get_commands_to_install_packages_for_building_hatohol():
-    REPO_URL = 'https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo'
+    REPO_URL = 'https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol-el6.repo'
     CUTTER_RPM = 'http://sourceforge.net/projects/cutter/files/centos/cutter-release-1.1.0-0.noarch.rpm'
     CMDS = [['rpm', '-ivh', CUTTER_RPM],
             ['wget', '-P', '/etc/yum.repos.d', REPO_URL],
@@ -210,7 +210,7 @@ def get_commands_to_install_packages_for_building_hatohol():
 
 
 def get_commands_to_install_hatohol():
-    REPO_URL = 'https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol.repo'
+    REPO_URL = 'https://raw.githubusercontent.com/project-hatohol/project-hatohol.github.io/master/repo/hatohol-el6.repo'
     CMDS = [['wget', '-P', '/etc/yum.repos.d', REPO_URL],
             ['yum', 'install', '-y', 'hatohol-server', 'hatohol-web'],
             ['chkconfig', 'mysqld', 'on'],
