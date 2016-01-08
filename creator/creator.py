@@ -51,10 +51,7 @@ def get_commands_to_install_zabbix_server22():
     SCRIPT_URL = 'https://raw.githubusercontent.com/project-hatohol/test-environment-manager/creator/creator/script/import_zabbixdb22.sh'
     SCRIPT_NAME = 'import_zabbixdb22.sh'
     CMDS = [['rpm', '-ivh', RPM_URL],
-            ['yum', 'install', '-y', 'mysql-server', 'httpd',
-             'zabbix-server-mysql', 'zabbix-web-mysql', 'zabbix-agent'],
-            ['service', 'mysqld', 'start'],
-            ['chkconfig', 'mysqld', 'on'],
+            ['yum', 'update', '-y'],
             ['yum', 'install', '-y', 'mysql-server', 'httpd',
              'zabbix-server-mysql', 'zabbix-web-mysql', 'zabbix-agent'],
             ['service', 'mysqld', 'start'],
