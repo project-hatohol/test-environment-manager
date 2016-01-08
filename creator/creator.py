@@ -26,11 +26,10 @@ def create_base(container, container_name):
     container.create('centos')
     print_success_message(container_name)
 
-    EPEL_URL = 'http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm'
     CMDS = [['yum', 'upgrade', '-y'],
             ['yum', 'groupinstall', '-y', 'Development Tools'],
             ['yum', 'install', '-y', 'wget', 'tar'],
-            ['rpm', '-ivh', EPEL_URL]]
+            ['yum', 'install', '-y', 'epel-release'],
 
     container.start()
     container.get_ips(timeout=definevalue.TIMEOUT_VALUE)
