@@ -252,7 +252,7 @@ def get_commands_to_install_redmine():
              'openssl-devel', 'readline-devel', 'zlib-devel', 'curl-devel',
              'libyaml-devel', 'mysql-server', 'mysql-devel', 'httpd',
              'httpd-devel', 'ImageMagick', 'ImageMagick-devel',
-             'ipa-pgothic-fonts'],
+             'ipa-pgothic-fonts', 'gcc'],
             ['curl', '-O', RUBY_INSTALL_URL],
             ['chmod', '+x', RUBY_INSTALL_NAME],
             ['curl', '-O', RUBY_SOURCE_URL],
